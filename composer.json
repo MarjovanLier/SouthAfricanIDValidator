@@ -7,6 +7,7 @@
   ],
   "homepage": "https://github.com/marjovanlier/southafricanidvalidator",
   "license": "MIT",
+  "type": "library",
   "authors": [
     {
       "name": "Marjo Wenzel van Lier",
@@ -37,13 +38,12 @@
     }
   },
   "minimum-stability": "stable",
-  "prefer-stable": true,
   "require": {
     "php": "^8.2",
-    "marjovanlier/stringmanipulation": "^v1.0.21",
-    "ext-ctype": "*"
+    "marjovanlier/stringmanipulation": "^1.0"
   },
   "require-dev": {
+    "enlightn/security-checker": "^2.0",
     "infection/infection": "^0.27.9",
     "laravel/pint": "^1.13",
     "phan/phan": "^5.4",
@@ -58,13 +58,27 @@
     "roave/security-advisories": "dev-latest",
     "vimeo/psalm": "^5.18"
   },
+  "scripts-descriptions": {
+    "test:code-style": "Run code style checks",
+    "test:composer-validate": "Validate composer.json",
+    "test:infection": "Run mutation tests",
+    "test:lint": "Run lint checks",
+    "test:phan": "Run static analysis",
+    "test:phpstan": "Run static analysis",
+    "test:phpunit": "Run unit tests",
+    "test:psalm": "Run static analysis",
+    "test:rector": "Run static analysis",
+    "test:vulnerabilities-check": "Check for vulnerabilities"
+  },
   "scripts": {
     "post-update-cmd": [
       "composer validate --strict",
+      "php -d memory_limit=-1 ./vendor/bin/security-checker security:check",
       "composer outdated -D"
     ],
     "tests": [
       "@test:composer-validate",
+      "@test:vulnerabilities-check",
       "@test:lint",
       "@test:code-style",
       "@test:phpunit",
@@ -74,14 +88,15 @@
       "@test:psalm",
       "@test:rector"
     ],
-    "test:composer-validate": "composer validate --strict",
     "test:code-style": "php -d memory_limit=-1 ./vendor/bin/pint --test",
+    "test:composer-validate": "composer validate --strict",
     "test:infection": "php -d memory_limit=-1 -d zend_extension=xdebug -d xdebug.mode=coverage ./vendor/bin/infection --threads=4 --show-mutations",
     "test:lint": "php -d memory_limit=-1 ./vendor/bin/parallel-lint --exclude vendor --show-deprecated .",
     "test:phan": "php -d memory_limit=-1 ./vendor/bin/phan --allow-polyfill-parser",
     "test:phpstan": "php -d memory_limit=-1 ./vendor/bin/phpstan analyse --no-progress --no-interaction",
-    "test:psalm": "php -d memory_limit=-1 ./vendor/bin/psalm --no-cache --no-progress --show-info=false",
     "test:phpunit": "php -d memory_limit=-1 ./vendor/bin/phpunit --no-coverage --no-logging",
-    "test:rector": "php -d memory_limit=-1 ./vendor/bin/rector --dry-run"
+    "test:psalm": "php -d memory_limit=-1 ./vendor/bin/psalm --no-cache --no-progress --show-info=false",
+    "test:rector": "php -d memory_limit=-1 ./vendor/bin/rector --dry-run",
+    "test:vulnerabilities-check": "php -d memory_limit=-1 ./vendor/bin/security-checker security:check"
   }
 }
