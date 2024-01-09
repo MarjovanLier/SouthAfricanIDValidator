@@ -22,11 +22,6 @@ jobs:
           php-version: 8.2
           extensions: mbstring, xml, zip, pdo_mysql
 
-      - name: Validate composer.json and composer.lock
-        id: composer-validate
-        if: steps.setup-php.outcome == 'success'
-        run: composer validate --strict
-
       - name: Cache Composer packages
         id: composer-cache
         if: steps.composer-validate.outcome == 'success'
@@ -37,13 +32,23 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-php-
 
+      - name: Validate composer.json and composer.lock
+        id: composer-validate
+        if: steps.setup-php.outcome == 'success'
+        run: composer validate --strict
+
       - name: Install dependencies
         id: composer-install
         run: composer install --prefer-dist --no-progress --no-suggest
 
+      - name: Check for vulnerabilities
+        id: vulnerabilities-check
+        if: steps.composer-install.outcome == 'success'
+        run: composer test:vulnerabilities-check
+
       - name: Run parallel linting
         id: parallel-lint
-        if: steps.composer-install.outcome == 'success'
+        if: steps.vulnerabilities-check.outcome == 'success'
         run: composer test:lint
 
       - name: Run tests with PHPUnit
