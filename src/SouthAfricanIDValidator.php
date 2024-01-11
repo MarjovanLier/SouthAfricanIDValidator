@@ -245,7 +245,7 @@ class SouthAfricanIDValidator
              *
              * @infection-ignore-all
              */
-            $digit = (int)$number[$i];
+            $digit = (int) $number[$i];
 
             if ($double) {
                 $digit *= 2;

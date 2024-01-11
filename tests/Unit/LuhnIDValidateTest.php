@@ -249,7 +249,7 @@ final class LuhnIDValidateTest extends TestCase
         $total = 0;
 
         foreach (str_split($number) as $key => $digit) {
-            $digit = (int)$digit;
+            $digit = (int) $digit;
 
             if (($key % 2) === $parity) {
                 $digit *= 2;
