@@ -40,7 +40,7 @@
   "minimum-stability": "stable",
   "require": {
     "php": "^8.2",
-    "marjovanlier/stringmanipulation": "^1.0.26"
+    "marjovanlier/stringmanipulation": "^1.0.27"
   },
   "require-dev": {
     "enlightn/security-checker": "^2.0",
@@ -48,6 +48,7 @@
     "laravel/pint": "^1.13.8",
     "phan/phan": "^5.4.3",
     "php-parallel-lint/php-parallel-lint": "^1.3.2",
+    "phpmd/phpmd": "^2.15",
     "phpstan/extension-installer": "^1.3.1",
     "phpstan/phpstan": "^1.10.55",
     "phpstan/phpstan-strict-rules": "^1.5.2",
@@ -64,6 +65,7 @@
     "test:infection": "Run mutation tests",
     "test:lint": "Run lint checks",
     "test:phan": "Run static analysis",
+    "test:phpmd": "Run static analysis",
     "test:phpstan": "Run static analysis",
     "test:phpunit": "Run unit tests",
     "test:psalm": "Run static analysis",
@@ -81,6 +83,7 @@
       "@test:vulnerabilities-check",
       "@test:lint",
       "@test:code-style",
+      "@test:phpmd",
       "@test:phpunit",
       "@test:infection",
       "@test:phpstan",
@@ -93,6 +96,7 @@
     "test:infection": "php -d memory_limit=-1 -d zend_extension=xdebug -d xdebug.mode=coverage ./vendor/bin/infection --threads=4 --show-mutations",
     "test:lint": "php -d memory_limit=-1 ./vendor/bin/parallel-lint --exclude vendor --show-deprecated .",
     "test:phan": "php -d memory_limit=-1 ./vendor/bin/phan --allow-polyfill-parser",
+    "test:phpmd": "php -d memory_limit=-1 ./vendor/bin/phpmd src,tests text phpmd.xml",
     "test:phpstan": "php -d memory_limit=-1 ./vendor/bin/phpstan analyse --no-progress --no-interaction",
     "test:phpunit": "php -d memory_limit=-1 ./vendor/bin/phpunit --no-coverage --no-logging",
     "test:psalm": "php -d memory_limit=-1 ./vendor/bin/psalm --no-cache --no-progress --show-info=false",

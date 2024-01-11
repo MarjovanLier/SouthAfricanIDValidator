@@ -51,9 +51,19 @@ jobs:
         if: steps.vulnerabilities-check.outcome == 'success'
         run: composer test:lint
 
+      - name: Run tests with Pint
+        id: code-style
+        if: steps.parallel-lint.outcome == 'success'
+        run: composer test:code-style
+
+      - name: Run tests with PHPMD
+        id: phpmd
+        if: steps.code-style.outcome == 'success'
+        run: composer test:phpmd
+
       - name: Run tests with PHPUnit
         id: phpunit
-        if: steps.parallel-lint.outcome == 'success'
+        if: steps.phpmd.outcome == 'success'
         run: composer test:phpunit
 
       - name: Run Mutation Testing
