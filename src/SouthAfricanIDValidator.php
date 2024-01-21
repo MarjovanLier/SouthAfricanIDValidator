@@ -111,9 +111,9 @@ class SouthAfricanIDValidator
      * such as letters, punctuation, or whitespace, will be stripped out. If the provided input
      * does not contain any digits, an empty string is returned.
      *
-     * @param string $number The input string to be sanitized.
+     * @param string $number The input string to be sanitised.
      *
-     * @return string A sanitized version of the input string, containing only digits.
+     * @return string A sanitised version of the input string, containing only digits.
      */
     private static function sanitizeNumber(string $number): string
     {
@@ -140,7 +140,7 @@ class SouthAfricanIDValidator
 
 
     /**
-     * Validates a date in the YYMMDD format (e.g., 870110 for 10 Jan 1987).
+     * Validates a date in the YYMMDD format (e.g. 870110 for 10 Jan 1987).
      *
      * @param string $number A string representing a date in YYMMDDxxxxxx format.
      *
@@ -155,7 +155,7 @@ class SouthAfricanIDValidator
 
 
     /**
-     * Checks if a date string in 'Ymd' format belongs to the 18th or 19th century.
+     * Checks if a date string in 'Ymd' format belong to the 18th or 19th century.
      *
      * This function expects the date string without the century prefix, i.e.,
      * it should only contain the year's last two digits, month, and day.
@@ -179,7 +179,7 @@ class SouthAfricanIDValidator
             return false;
         }
 
-        // Validate for 1800s.
+        // Validate for the 1800s.
         // Given the consistent day and month lengths across the 1800s and 1900s,
         // a valid date for the 1800s will also be valid for the 1900s and vice versa.
         // Therefore, we only need to validate against one of these centuries.
@@ -214,7 +214,7 @@ class SouthAfricanIDValidator
 
 
     /**
-     * Determines if the given number is valid according to the Luhn algorithm.
+     * Determines if the given number is valid, according to the Luhn algorithm.
      *
      * The Luhn algorithm is a simple checksum formula used to validate a variety of identification numbers,
      * especially credit card numbers. The algorithm works by doubling every second digit from the right and
