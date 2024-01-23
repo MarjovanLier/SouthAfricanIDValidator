@@ -7,6 +7,25 @@ namespace MarjovanLier\SouthAfricanIDValidator;
 use MarjovanLier\StringManipulation\StringManipulation;
 
 /**
+ * This class validates South African ID numbers.
+ *
+ * South African ID is a 13-digit number which follows the format: YYMMDDSSSSCAZ.
+ *
+ * - YYMMDD (positions 1-6): Date of birth.
+ * - S (positions 7-10): Gender. 0-4 signifies females, 5-9 signifies males.
+ * - C (position 11): Citizenship status. '0' is S.A. citizen, '1' is permanent resident, '2' is Refugee.
+ * - A (position 12): Race indicator, usage deprecated after the late 1980s.
+ * - Z (position 13): Checksum digit, validated using the Luhn algorithm.
+ *
+ * Validation rules include:
+ * - Correct length.
+ * - Valid date component.
+ * - 11th character follows the citizenship rules.
+ * - 12th character (race) is valid.
+ * - ID number passes the Luhn algorithm check.
+ *
+ * More details at: https://en.wikipedia.org/wiki/South_African_identity_card
+ *
  * @psalm-suppress UnusedClass
  */
 class SouthAfricanIDValidator
@@ -82,8 +101,7 @@ class SouthAfricanIDValidator
      * - 990101 would be validated as January 1, 1999.
      * - 000229 would be validated as February 29, 2000 (a leap year).
      *
-     * Internally, this function uses the following methods:
-     * - @param string $date The date component of the ID, in the format YYMMDD.
+     * @param string $date The date component of the ID, in the format YYMMDD.
      *
      * @return bool True if the date is valid for any of the specified centuries, otherwise false.
      *
@@ -122,10 +140,15 @@ class SouthAfricanIDValidator
 
 
     /**
-     * Indicates citizenship.
-     *       0 - if you are an SA citizen,
-     *       1 - if you are a permanent resident.
-     *       2 - if you are a refugee.
+     * Validates the eleventh character of a South African ID number which indicates the citizenship status.
+     *       '0' - South African citizen,
+     *       '1' - permanent resident,
+     *       '2' - refugee.
+     *
+     * @param string $number The South African ID number to be validated.
+     *
+     * @return bool Returns true if the eleventh character indicates a valid citizenship status (either 0, 1, or 2).
+     *              Returns false otherwise.
      */
     private static function isValidEleventhCharacter(string $number): bool
     {
