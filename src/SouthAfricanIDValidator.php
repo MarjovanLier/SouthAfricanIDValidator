@@ -30,6 +30,9 @@ use MarjovanLier\StringManipulation\StringManipulation;
  */
 class SouthAfricanIDValidator
 {
+    private const NON_DIGIT_REGEX = '#\D#';
+
+
     /**
      * Validates a South African ID number based on its structural and contextual rules.
      *
@@ -135,7 +138,7 @@ class SouthAfricanIDValidator
      */
     private static function sanitizeNumber(string $number): string
     {
-        return (preg_replace('#\D#', '', $number) ?? '');
+        return (preg_replace(self::NON_DIGIT_REGEX, '', $number) ?? '');
     }
 
 
