@@ -18,7 +18,6 @@ use Rector\CodingStyle\Rector\Use_\SeparateMultiUseImportsRector;
 use Rector\Config\RectorConfig;
 use Rector\Naming\Rector\Foreach_\RenameForeachValueVariableToMatchExprVariableRector;
 use Rector\Naming\Rector\Foreach_\RenameForeachValueVariableToMatchMethodCallReturnTypeRector;
-use Rector\Privatization\Rector\Class_\FinalizeClassesWithoutChildrenRector;
 use Rector\Set\ValueObject\LevelSetList;
 use Rector\Set\ValueObject\SetList;
 use Rector\TypeDeclaration\Rector\Property\TypedPropertyFromStrictConstructorRector;
@@ -69,7 +68,6 @@ return static function (RectorConfig $rectorConfig): void {
     $rectorConfig->skip(
         [
             FlipTypeControlToUseExclusiveTypeRector::class,
-            FinalizeClassesWithoutChildrenRector::class,
         ]
     );
 };
