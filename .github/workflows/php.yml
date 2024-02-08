@@ -148,7 +148,7 @@ jobs:
         id: comparison-link
         if: env.LATEST_TAG != '' && steps.rector.outcome == 'success'
         run: |
-          echo "COMPARISON_LINK=https://github.com/MarjovanLier/StringManipulation/compare/${LATEST_TAG}...${NEW_TAG}" >> $GITHUB_ENV
+          echo "COMPARISON_LINK=https://github.com/MarjovanLier/SouthAfricanIDValidator/compare/${LATEST_TAG}...${NEW_TAG}" >> $GITHUB_ENV
 
       # This step gets the commit messages between the latest tag and the HEAD.
       - name: Get commit messages
