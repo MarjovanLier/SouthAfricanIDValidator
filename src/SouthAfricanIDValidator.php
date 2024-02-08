@@ -285,13 +285,14 @@ class SouthAfricanIDValidator
     /**
      * Validates a number according to the Luhn algorithm.
      *
-     * Applies the Luhn algorithm to check for the validity of identification numbers, especially credit cards.
-     * The algorithm doubles every second digit from the right, subtracts 9 from numbers ≥ 10, and checks if the total
-     * modulo 10 is zero.
+     * This method applies the Luhn algorithm to check for the validity of identification numbers, especially credit
+     * cards.
+     * The algorithm doubles every second digit from the right, subtracts 9 from numbers that are greater than or equal
+     * to 10, and checks if the total modulo 10 is zero.
      *
      * @param string $number The number to validate.
      *
-     * @return bool True if valid per the Luhn algorithm, false otherwise.
+     * @return bool True if the number is valid, according to the Luhn algorithm, false otherwise.
      *
      * @see https://en.wikipedia.org/wiki/Luhn_algorithm
      */
@@ -302,35 +303,31 @@ class SouthAfricanIDValidator
             return false;
         }
 
-        // Initialize total and set the initial double flag
-        $total = 0;
-        $double = false;
+        $sum = 0;
+        $length = strlen($number);
+        $shouldDouble = false;
 
-        // Loop through the number right to left
-        for ($i = (strlen($number) - 1); $i >= 0; --$i) {
-            // Convert current character to integer
-            /**
-             * Explicit casting.
-             * Convert the current character to an integer.
-             *
-             * @infection-ignore-all
-             */
+        // Iterate over each digit from right to left
+        for ($i = $length - 1; $i >= 0; --$i) {
             $digit = (int) $number[$i];
 
-            // Double the digit if needed, subtracting 9 from results ≥ 10
-            if ($double) {
+            // If the current digit should be doubled
+            if ($shouldDouble) {
+                // Double the digit
                 $digit *= 2;
-                if ($digit >= 10) {
+                // If the doubled digit is greater than 9, subtract 9 from it
+                if ($digit > 9) {
                     $digit -= 9;
                 }
             }
 
-            // Add digit to total and toggle double flag
-            $total += $digit;
-            $double = !$double;
+            // Add the current digit to the sum
+            $sum += $digit;
+            // Toggle the flag for doubling the next digit
+            $shouldDouble = !$shouldDouble;
         }
 
-        // Return true if total modulo 10 is zero
-        return ($total % 10) === 0;
+        // Return true if the sum modulo 10 is zero (indicating a valid Luhn number), false otherwise
+        return ($sum % 10 === 0);
     }
 }
