@@ -1,5 +1,7 @@
+# This is a GitHub Actions workflow for PHP Continuous Integration (CI).
 name: PHP CI
 
+# This workflow gets triggered on push or pull request events to the main branch.
 on:
   push:
     branches: [main]
@@ -8,12 +10,17 @@ on:
 
 jobs:
   build:
+    # The job runs on the latest version of Ubuntu.
     runs-on: ubuntu-latest
 
     steps:
+      # This step checks out a copy of your repository.
       - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
         id: checkout
 
+      # This step sets up PHP environment for the job.
       - name: Setup PHP
         id: setup-php
         if: steps.checkout.outcome == 'success'
@@ -22,6 +29,7 @@ jobs:
           php-version: 8.2
           extensions: mbstring, xml, zip, pdo_mysql
 
+      # This step caches the Composer packages for faster execution.
       - name: Cache Composer packages
         id: composer-cache
         if: steps.composer-validate.outcome == 'success'
@@ -32,76 +40,91 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-php-
 
+      # This step validates the composer.json and composer.lock files.
       - name: Validate composer.json and composer.lock
         id: composer-validate
         if: steps.setup-php.outcome == 'success'
         run: composer validate --strict
 
+      # This step installs the project dependencies.
       - name: Install dependencies
         id: composer-install
         run: composer install --prefer-dist --no-progress --no-suggest
 
+      # This step checks for vulnerabilities in the project dependencies.
       - name: Check for vulnerabilities
         id: vulnerabilities-check
         if: steps.composer-install.outcome == 'success'
         run: composer test:vulnerabilities-check
 
+      # This step runs linting in parallel to speed up the process.
       - name: Run parallel linting
         id: parallel-lint
         if: steps.vulnerabilities-check.outcome == 'success'
         run: composer test:lint
 
+      # This step checks the code style with Pint.
       - name: Run tests with Pint
         id: code-style
         if: steps.parallel-lint.outcome == 'success'
         run: composer test:code-style
 
+      # This step runs tests with PHPMD.
       - name: Run tests with PHPMD
         id: phpmd
         if: steps.code-style.outcome == 'success'
         run: composer test:phpmd
 
+      # This step runs tests with PHPUnit.
       - name: Run tests with PHPUnit
         id: phpunit
         if: steps.phpmd.outcome == 'success'
         run: composer test:phpunit
 
+      # This step runs mutation testing with Infection.
       - name: Run Mutation Testing
         id: infection
         if: steps.phpunit.outcome == 'success'
         run: composer test:infection
 
+      # This step runs static analysis with PHPStan.
       - name: Run static analysis with PHPStan
         id: phpstan
         if: steps.infection.outcome == 'success'
         run: composer test:phpstan
 
+      # This step runs static analysis with Phan.
       - name: Run static analysis with phan
         id: phan
         if: steps.phpstan.outcome == 'success'
         run: composer test:phan
 
+      # This step runs static analysis with Psalm.
       - name: Run static analysis with psalm
         id: psalm
         if: steps.phan.outcome == 'success'
         run: composer test:psalm
 
+      # This step runs Rector for code quality.
       - name: Run rector for code quality
         id: rector
         if: steps.psalm.outcome == 'success'
         run: composer test:rector
 
+      # This step fetches all tags from the repository.
       - name: Fetch all tags
         id: fetch-tags
         if: steps.rector.outcome == 'success'
         run: git fetch --depth=1 origin +refs/tags/*:refs/tags/*
 
+      # This step gets the latest tag from the repository.
       - name: Get latest tag
         id: latest-tag
         if: steps.fetch-tags.outcome == 'success' && steps.rector.outcome == 'success'
         run: |
           echo "LATEST_TAG=$(git tag | sort -V | tail -n1)" >> $GITHUB_ENV
 
+      # This step increments the minor version of the latest tag.
       - name: Increment the minor version
         id: new-tag
         if: env.LATEST_TAG != '' && steps.rector.outcome == 'success'
@@ -113,6 +136,7 @@ jobs:
           NEW_TAG="$MAJOR.$MINOR.$NEW_PATCH"
           echo "NEW_TAG=$NEW_TAG" >> $GITHUB_ENV
 
+      # This step creates and pushes a new tag to the repository.
       - name: Create and push new tag
         id: push-tag
         if: github.ref == 'refs/heads/main' && env.NEW_TAG != '' && steps.rector.outcome == 'success'
@@ -120,13 +144,26 @@ jobs:
           git tag $NEW_TAG
           git push origin $NEW_TAG
 
+      - name: Create comparison link
+        id: comparison-link
+        if: env.LATEST_TAG != '' && steps.rector.outcome == 'success'
+        run: |
+          echo "COMPARISON_LINK=https://github.com/MarjovanLier/StringManipulation/compare/${LATEST_TAG}...${NEW_TAG}" >> $GITHUB_ENV
+
+      # This step gets the commit messages between the latest tag and the HEAD.
       - name: Get commit messages
         id: get-commits
         if: github.ref == 'refs/heads/main' && steps.rector.outcome == 'success'
         run: |
-          COMMIT_MESSAGES=$(git log $LATEST_TAG..HEAD --pretty=format:"%h - %s")
-          echo "COMMIT_MESSAGES=$COMMIT_MESSAGES" >> $GITHUB_ENV
+          # Capture the output of git log command
+          GIT_LOG_OUTPUT=$(git log $LATEST_TAG..HEAD --pretty=format:'%h - %s')
 
+          # Append the output to the GITHUB_ENV, setting it as a multi-line env variable
+          echo "GIT_LOG_OUTPUT<<EOF" >> $GITHUB_ENV
+          echo "$GIT_LOG_OUTPUT" >> $GITHUB_ENV
+          echo "EOF" >> $GITHUB_ENV
+
+      # This step creates a new release with the new tag and the commit messages as the body.
       - name: Create release
         id: create_release
         if: github.ref == 'refs/heads/main' && steps.push-tag.outcome == 'success' && steps.rector.outcome == 'success'
@@ -138,6 +175,8 @@ jobs:
           release_name: Release ${{ env.NEW_TAG }}
           body: |
             Changes included in this release:
-            ${{ env.COMMIT_MESSAGES }}
+            ${{ env.GIT_LOG_OUTPUT }}
+
+            View changes: ${{ env.COMPARISON_LINK }}
           draft: false
           prerelease: false
