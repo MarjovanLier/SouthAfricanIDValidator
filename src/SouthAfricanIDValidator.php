@@ -308,7 +308,7 @@ class SouthAfricanIDValidator
         $shouldDouble = false;
 
         // Iterate over each digit from right to left
-        for ($i = $length - 1; $i >= 0; --$i) {
+        for ($i = ($length - 1); $i >= 0; --$i) {
             $digit = (int) $number[$i];
 
             // If the current digit should be doubled
@@ -328,6 +328,6 @@ class SouthAfricanIDValidator
         }
 
         // Return true if the sum modulo 10 is zero (indicating a valid Luhn number), false otherwise
-        return ($sum % 10 === 0);
+        return ($sum % 10) === 0;
     }
 }
