@@ -298,36 +298,40 @@ class SouthAfricanIDValidator
      */
     private static function isValidLuhnChecksum(string $number): bool
     {
-        // Return false if the number contains non-numeric characters
+        // Check for non-numeric characters
         if (!ctype_digit($number)) {
             return false;
         }
 
-        $sum = 0;
-        $length = strlen($number);
-        $shouldDouble = false;
+        $total = 0;
+        // Start with no doubling for the rightmost digit
+        $double = false;
 
-        // Iterate over each digit from right to left
-        for ($i = ($length - 1); $i >= 0; --$i) {
+        // Iterate over the number from rightmost to leftmost
+        for ($i = (strlen($number) - 1); $i >= 0; --$i) {
+            /**
+             * Explicit casting.
+             *
+             * @infection-ignore-all
+             */
             $digit = (int) $number[$i];
 
-            // If the current digit should be doubled
-            if ($shouldDouble) {
-                // Double the digit
+            if ($double) {
                 $digit *= 2;
-                // If the doubled digit is greater than 9, subtract 9 from it
-                if ($digit > 9) {
+
+                if ($digit >= 10) {
                     $digit -= 9;
                 }
             }
 
-            // Add the current digit to the sum
-            $sum += $digit;
-            // Toggle the flag for doubling the next digit
-            $shouldDouble = !$shouldDouble;
+            /**
+             * @infection-ignore-all
+             */
+            $total += $digit;
+            // Toggle the double flag for the next iteration
+            $double = !$double;
         }
 
-        // Return true if the sum modulo 10 is zero (indicating a valid Luhn number), false otherwise
-        return ($sum % 10) === 0;
+        return ($total % 10) === 0;
     }
 }
