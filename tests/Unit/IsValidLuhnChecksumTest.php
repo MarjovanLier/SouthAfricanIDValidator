@@ -109,6 +109,66 @@ final class IsValidLuhnChecksumTest extends TestCase
 
 
     /**
+     * Provides a dataset of numbers with their expected Luhn validation outcome and a description.
+     *
+     * @return array<array{0: string, 1: bool, 2: string}>
+     */
+    public static function provideNumbersWithExpectedOutcome(): array
+    {
+        return [
+            [
+                '1234567812345670',
+                true,
+                'Valid Luhn number with even digits',
+            ],
+            // Invalid Luhn numbers
+            [
+                '79927398714',
+                false,
+                'Classic invalid Luhn number',
+            ],
+            [
+                '1234567812345678',
+                false,
+                'Invalid Luhn number with even digits',
+            ],
+            // Edge cases and specific tests
+            [
+                '0',
+                true,
+                'Minimum valid Luhn number',
+            ],
+            [
+                '18',
+                true,
+                'Valid Luhn number, testing edge case',
+            ],
+            [
+                '79927398713',
+                true,
+                'Testing PlusEqual mutation',
+            ],
+            [
+                '091',
+                true,
+                'Testing ExactDoublingToNine mutation',
+            ],
+            // Other specific cases
+            [
+                '123abc',
+                false,
+                'Non-numeric string expected to fail',
+            ],
+            [
+                '4561231231234',
+                false,
+                'Invalid number expected to fail',
+            ],
+        ];
+    }
+
+
+    /**
      * @dataProvider provideValidLuhnNumbers
      *
      * @throws ReflectionException
@@ -163,47 +223,6 @@ final class IsValidLuhnChecksumTest extends TestCase
 
 
     /**
-     * @throws ReflectionException
-     */
-    private function getPrivateMethod(): ReflectionMethod
-    {
-        $reflectionMethod = (new ReflectionClass(SouthAfricanIDValidator::class))->getMethod('isValidLuhnChecksum');
-
-        /**
-         * @noinspection PhpExpressionResultUnusedInspection
-         *
-         * @psalm-suppress UnusedMethodCall
-         */
-        $reflectionMethod->setAccessible(true);
-
-        return $reflectionMethod;
-    }
-
-
-    /**
-     * Provides a dataset of numbers with their expected Luhn validation outcome and a description.
-     *
-     * @return array<array{0: string, 1: bool, 2: string}>
-     */
-    public static function provideNumbersWithExpectedOutcome(): array
-    {
-        return [
-            ['1234567812345670', true, 'Valid Luhn number with even digits'],
-            // Invalid Luhn numbers
-            ['79927398714', false, 'Classic invalid Luhn number'],
-            ['1234567812345678', false, 'Invalid Luhn number with even digits'],
-            // Edge cases and specific tests
-            ['0', true, 'Minimum valid Luhn number'],
-            ['18', true, 'Valid Luhn number, testing edge case'],
-            ['79927398713', true, 'Testing PlusEqual mutation'],
-            ['091', true, 'Testing ExactDoublingToNine mutation'],
-            // Other specific cases
-            ['123abc', false, 'Non-numeric string expected to fail'],
-            ['4561231231234', false, 'Invalid number expected to fail'],
-        ];
-    }
-
-    /**
      * @dataProvider provideNumbersWithExpectedOutcome
      *
      * @throws ReflectionException
@@ -219,4 +238,20 @@ final class IsValidLuhnChecksumTest extends TestCase
     }
 
 
+    /**
+     * @throws ReflectionException
+     */
+    private function getPrivateMethod(): ReflectionMethod
+    {
+        $reflectionMethod = (new ReflectionClass(SouthAfricanIDValidator::class))->getMethod('isValidLuhnChecksum');
+
+        /**
+         * @noinspection PhpExpressionResultUnusedInspection
+         *
+         * @psalm-suppress UnusedMethodCall
+         */
+        $reflectionMethod->setAccessible(true);
+
+        return $reflectionMethod;
+    }
 }
