@@ -231,7 +231,7 @@ final class IsValidLuhnChecksumTest extends TestCase
         $number = '4111111111111111';
         // A valid Visa credit card number
         $result = $this->getPrivateMethod()->invokeArgs(new SouthAfricanIDValidator(), [$number]);
-        $this->assertTrue($result, 'Failed to handle string digits as integers correctly.');
+        self::assertTrue($result, 'Failed to handle string digits as integers correctly.');
     }
 
 
@@ -244,7 +244,7 @@ final class IsValidLuhnChecksumTest extends TestCase
         $number = '091';
         // A simple case where the middle digit (doubled) would be affected by the mutation
         $result = $this->getPrivateMethod()->invokeArgs(new SouthAfricanIDValidator(), [$number]);
-        $this->assertTrue($result, 'Incorrectly handled a digit doubling to 9 due to >= mutation.');
+        self::assertTrue($result, 'Incorrectly handled a digit doubling to 9 due to >= mutation.');
     }
 
 
@@ -257,7 +257,7 @@ final class IsValidLuhnChecksumTest extends TestCase
         $number = '79927398713';
         // A classic example used in Luhn algorithm demonstrations
         $result = $this->getPrivateMethod()->invokeArgs(new SouthAfricanIDValidator(), [$number]);
-        $this->assertTrue(
+        self::assertTrue(
             $result,
             'Summing error, possibly due to incorrect substitution of addition with subtraction.'
         );
