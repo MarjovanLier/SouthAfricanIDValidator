@@ -22,17 +22,14 @@ final class IsValidLuhnChecksumTest extends TestCase
      *
      * @return array<array<string>>
      *
-     * @psalm-return list{list{'79927398713'}, list{'1234567812345670'}, list{'0'}, list{'18'}, list{'26'}, list{'34'},
-     *     list{'42'}, list{'59'}, list{'67'}, list{'75'}, list{'83'}, list{'91'}, list{'109'}, list{'117'},
-     *     list{'125'}, list{'133'}, list{'141'}, list{'158'}, list{'166'}, list{'174'}, list{'182'}, list{'190'}}
+     * @psalm-return list{list{'1234567812345670'}, list{'26'}, list{'34'}, list{'42'}, list{'59'}, list{'67'},
+     *     list{'75'}, list{'83'}, list{'91'}, list{'109'}, list{'117'}, list{'125'}, list{'133'}, list{'141'},
+     *     list{'158'}, list{'166'}, list{'174'}, list{'182'}, list{'190'}}
      */
     public static function provideValidLuhnNumbers(): array
     {
         return [
-            ['79927398713'],
             ['1234567812345670'],
-            ['0'],
-            ['18'],
             ['26'],
             ['34'],
             ['42'],
@@ -60,7 +57,7 @@ final class IsValidLuhnChecksumTest extends TestCase
      *
      * @return array<array<string>>
      *
-     * @psalm-return list{list{'79927398714'}, list{'1234567812345678'}, list{'0a027398714'}, list{'79927a398714'},
+     * @psalm-return list{list{'1234567812345678'}, list{'0a027398714'}, list{'79927a398714'},
      *     list{'a123456781234567'}, list{'123456781234567a'}, list{'25'}, list{'1'}, list{'2'}, list{'3'}, list{'4'},
      *     list{'5'}, list{'6'}, list{'7'}, list{'8'}, list{'9'}, list{'10'}, list{'11'}, list{'12'}, list{'13'},
      *     list{'14'}, list{'15'}, list{'16'}, list{'17'}, list{'19'}, list{'20'}, list{'21'}, list{'191'},
@@ -70,7 +67,6 @@ final class IsValidLuhnChecksumTest extends TestCase
     public static function provideInvalidLuhnNumbers(): array
     {
         return [
-            ['79927398714'],
             ['1234567812345678'],
             ['0a027398714'],
             ['79927a398714'],
@@ -138,44 +134,6 @@ final class IsValidLuhnChecksumTest extends TestCase
 
 
     /**
-     * Additional specific tests to cover edge cases and ensure numeric strings are handled correctly.
-     *
-     * @throws ReflectionException
-     */
-    public function testEdgeCasesAndNumericStrings(): void
-    {
-        // Numeric string that is a valid Luhn number
-        $validNumericString = '1234567812345670';
-        $invalidNumericString = '1234567812345678';
-        $nonNumericString = '123abc';
-        $anotherInvalidNumber = '4561231231234';
-
-        self::assertTrue(
-            $this->getPrivateMethod()->invokeArgs(new SouthAfricanIDValidator(), [$validNumericString]),
-            sprintf("Expected numeric string '%s' to be valid according to Luhn, but it failed.", $validNumericString)
-        );
-
-        self::assertFalse(
-            $this->getPrivateMethod()->invokeArgs(new SouthAfricanIDValidator(), [$invalidNumericString]),
-            sprintf(
-                "Expected numeric string '%s' to be invalid according to Luhn, but it passed.",
-                $invalidNumericString
-            )
-        );
-
-        self::assertFalse(
-            $this->getPrivateMethod()->invokeArgs(new SouthAfricanIDValidator(), [$nonNumericString]),
-            sprintf("Expected non-numeric string '%s' to fail Luhn validation, but it passed.", $nonNumericString)
-        );
-
-        self::assertFalse(
-            $this->getPrivateMethod()->invokeArgs(new SouthAfricanIDValidator(), [$anotherInvalidNumber]),
-            sprintf("Expected '%s' to be invalid according to Luhn, but it passed.", $anotherInvalidNumber)
-        );
-    }
-
-
-    /**
      * @dataProvider provideValidLuhnNumbers
      *
      * @throws ReflectionException
@@ -188,37 +146,6 @@ final class IsValidLuhnChecksumTest extends TestCase
             $result,
             sprintf("Number '%s' should be valid. Failure may indicate issues with integer casting.", $number)
         );
-    }
-
-
-    /**
-     * Specific test for GreaterThan mutation.
-     *
-     * @throws ReflectionException
-     */
-    public function testGreaterThanMutation(): void
-    {
-        $number = '18';
-        // Choosing a number that, when processed, would not be affected by the >= mutation
-        $result = $this->getPrivateMethod()->invokeArgs(new SouthAfricanIDValidator(), [$number]);
-        self::assertTrue(
-            $result,
-            sprintf("Number '%s' doubling to 9 should not have 9 subtracted. Mutation may alter this logic.", $number)
-        );
-    }
-
-
-    /**
-     * Specific test for PlusEqual mutation.
-     *
-     * @throws ReflectionException
-     */
-    public function testPlusEqualMutation(): void
-    {
-        $number = '79927398713';
-        // Known valid Luhn number
-        $result = $this->getPrivateMethod()->invokeArgs(new SouthAfricanIDValidator(), [$number]);
-        self::assertTrue($result, 'Incorrect sum calculation. Mutation changing += to -= could cause this failure.');
     }
 
 
@@ -238,35 +165,6 @@ final class IsValidLuhnChecksumTest extends TestCase
     /**
      * @throws ReflectionException
      */
-    public function testIsValidLuhnChecksumWithExactDoublingToNine(): void
-    {
-        // Use a number that includes a digit doubling to 9, which should not have 9 subtracted under the correct logic.
-        $number = '091';
-        // A simple case where the middle digit (doubled) would be affected by the mutation
-        $result = $this->getPrivateMethod()->invokeArgs(new SouthAfricanIDValidator(), [$number]);
-        self::assertTrue($result, 'Incorrectly handled a digit doubling to 9 due to >= mutation.');
-    }
-
-
-    /**
-     * @throws ReflectionException
-     */
-    public function testIsValidLuhnChecksumWithAdditionSubstitution(): void
-    {
-        // Use a number that is known to be valid under the Luhn algorithm
-        $number = '79927398713';
-        // A classic example used in Luhn algorithm demonstrations
-        $result = $this->getPrivateMethod()->invokeArgs(new SouthAfricanIDValidator(), [$number]);
-        self::assertTrue(
-            $result,
-            'Summing error, possibly due to incorrect substitution of addition with subtraction.'
-        );
-    }
-
-
-    /**
-     * @throws ReflectionException
-     */
     private function getPrivateMethod(): ReflectionMethod
     {
         $reflectionMethod = (new ReflectionClass(SouthAfricanIDValidator::class))->getMethod('isValidLuhnChecksum');
@@ -280,4 +178,45 @@ final class IsValidLuhnChecksumTest extends TestCase
 
         return $reflectionMethod;
     }
+
+
+    /**
+     * Provides a dataset of numbers with their expected Luhn validation outcome and a description.
+     *
+     * @return array<array{0: string, 1: bool, 2: string}>
+     */
+    public static function provideNumbersWithExpectedOutcome(): array
+    {
+        return [
+            ['1234567812345670', true, 'Valid Luhn number with even digits'],
+            // Invalid Luhn numbers
+            ['79927398714', false, 'Classic invalid Luhn number'],
+            ['1234567812345678', false, 'Invalid Luhn number with even digits'],
+            // Edge cases and specific tests
+            ['0', true, 'Minimum valid Luhn number'],
+            ['18', true, 'Valid Luhn number, testing edge case'],
+            ['79927398713', true, 'Testing PlusEqual mutation'],
+            ['091', true, 'Testing ExactDoublingToNine mutation'],
+            // Other specific cases
+            ['123abc', false, 'Non-numeric string expected to fail'],
+            ['4561231231234', false, 'Invalid number expected to fail'],
+        ];
+    }
+
+    /**
+     * @dataProvider provideNumbersWithExpectedOutcome
+     *
+     * @throws ReflectionException
+     */
+    public function testLuhnNumberValidation(string $number, bool $expectedOutcome, string $description): void
+    {
+        $result = $this->getPrivateMethod()->invokeArgs(new SouthAfricanIDValidator(), [$number]);
+        self::assertSame(
+            $expectedOutcome,
+            $result,
+            sprintf("Test case '%s' failed. Expected '%s'.", $description, $expectedOutcome ? 'true' : 'false')
+        );
+    }
+
+
 }
