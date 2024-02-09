@@ -11,6 +11,8 @@ use ReflectionException;
 use ReflectionMethod;
 
 /**
+ * This class tests the Luhn checksum validation method in the SouthAfricanIDValidator class.
+ *
  * @internal
  *
  * @covers \MarjovanLier\SouthAfricanIDValidator\SouthAfricanIDValidator::isValidLuhnChecksum
@@ -18,7 +20,7 @@ use ReflectionMethod;
 final class IsValidLuhnChecksumTest extends TestCase
 {
     /**
-     * Provides a set of valid Luhn numbers.
+     * This method returns an array of valid Luhn numbers for testing.
      *
      * @return array<array<string>>
      *
@@ -53,7 +55,7 @@ final class IsValidLuhnChecksumTest extends TestCase
 
 
     /**
-     * Provides a set of invalid Luhn numbers.
+     * This method returns an array of invalid Luhn numbers for testing.
      *
      * @return array<array<string>>
      *
@@ -109,7 +111,8 @@ final class IsValidLuhnChecksumTest extends TestCase
 
 
     /**
-     * Provides a dataset of numbers with their expected Luhn validation outcome and a description.
+     * This method returns an array of numbers with their expected Luhn validation outcome and a description for
+     * testing.
      *
      * @return array<array{0: string, 1: bool, 2: string}>
      */
@@ -169,6 +172,8 @@ final class IsValidLuhnChecksumTest extends TestCase
 
 
     /**
+     * This method tests the Luhn validation method with valid Luhn numbers.
+     *
      * @dataProvider provideValidLuhnNumbers
      *
      * @throws ReflectionException
@@ -182,6 +187,8 @@ final class IsValidLuhnChecksumTest extends TestCase
 
 
     /**
+     * This method tests the Luhn validation method with invalid Luhn numbers.
+     *
      * @dataProvider provideInvalidLuhnNumbers
      *
      * @throws ReflectionException
@@ -194,6 +201,8 @@ final class IsValidLuhnChecksumTest extends TestCase
 
 
     /**
+     * This method tests the Luhn validation method with valid Luhn numbers and checks for integer casting issues.
+     *
      * @dataProvider provideValidLuhnNumbers
      *
      * @throws ReflectionException
@@ -210,6 +219,9 @@ final class IsValidLuhnChecksumTest extends TestCase
 
 
     /**
+     * This method tests the Luhn validation method with a number where not casting to int would fail the Luhn check
+     *      due to string concatenation instead of arithmetic addition.
+     *
      * @throws ReflectionException
      */
     public function testIsValidLuhnChecksumHandlesStringDigitsAsIntegers(): void
@@ -223,6 +235,9 @@ final class IsValidLuhnChecksumTest extends TestCase
 
 
     /**
+     * This method tests the Luhn validation method with a dataset of numbers and their expected Luhn validation
+     *      outcome.
+     *
      * @dataProvider provideNumbersWithExpectedOutcome
      *
      * @throws ReflectionException
@@ -239,6 +254,9 @@ final class IsValidLuhnChecksumTest extends TestCase
 
 
     /**
+     * This method returns a ReflectionMethod instance of the private method 'isValidLuhnChecksum' in the
+     * SouthAfricanIDValidator class.
+     *
      * @throws ReflectionException
      */
     private function getPrivateMethod(): ReflectionMethod
