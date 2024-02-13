@@ -40,12 +40,12 @@
   "minimum-stability": "stable",
   "require": {
     "php": "^8.2",
-    "marjovanlier/stringmanipulation": "^1.0.46"
+    "marjovanlier/stringmanipulation": "^1.0.47"
   },
   "require-dev": {
     "enlightn/security-checker": ">=2.0.0",
     "infection/infection": ">=0.27.9",
-    "laravel/pint": ">=1.13.10",
+    "laravel/pint": ">=1.13.11",
     "phan/phan": ">=5.4.3",
     "php-parallel-lint/php-parallel-lint": ">=1.3.2",
     "phpmd/phpmd": ">=2.15",
