@@ -40,7 +40,7 @@
   "minimum-stability": "stable",
   "require": {
     "php": "^8.2",
-    "marjovanlier/stringmanipulation": "^1.0.47"
+    "marjovanlier/stringmanipulation": "^1.0.48"
   },
   "require-dev": {
     "enlightn/security-checker": ">=2.0.0",
@@ -60,17 +60,17 @@
     "vimeo/psalm": ">=5.21.1"
   },
   "scripts-descriptions": {
-    "test:code-style": "Run code style checks",
-    "test:composer-validate": "Validate composer.json",
-    "test:infection": "Run mutation tests",
-    "test:lint": "Run lint checks",
-    "test:phan": "Run static analysis",
-    "test:phpmd": "Run static analysis",
-    "test:phpstan": "Run static analysis",
-    "test:phpunit": "Run unit tests",
-    "test:psalm": "Run static analysis",
-    "test:rector": "Run static analysis",
-    "test:vulnerabilities-check": "Check for vulnerabilities"
+    "test:code-style": "Check code for stylistic consistency.",
+    "test:composer-validate": "Ensure 'composer.json' is valid and consistent.",
+    "test:infection": "Conduct mutation testing for robustness.",
+    "test:lint": "Search for syntax errors and problematic patterns.",
+    "test:phan": "Perform static analysis with Phan to identify code issues.",
+    "test:phpmd": "Detect bugs and suboptimal code with PHP Mess Detector.",
+    "test:phpstan": "Use PHPStan for static analysis and bug detection.",
+    "test:phpunit": "Execute PHPUnit tests to verify code functionality.",
+    "test:psalm": "Run Psalm to find errors and improve code quality.",
+    "test:rector": "Apply automated code quality enhancements with Rector.",
+    "test:vulnerabilities-check": "Scan dependencies for known security vulnerabilities."
   },
   "scripts": {
     "post-update-cmd": [
