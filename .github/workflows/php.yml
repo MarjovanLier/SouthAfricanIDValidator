@@ -51,14 +51,17 @@ jobs:
         id: composer-install
         run: composer install --prefer-dist --no-progress --no-suggest
 
+      # This step sets up Go environment for the job.
       - name: Set up Go
         uses: actions/setup-go@v3
         with:
           go-version: '1.22'
 
+      # This step installs osv-scanner for vulnerability scanning.
       - name: Install osv-scanner
         run: go install github.com/google/osv-scanner/cmd/osv-scanner@v1
 
+      # This step scans composer.lock for vulnerabilities using osv-scanner.
       - name: Scan composer.lock for vulnerabilities
         run: osv-scanner scan --no-ignore composer.lock
 
@@ -155,6 +158,7 @@ jobs:
           git tag $NEW_TAG
           git push origin $NEW_TAG
 
+      # This step creates a comparison link between the latest and the new tag.
       - name: Create comparison link
         id: comparison-link
         if: env.LATEST_TAG != '' && steps.rector.outcome == 'success'
