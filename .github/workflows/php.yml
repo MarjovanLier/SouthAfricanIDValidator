@@ -51,6 +51,17 @@ jobs:
         id: composer-install
         run: composer install --prefer-dist --no-progress --no-suggest
 
+      - name: Set up Go
+        uses: actions/setup-go@v3
+        with:
+          go-version: '1.22'
+
+      - name: Install osv-scanner
+        run: go install github.com/google/osv-scanner/cmd/osv-scanner@v1
+
+      - name: Scan composer.lock for vulnerabilities
+        run: osv-scanner scan --no-ignore composer.lock
+
       # This step checks for vulnerabilities in the project dependencies.
       - name: Check for vulnerabilities
         id: vulnerabilities-check
@@ -148,7 +159,7 @@ jobs:
         id: comparison-link
         if: env.LATEST_TAG != '' && steps.rector.outcome == 'success'
         run: |
-          echo "COMPARISON_LINK=https://github.com/MarjovanLier/SouthAfricanIDValidator/compare/${LATEST_TAG}...${NEW_TAG}" >> $GITHUB_ENV
+          echo "COMPARISON_LINK=https://github.com/MarjovanLier/StringManipulation/compare/${LATEST_TAG}...${NEW_TAG}" >> $GITHUB_ENV
 
       # This step gets the commit messages between the latest tag and the HEAD.
       - name: Get commit messages
