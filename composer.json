@@ -40,7 +40,7 @@
   "minimum-stability": "stable",
   "require": {
     "php": "^8.2",
-    "marjovanlier/stringmanipulation": "^1.0.54"
+    "marjovanlier/stringmanipulation": "^1.0.59"
   },
   "require-dev": {
     "enlightn/security-checker": ">=2.0.0",
