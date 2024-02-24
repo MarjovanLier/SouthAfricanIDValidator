@@ -8,8 +8,8 @@ extra_instructions = ""
 enable_review_labels_security = true
 enable_review_labels_effort = true
 require_all_thresholds_for_incremental_review = false
-minimal_commits_for_incremental_review = 0
-minimal_minutes_for_incremental_review = 0
+minimal_commits_for_incremental_review = 2
+minimal_minutes_for_incremental_review = 10
 enable_help_text = false
 enable_auto_approval = true
 maximal_review_effort = 5
@@ -18,7 +18,7 @@ maximal_review_effort = 5
 summarize = true
 
 [pr_update_changelog]
-push_changelog_changes=true
+push_changelog_changes=false
 
 [github_action_config]
 auto_review = true
@@ -28,13 +28,13 @@ auto_improve = true
 [github_app]
 pr_commands = [
     "/describe --pr_description.add_original_user_description=true --pr_description.keep_original_user_title=true",
-    "/update_changelog --pr_update_changelog.push_changelog_changes=true",
+    "/update_changelog --pr_update_changelog.push_changelog_changes=false",
     "/improve --pr_code_suggestions.summarize=true",
     "/review auto_approve --pr_reviewer.num_code_suggestions=0 --pr_reviewer.inline_code_comments=true",
 ]
 push_commands = [
     "/describe --pr_description.add_original_user_description=true --pr_description.keep_original_user_title=true",
-    "/update_changelog --pr_update_changelog.push_changelog_changes=true",
+    "/update_changelog --pr_update_changelog.push_changelog_changes=false",
     "/improve --pr_code_suggestions.summarize=true",
     """/auto_review -i \
        --pr_reviewer.require_focused_review=false \
@@ -45,8 +45,8 @@ push_commands = [
        --pr_reviewer.inline_code_comments=true \
        --pr_reviewer.remove_previous_review_comment=true \
        --pr_reviewer.require_all_thresholds_for_incremental_review=false \
-       --pr_reviewer.minimal_commits_for_incremental_review=5 \
-       --pr_reviewer.minimal_minutes_for_incremental_review=30 \
+       --pr_reviewer.minimal_commits_for_incremental_review=2 \
+       --pr_reviewer.minimal_minutes_for_incremental_review=10 \
        --pr_reviewer.extra_instructions='' \
     """,
     "/review auto_approve --pr_reviewer.num_code_suggestions=0 --pr_reviewer.inline_code_comments=true"
