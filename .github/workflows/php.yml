@@ -12,6 +12,10 @@ jobs:
   build:
     # The job runs on the latest version of Ubuntu.
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        php-versions: ["8.2", "8.3"]
 
     steps:
       # This step checks out a copy of your repository.
@@ -26,7 +30,7 @@ jobs:
         if: steps.checkout.outcome == 'success'
         uses: shivammathur/setup-php@v2
         with:
-          php-version: 8.2
+          php-version: ${{ matrix.php-versions }}
           extensions: mbstring, xml, zip, pdo_mysql
 
       # This step caches the Composer packages for faster execution.
@@ -55,7 +59,7 @@ jobs:
       - name: Set up Go
         uses: actions/setup-go@v3
         with:
-          go-version: '1.22'
+          go-version: "1.22"
 
       # This step installs osv-scanner for vulnerability scanning.
       - name: Install osv-scanner
@@ -125,23 +129,34 @@ jobs:
         if: steps.psalm.outcome == 'success'
         run: composer test:rector
 
+  release:
+    needs: build
+    runs-on: ubuntu-latest
+    if: success()
+    steps:
+      # This step checks out a copy of your repository.
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+        id: checkout
+
       # This step fetches all tags from the repository.
       - name: Fetch all tags
         id: fetch-tags
-        if: steps.rector.outcome == 'success'
+        if: steps.checkout.outcome == 'success'
         run: git fetch --depth=1 origin +refs/tags/*:refs/tags/*
 
       # This step gets the latest tag from the repository.
       - name: Get latest tag
         id: latest-tag
-        if: steps.fetch-tags.outcome == 'success' && steps.rector.outcome == 'success'
+        if: steps.fetch-tags.outcome == 'success'
         run: |
           echo "LATEST_TAG=$(git tag | sort -V | tail -n1)" >> $GITHUB_ENV
 
       # This step increments the minor version of the latest tag.
       - name: Increment the minor version
         id: new-tag
-        if: env.LATEST_TAG != '' && steps.rector.outcome == 'success'
+        if: env.LATEST_TAG != '' && steps.latest-tag.outcome == 'success'
         run: |
           MAJOR=$(echo $LATEST_TAG | cut -d. -f1)
           MINOR=$(echo $LATEST_TAG | cut -d. -f2)
@@ -153,7 +168,7 @@ jobs:
       # This step creates and pushes a new tag to the repository.
       - name: Create and push new tag
         id: push-tag
-        if: github.ref == 'refs/heads/main' && env.NEW_TAG != '' && steps.rector.outcome == 'success'
+        if: github.ref == 'refs/heads/main' && env.NEW_TAG != '' && steps.new-tag.outcome  == 'success'
         run: |
           git tag $NEW_TAG
           git push origin $NEW_TAG
@@ -161,14 +176,14 @@ jobs:
       # This step creates a comparison link between the latest and the new tag.
       - name: Create comparison link
         id: comparison-link
-        if: env.LATEST_TAG != '' && steps.rector.outcome == 'success'
+        if: env.LATEST_TAG != '' && steps.push-tag.outcome == 'success'
         run: |
           echo "COMPARISON_LINK=https://github.com/MarjovanLier/StringManipulation/compare/${LATEST_TAG}...${NEW_TAG}" >> $GITHUB_ENV
 
       # This step gets the commit messages between the latest tag and the HEAD.
       - name: Get commit messages
         id: get-commits
-        if: github.ref == 'refs/heads/main' && steps.rector.outcome == 'success'
+        if: github.ref == 'refs/heads/main' && steps.comparison-link.outcome == 'success'
         run: |
           # Capture the output of git log command
           GIT_LOG_OUTPUT=$(git log $LATEST_TAG..HEAD --pretty=format:'%h - %s')
@@ -181,7 +196,7 @@ jobs:
       # This step creates a new release with the new tag and the commit messages as the body.
       - name: Create release
         id: create_release
-        if: github.ref == 'refs/heads/main' && steps.push-tag.outcome == 'success' && steps.rector.outcome == 'success'
+        if: github.ref == 'refs/heads/main' && steps.get-commits.outcome == 'success'
         uses: actions/create-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -1,0 +1,20 @@
+language: "en"
+early_access: true
+reviews:
+    request_changes_workflow: true
+    high_level_summary: true
+    poem: false
+    review_status: true
+    collapse_walkthrough: true
+    auto_review:
+        enabled: true
+        ignore_title_keywords:
+            - "WIP"
+            - "DO NOT MERGE"
+        drafts: false
+        base_branches:
+            - "develop"
+            - "feat/.*"
+            - "main"
+chat:
+    auto_reply: true

@@ -1,3 +1,10 @@
+## 2024-02-24
+
+### Added
+- Introduced a `.coderabbit.yaml` configuration file to enable and configure automated code reviews.
+- Expanded PHP version support in the GitHub Actions workflow to include PHP 8.2 and 8.3.
+- Added a "release" job in the GitHub Actions workflow for automated release management.
+
 ## 2024-02-18
 
 ### Changed
