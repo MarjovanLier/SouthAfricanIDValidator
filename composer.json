@@ -40,24 +40,24 @@
   "minimum-stability": "stable",
   "require": {
     "php": "^8.2",
-    "marjovanlier/stringmanipulation": "^1.0.59"
+    "marjovanlier/stringmanipulation": "^1.0.63"
   },
   "require-dev": {
     "enlightn/security-checker": ">=2.0.0",
-    "infection/infection": ">=0.27.9",
-    "laravel/pint": ">=1.13.11",
+    "infection/infection": ">=0.27.10",
+    "laravel/pint": ">=1.14.0",
     "phan/phan": ">=5.4.3",
     "php-parallel-lint/php-parallel-lint": ">=1.3.2",
     "phpmd/phpmd": ">=2.15",
     "phpstan/extension-installer": ">=1.3.1",
-    "phpstan/phpstan": ">=1.10.58",
+    "phpstan/phpstan": ">=1.10.59",
     "phpstan/phpstan-strict-rules": ">=1.5.2",
     "phpunit/phpunit": ">=10.5.10",
     "psalm/plugin-phpunit": ">=0.18.4",
     "rector/rector": ">=1.0.1",
     "roave/no-floaters": ">=1.11",
     "roave/security-advisories": "dev-latest",
-    "vimeo/psalm": ">=5.22.1"
+    "vimeo/psalm": ">=5.22.2"
   },
   "scripts-descriptions": {
     "test:code-style": "Check code for stylistic consistency.",
@@ -75,7 +75,7 @@
   "scripts": {
     "post-update-cmd": [
       "composer validate --strict",
-      "php -d memory_limit=-1 ./vendor/bin/security-checker security:check",
+      "security-checker security:check",
       "composer outdated -D"
     ],
     "tests": [
@@ -91,16 +91,16 @@
       "@test:psalm",
       "@test:rector"
     ],
-    "test:code-style": "php -d memory_limit=-1 ./vendor/bin/pint --test",
+    "test:code-style": "pint --test",
     "test:composer-validate": "composer validate --strict",
     "test:infection": "php -d memory_limit=-1 -d zend_extension=xdebug -d xdebug.mode=coverage ./vendor/bin/infection --threads=4 --show-mutations",
-    "test:lint": "php -d memory_limit=-1 ./vendor/bin/parallel-lint --exclude vendor --show-deprecated .",
-    "test:phan": "php -d memory_limit=-1 ./vendor/bin/phan --allow-polyfill-parser --no-progress-bar",
-    "test:phpmd": "php -d memory_limit=-1 ./vendor/bin/phpmd src,tests text phpmd.xml",
-    "test:phpstan": "php -d memory_limit=-1 ./vendor/bin/phpstan analyse --no-progress --no-interaction",
-    "test:phpunit": "php -d memory_limit=-1 ./vendor/bin/phpunit --no-coverage --no-logging",
-    "test:psalm": "php -d memory_limit=-1 ./vendor/bin/psalm --no-cache --no-progress --show-info=false",
-    "test:rector": "php -d memory_limit=-1 ./vendor/bin/rector --dry-run",
-    "test:vulnerabilities-check": "php -d memory_limit=-1 ./vendor/bin/security-checker security:check"
+    "test:lint": "parallel-lint --exclude vendor --show-deprecated .",
+    "test:phan": "phan --allow-polyfill-parser --no-progress-bar",
+    "test:phpmd": "phpmd src,tests text phpmd.xml",
+    "test:phpstan": "phpstan analyse --no-progress --no-interaction",
+    "test:phpunit": "phpunit --no-coverage --no-logging",
+    "test:psalm": "psalm --no-cache --no-progress --show-info=false",
+    "test:rector": "rector --dry-run",
+    "test:vulnerabilities-check": "security-checker security:check"
   }
 }
