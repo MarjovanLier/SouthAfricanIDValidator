@@ -1,8 +1,6 @@
 # South African ID Validator
 
-The `SouthAfricanIDValidator` PHP package offers a comprehensive solution for validating South African ID numbers. It
-ensures that ID numbers conform to the specific structural and contextual standards as outlined by South African
-identity documentation requirements.
+The `SouthAfricanIDValidator` PHP package offers a comprehensive solution for validating South African ID numbers, ensuring they conform to specific structural and contextual standards as outlined by South African identity documentation. ID number validation involves checking the accuracy of the number against these standards, which is critical for applications dealing with South African identity verification. Key features of this package include ease of use, high accuracy, and thorough validation checks for a reliable identification process.
 
 ## Badges
 
@@ -27,7 +25,11 @@ identity documentation requirements.
 
 - PHP version 8.2 or higher.
 
-## Installation
+## Getting Started
+
+To get started with the `SouthAfricanIDValidator`, follow these steps:
+
+### Installation
 
 To integrate the `SouthAfricanIDValidator` into your project, install it via Composer:
 
@@ -35,7 +37,46 @@ To integrate the `SouthAfricanIDValidator` into your project, install it via Com
 composer require marjovanlier/southafricanidvalidator
 ```
 
-## Usage
+### Basic Usage Example
+
+To validate a South African ID number, instantiate the `SouthAfricanIDValidator` class and call the `luhnIDValidate` method:
+
+```php
+use MarjovanLier\\"},{
+
+To integrate the `SouthAfricanIDValidator` into your project, install it via Composer:
+
+```bash
+composer require marjovanlier/southafricanidvalidator
+```
+
+SouthAfricanIDValidator\SouthAfricanIDValidator;
+
+$idNumber = 'Your South African ID number here';
+
+$result = SouthAfricanIDValidator::luhnIDValidate($idNumber);
+
+if ($result) {
+    echo 'The ID number is valid.';
+} elseif (!$result) {
+    echo 'The ID number is invalid.';
+} else {
+    echo 'The ID number does not meet specific constraints.';
+}
+```
+This example demonstrates how to validate a South African ID number. The `luhnIDValidate` method will return `true` if the ID number is valid, `false` if it's invalid, and `null` if specific criteria aren't met (e.g., incorrect citizenship status digit).
+
+## Detailed Usage Guide
+
+Further explore the package's capabilities with comprehensive examples and detailed explanation of the validation process output, including different scenarios and validation status.
+
+### Configuration Options (if applicable)
+
+Document any user-adjustable settings here.
+
+## Troubleshooting
+
+Address common issues or questions with solutions or workarounds.
 
 To validate a South African ID number, instantiate the `SouthAfricanIDValidator` class and call the `luhnIDValidate`
 method:
@@ -69,6 +110,11 @@ composer tests
 
 ## Contributing
 
+We welcome community contributions to improve the `SouthAfricanIDValidator` package. Here's how you can contribute:
+
+1. Report bugs or suggest enhancements by opening an issue.
+2. Fork the repository and create a new branch for your feature or fix.
+
 Contributions to the SouthAfricanIDValidator package are welcome. Please follow these guidelines:
 
 1. Open an issue to discuss proposed changes.
@@ -77,6 +123,16 @@ Contributions to the SouthAfricanIDValidator package are welcome. Please follow 
 4. Add or update tests to cover your changes.
 5. Submit a pull request with a clear description of your modifications.
 
-## License
+## Changelog and Versioning
+
+Keep track of changes and updates with our changelog. Learn about our versioning scheme to stay up-to-date with the latest versions.
+
+## License Information
+
+This project is open-sourced under the MIT License. Users are granted extensive rights to use, modify, and distribute the software, provided they comply with the license terms. See the [License File](LICENSE) for more information.
+
+## Contact/Support Information
+
+For support or to engage with our community, contact us at [support@email.com] or join our community forum.
 
 This project is open-sourced under the MIT License. See the [License File](LICENSE) for more information.
