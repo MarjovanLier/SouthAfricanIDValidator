@@ -3,7 +3,7 @@
 
 # This setting contains a list of rules that Sweep will check for. If any of these rules are broken in a new commit, Sweep will create an pull request to fix the broken rule.
 rules:
-  - "All PHP Code should be in the PER Coding Style 2.0 (This rule expands on the PSR-12 coding standard)"
+  - "All PHP Code should be in the PSR-12 Coding Style (This rule expands on the PSR-12 coding standard)"
 
 # This is the branch that Sweep will develop from and make pull requests to. Most people use 'main' or 'master' but some users also use 'dev' or 'staging'.
 branch: 'main'
