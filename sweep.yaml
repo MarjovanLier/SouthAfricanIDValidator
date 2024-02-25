@@ -3,9 +3,7 @@
 
 # This setting contains a list of rules that Sweep will check for. If any of these rules are broken in a new commit, Sweep will create an pull request to fix the broken rule.
 rules:
-  - "All new business logic should have corresponding unit tests."
-  - "Refactor large functions to be more modular."
-  - "Add docstrings to all functions and file headers."
+  - "All PHP Code should be in the PER Coding Style 2.0 (This rule expands on the PSR-12 coding standard)"
 
 # This is the branch that Sweep will develop from and make pull requests to. Most people use 'main' or 'master' but some users also use 'dev' or 'staging'.
 branch: 'main'
@@ -17,8 +15,8 @@ gha_enabled: True
 #
 # Example:
 #
-# description: sweepai/sweep is a python project. The main api endpoints are in sweepai/api.py. Write code that adheres to PEP8.
-description: ''
+# description: This field should briefly describe the coding practices and unique aspects of your project. Use it to inform contributors about any specific standards or requirements.
+description: 'The SouthAfricanIDValidator is a PHP 8.2 package with its codebase located in the src directory. It adheres to the PER Coding Style 2.0, enhancing the PSR-12 standard. This information is crucial for guiding contributors in making compliant contributions.'
 
 # This sets whether to create pull requests as drafts. If this is set to True, then all pull requests will be created as drafts and GitHub Actions will not be triggered.
 draft: False

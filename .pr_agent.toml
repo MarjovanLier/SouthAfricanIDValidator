@@ -29,13 +29,13 @@ auto_improve = true
 pr_commands = [
     "/describe --pr_description.add_original_user_description=true --pr_description.keep_original_user_title=true",
     "/update_changelog --pr_update_changelog.push_changelog_changes=false",
-    "/improve --pr_code_suggestions.summarize=true",
+    "/improve --extended --pr_code_suggestions.summarize=true",
     "/review auto_approve --pr_reviewer.num_code_suggestions=0 --pr_reviewer.inline_code_comments=true",
 ]
 push_commands = [
     "/describe --pr_description.add_original_user_description=true --pr_description.keep_original_user_title=true",
     "/update_changelog --pr_update_changelog.push_changelog_changes=false",
-    "/improve --pr_code_suggestions.summarize=true",
+    "/improve --extended --pr_code_suggestions.summarize=true",
     """/auto_review -i \
        --pr_reviewer.require_focused_review=false \
        --pr_reviewer.require_score_review=false \
