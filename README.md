@@ -7,7 +7,7 @@
 - [Features](#features)
 - [System Requirements](#system-requirements)
 - [Installation](#installation)
-  - [Getting Started](#getting-started)
+    - [Getting Started](#getting-started)
 - [Usage](#usage)
 - [Troubleshooting](#troubleshooting)
 - [Testing](#testing)
@@ -159,9 +159,10 @@ Your contributions are crucial to improving the SouthAfricanIDValidator package 
 
 ## License Information
 
-The SouthAfricanIDValidator is proudly open-sourced under the MIT License, providing you with the freedom to use,
-modify, distribute, and contribute back to the package while following the terms of the license. For full details about
-your rights and obligations, refer to the [License File](LICENSE).
+The SouthAfricanIDValidator is proudly open-sourced under the MIT Licence.
+This licence allows you to use, modify, distribute and contribute back to the package, both in private and commercial
+projects, but you must include the original copyright and license notice in any copy of the software.
+For full details about your rights and obligations, refer to the [License File](LICENSE).
 
 ## Release Notes
 
