@@ -1,6 +1,6 @@
 {
   "name": "marjovanlier/southafricanidvalidator",
-  "description": "A sophisticated PHP package designed to validate South African ID numbers by checking both structural and contextual rules",
+  "description": "An advanced PHP library for validating South African ID numbers, ensuring compliance with both structural integrity and contextual accuracy.",
   "keywords": [
     "Marjo van Lier",
     "South African ID validator"
