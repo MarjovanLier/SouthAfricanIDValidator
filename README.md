@@ -131,7 +131,8 @@ For additional help or to report a new issue, please visit our GitHub issue trac
 
 ## Testing
 
-Run the following command to execute the unit tests included with the package:
+First, ensure you have all the necessary development dependencies installed by running `composer install --dev`.
+Then, run the following command to execute the unit tests included with the package:
 
 ```bash
 composer tests
