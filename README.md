@@ -144,7 +144,8 @@ We value your contributions to the SouthAfricanIDValidator package! Here's how y
 1. **Report Issues or Suggest Enhancements** - Noticed a bug or have an idea to make the package better? Start by filing
    an issue on our GitHub repo. This lets us discuss possible changes before you start coding.
 
-2. **Contribute Code** - Fork the repo, then create a new branch for your work. This keeps things organized.
+2. **Contribute Code** - Fork the repo, then create a new branch for your work, adhering to our branching strategy
+   guidelines. This keeps things organised and ensures consistency across contributions.
 
 3. **Follow Our Coding Standards** - Write clean, readable code that adheres to our coding standards. This makes it
    easier for everyone to understand and maintain.
