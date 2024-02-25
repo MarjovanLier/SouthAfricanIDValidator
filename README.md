@@ -1,4 +1,15 @@
 # South African ID Validator
+- Docstrings added to all functions and file headers in the README.md file.
+
+A PHP package designed to validate South African ID numbers, providing thorough validation checks for structure, birth date, gender, citizenship status, race indicator, and applying the Luhn algorithm for checksum digit validation.
+
+This package contains the following functionality:
+- Structure and format validation of South African ID numbers.
+- Birth date verification.
+- Gender, citizenship status, and race indicator digit validation.
+- Luhn algorithm for checksum digit validation.
+
+See [src/SouthAfricanIDValidator.php](src/SouthAfricanIDValidator.php) for the detailed functionality of each function.
 
 ## Table of Contents
 
