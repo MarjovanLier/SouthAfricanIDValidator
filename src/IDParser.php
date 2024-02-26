@@ -12,11 +12,11 @@ class IDParser
     /**
      * Parses the given South African ID number and extracts information.
      *
-     * @param string $id The South African ID number to parse.
+     * @param string $identityNumber The South African ID number to parse.
      *
      * @return array An associative array containing the date of birth, gender, and citizenship status.
      */
-    public function parse(string $id): array
+    public function parse(string $identityNumber): array
     {
         $dob = $this->extractDateOfBirth($id);
         $gender = $this->determineGender($id);
@@ -33,11 +33,11 @@ class IDParser
     /**
      * Extracts the date of birth from the ID number.
      *
-     * @param string $id The ID number.
+     * @param string $identityNumber The ID number.
      *
      * @return string The date of birth in YYYY-MM-DD format.
      */
-    private function extractDateOfBirth(string $id): string
+    private function extractDateOfBirth(string $identityNumber): string
     {
         $year = substr($id, 0, 2);
         $month = substr($id, 2, 2);
@@ -54,11 +54,11 @@ class IDParser
     /**
      * Determines the gender based on the ID number.
      *
-     * @param string $id The ID number.
+     * @param string $identityNumber The ID number.
      *
      * @return string The gender ('male' or 'female').
      */
-    private function determineGender(string $id): string
+    private function determineGender(string $identityNumber): string
     {
         $genderCode = substr($id, 6, 4);
 
@@ -73,7 +73,7 @@ class IDParser
      *
      * @return string The citizenship status ('SA citizen' or 'permanent resident').
      */
-    private function determineCitizenship(string $id): string
+    private function determineCitizenship(string $identityNumber): string
     {
         $citizenshipCode = $id[10];
 
