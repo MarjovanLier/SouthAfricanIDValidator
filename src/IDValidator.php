@@ -35,7 +35,7 @@ class IDValidator
         // Check if the sequence number indicates a male or female
         // Sequence numbers from 0000 to 4999 indicate a female, and from 5000 to 9999 indicate a male.
         $sequenceNumber = substr($identityNumber, 6, 4);
-        $gender = (int) $sequenceNumber < 5000 ? 'female' : 'male';
+        // The gender variable is removed as it was unused in the current logic.
 
         // Validate the last digit (check digit) using the Luhn algorithm
         return $this->isValidCheckDigit($identityNumber);
