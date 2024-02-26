@@ -148,7 +148,7 @@ We value your contributions to the SouthAfricanIDValidator package! Here's how y
 2. **Contribute Code** - Fork the repo, then create a new branch for your work, adhering to our branching strategy
    guidelines. This keeps things organised and ensures consistency across contributions.
 
-3. **Follow Our Coding Standards** - Write clean, readable code that adheres to our coding standards. This makes it
+3. **Follow Our Coding Standards** - Write clean, readable code and ensure all documentation and comments are in British English, adhering to our coding standards. This promotes consistency and clarity throughout our codebase.
    easier for everyone to understand and maintain.
 
 4. **Write or Update Tests** - Help ensure reliability by writing tests for new features or updating existing tests as
