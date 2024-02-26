@@ -44,8 +44,8 @@ class IDParser
         $day = substr($id, 4, 2);
 
         // Determine the century of the birth year
-        $currentYearLastTwoDigits = date('y');
-        $century = $year <= $currentYearLastTwoDigits ? '20' : '19';
+        $currentYearDigits = date('y');
+        $century = $year <= $currentYearDigits ? '20' : '19';
 
         return $century . $year . '-' . $month . '-' . $day;
     }
