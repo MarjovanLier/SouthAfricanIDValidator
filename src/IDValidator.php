@@ -14,44 +14,44 @@ class IDValidator
     /**
      * Validates the provided South African ID number.
      *
-     * @param string $id The ID number to be validated.
+     * @param string $identityNumber The ID number to be validated.
      *
      * @return bool Returns true if the ID number is valid, false otherwise.
      *
      * @throws InvalidArgumentException If the ID number is not in the correct format.
      */
-    public function validate(string $id): bool
+    public function validate(string $identityNumber): bool
     {
         // Ensure the ID number matches the expected format
-        if (!$this->matchesFormat($id)) {
+        if (!$this->matchesFormat($identityNumber)) {
             throw new InvalidArgumentException('The provided ID number does not match the expected format.');
         }
 
         // Validate the date of birth encoded in the ID number
-        if (!$this->isValidDateOfBirth(substr($id, 0, 6))) {
+        if (!$this->isValidDateOfBirth(substr($identityNumber, 0, 6))) {
             return false;
         }
 
         // Check if the sequence number indicates a male or female
         // Sequence numbers from 0000 to 4999 indicate a female, and from 5000 to 9999 indicate a male.
-        $sequenceNumber = substr($id, 6, 4);
+        $sequenceNumber = substr($identityNumber, 6, 4);
         $gender = (int) $sequenceNumber < 5000 ? 'female' : 'male';
 
         // Validate the last digit (check digit) using the Luhn algorithm
-        return $this->isValidCheckDigit($id);
+        return $this->isValidCheckDigit($identityNumber);
     }
 
 
     /**
      * Checks if the ID number matches the expected format.
      *
-     * @param string $id The ID number to check.
+     * @param string $identityNumber The ID number to check.
      *
      * @return bool Returns true if the format is correct, false otherwise.
      */
-    private function matchesFormat(string $id): bool
+    private function matchesFormat(string $identityNumber): bool
     {
-        return preg_match('/^\d{13}$/', $id) === 1;
+        return preg_match('/^\d{13}$/', $identityNumber) === 1;
     }
 
 
