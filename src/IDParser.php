@@ -1,9 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace SouthAfricanIDValidator;
 
 /**
- * Class IDParser
  * Parses South African ID numbers and extracts information such as date of birth, gender, and citizenship status.
  */
 class IDParser
@@ -12,6 +13,7 @@ class IDParser
      * Parses the given South African ID number and extracts information.
      *
      * @param string $id The South African ID number to parse.
+     *
      * @return array An associative array containing the date of birth, gender, and citizenship status.
      */
     public function parse(string $id): array
@@ -21,16 +23,18 @@ class IDParser
         $citizenship = $this->determineCitizenship($id);
 
         return [
+            'citizenship' => $citizenship,
             'date_of_birth' => $dob,
             'gender' => $gender,
-            'citizenship' => $citizenship,
         ];
     }
+
 
     /**
      * Extracts the date of birth from the ID number.
      *
      * @param string $id The ID number.
+     *
      * @return string The date of birth in YYYY-MM-DD format.
      */
     private function extractDateOfBirth(string $id): string
@@ -46,27 +50,33 @@ class IDParser
         return $century . $year . '-' . $month . '-' . $day;
     }
 
+
     /**
      * Determines the gender based on the ID number.
      *
      * @param string $id The ID number.
+     *
      * @return string The gender ('male' or 'female').
      */
     private function determineGender(string $id): string
     {
         $genderCode = substr($id, 6, 4);
-        return (int)$genderCode < 5000 ? 'female' : 'male';
+
+        return (int) $genderCode < 5000 ? 'female' : 'male';
     }
+
 
     /**
      * Determines the citizenship status based on the ID number.
      *
      * @param string $id The ID number.
+     *
      * @return string The citizenship status ('SA citizen' or 'permanent resident').
      */
     private function determineCitizenship(string $id): string
     {
-        $citizenshipCode = substr($id, 10, 1);
+        $citizenshipCode = $id[10];
+
         return $citizenshipCode === '0' ? 'SA citizen' : 'permanent resident';
     }
 }
