@@ -50,7 +50,7 @@ applying the Luhn algorithm for checksum digit validation.
 
 ### Getting Started
 
-To begin using the `SouthAfricanIDValidator` in your project, follow these simple steps:
+To begin utilising the `SouthAfricanIDValidator` in your project, follow these simple steps:
 
 1. **Install via Composer** - Run the following command to install the package:
 
@@ -153,7 +153,6 @@ We value your contributions to the SouthAfricanIDValidator package! Here's how y
 
 4. **Write or Update Tests** - Help ensure reliability by writing tests for new features or updating existing tests as
    needed.
-
 5. **Submit a Pull Request** - Finished making changes? Open a pull request against the main branch with a detailed
    explanation of what you did and why.
 
