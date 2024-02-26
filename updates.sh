@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+set -e
 
 # This script updates the composer.json file and stops on error.
 # It first updates the composer dependencies to their latest versions that still satisfy the version constraints in the composer.json file.
@@ -8,3 +9,7 @@
 # If any command fails, the script stops immediately.
 
 composer update -W && composer upgrade -W && composer bump
+echo "Checking for PHP syntax errors..."
+find . -name "*.php" ! -path "./vendor/*" -exec php -l {} \;
+echo "Running unit tests..."
+composer run-script tests
