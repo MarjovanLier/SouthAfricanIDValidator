@@ -4,7 +4,7 @@ ask_and_reflect = true
 automatic_review = true
 remove_previous_review_comment = true
 persistent_comment = true
-extra_instructions = ""
+extra_instructions = "Please ensure comments are concise and actionable."
 enable_review_labels_security = true
 enable_review_labels_effort = true
 require_all_thresholds_for_incremental_review = false
@@ -15,10 +15,14 @@ enable_auto_approval = true
 maximal_review_effort = 5
 
 [pr_code_suggestions]
+num_code_suggestions = 5
 summarize = true
+auto_extended_mode = true
+rank_suggestions = true
+enable_help_text = false
 
 [pr_update_changelog]
-push_changelog_changes=false
+push_changelog_changes = false
 
 [github_action_config]
 auto_review = true
@@ -51,3 +55,4 @@ push_commands = [
     """,
     "/review auto_approve --pr_reviewer.num_code_suggestions=0 --pr_reviewer.inline_code_comments=true"
 ]
+handle_push_trigger = true
