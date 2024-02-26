@@ -153,7 +153,7 @@ We value your contributions to the SouthAfricanIDValidator package! Here's how y
 
 4. **Write or Update Tests** - Help ensure reliability by writing tests for new features or updating existing tests as
    needed.
-
+Before running the tests, check for PHP syntax errors in the codebase by executing `find . -name "*.php" ! -path "./vendor/*" -exec php -l {} \;`.
 5. **Submit a Pull Request** - Finished making changes? Open a pull request against the main branch with a detailed
    explanation of what you did and why.
 
