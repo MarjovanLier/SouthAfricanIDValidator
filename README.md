@@ -34,6 +34,7 @@ applying the Luhn algorithm for checksum digit validation.
 [![Phan Enabled](https://img.shields.io/badge/Phan-enabled-brightgreen.svg?style=flat)](https://github.com/phan/phan/)
 [![Psalm Enabled](https://img.shields.io/badge/Psalm-enabled-brightgreen.svg?style=flat)](https://psalm.dev/)
 [![codecov](https://codecov.io/github/MarjovanLier/SouthAfricanIDValidator/graph/badge.svg?token=bwkvkESlLe)](https://codecov.io/github/MarjovanLier/SouthAfricanIDValidator)
+[![Qodana](https://github.com/MarjovanLier/SouthAfricanIDValidator/actions/workflows/qodana_code_quality.yml/badge.svg)](https://github.com/MarjovanLier/SouthAfricanIDValidator/actions/workflows/qodana_code_quality.yml)
 
 ## Features
 
