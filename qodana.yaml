@@ -1,0 +1,37 @@
+version: "1.0"
+linter: jetbrains/qodana-php:latest
+profile:
+  name: qodana.recommended
+
+include:
+  - name: PhpVulnerablePathsInspection
+  - name: VulnerableLibrariesGlobal
+  - name: PhpCoverageInspection
+  - name: PhpInconsistentReturnPointsInspection
+  - name: PhpRedundantOptionalArgumentInspection
+  - name: PhpTernaryExpressionCanBeReplacedWithConditionInspection
+  - name: PhpFullyQualifiedNameUsageInspection
+  - name: PhpUnnecessaryFullyQualifiedNameInspection
+  - name: DuplicatedCode
+  - name: PhpReturnDocTypeMismatchInspection
+  - name: PhpMissingParamTypeInspection
+  - name: PhpMissingFieldTypeInspection
+  - name: PhpMissingReturnTypeInspection
+  - name: PhpDynamicFieldDeclarationInspection
+  - name: PhpUnusedAliasInspection
+  - name: PhpUnusedLocalVariableInspection
+plugins:
+  - id: com.kalessil.phpStorm.phpInspectionsEA
+php:
+  version: "8.2"
+exclude:
+  - name: All
+    paths:
+      - .phan/config.php
+      - phpmd.xml
+      - rector.php
+      - qodana.sarif.json
+      - vendor
+      - vendor/
+      - vendor/*
+      - vendor/**
