@@ -1,0 +1,24 @@
+# Convert line endings to LF
+*                   text=auto
+
+# Exclude tests, docs and vendor directories from archives
+/tests              export-ignore
+
+# Exclude meta files from archives
+/.gitattributes     export-ignore
+/.github            export-ignore
+/.gitignore         export-ignore
+/.phan              export-ignore
+/.qodana            export-ignore
+/.vscode            export-ignore
+/composer.lock      export-ignore
+/infection.json5    export-ignore
+/phpmd.xml          export-ignore
+/phpstan.neon       export-ignore
+/phpunit.xml        export-ignore
+/pint.json          export-ignore
+/psalm.xml          export-ignore
+/qodana.*           export-ignore
+/rector.php         export-ignore
+/sweep.yaml         export-ignore
+/updates.sh         export-ignore
