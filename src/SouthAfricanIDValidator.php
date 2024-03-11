@@ -28,8 +28,6 @@ use MarjovanLier\StringManipulation\StringManipulation;
  * - Passing the Luhn algorithm check.
  *
  * For further information, visit: https://en.wikipedia.org/wiki/South_African_identity_card
- *
- * @psalm-suppress UnusedClass
  */
 class SouthAfricanIDValidator
 {
@@ -167,6 +165,11 @@ class SouthAfricanIDValidator
      */
     private static function sanitizeNumber(string $number): string
     {
+        // If the input is already all digits, return it as is
+        if (ctype_digit($number)) {
+            return $number;
+        }
+
         // Replace all non-digit characters with an empty string, coalesce null to an empty string if needed
         return (preg_replace(self::NON_DIGIT_REGEX, '', $number) ?? '');
     }
@@ -222,7 +225,7 @@ class SouthAfricanIDValidator
         $ymd = substr($number, 0, 6);
 
         // Return the result of the date validation
-        return static::isValidIDDate($ymd);
+        return self::isValidIDDate($ymd);
     }
 
 

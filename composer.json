@@ -39,25 +39,24 @@
   },
   "minimum-stability": "stable",
   "require": {
-    "php": "^8.2",
-    "marjovanlier/stringmanipulation": "^1.0.79"
+    "php": ">=8.2",
+    "marjovanlier/stringmanipulation": "^1.0.84"
   },
   "require-dev": {
     "enlightn/security-checker": ">=2.0.0",
-    "infection/infection": ">=0.27.10",
-    "laravel/pint": ">=1.14.0",
-    "phan/phan": ">=5.4.3",
-    "php-parallel-lint/php-parallel-lint": ">=1.3.2",
+    "infection/infection": ">=0.29.11",
+    "laravel/pint": ">=1.20.0",
+    "phan/phan": ">=5.4.5",
+    "php-parallel-lint/php-parallel-lint": ">=1.4.0",
     "phpmd/phpmd": ">=2.15",
-    "phpstan/extension-installer": ">=1.3.1",
-    "phpstan/phpstan": ">=1.10.60",
-    "phpstan/phpstan-strict-rules": ">=1.5.2",
-    "phpunit/phpunit": ">=10.5.10|>=11.0.4",
-    "psalm/plugin-phpunit": ">=0.18.4",
-    "rector/rector": ">=1.0.2",
-    "roave/no-floaters": ">=1.11",
+    "phpstan/extension-installer": ">=1.4.3",
+    "phpstan/phpstan": ">=2.1.4",
+    "phpstan/phpstan-strict-rules": ">=2.0.3",
+    "phpunit/phpunit": ">=11.0.4|>=12.0.0",
+    "psalm/plugin-phpunit": ">=0.19.2",
+    "rector/rector": ">=2.0.9",
     "roave/security-advisories": "dev-latest",
-    "vimeo/psalm": ">=5.23.1"
+    "vimeo/psalm": ">=6.5.1"
   },
   "scripts-descriptions": {
     "test:code-style": "Check code for stylistic consistency.",

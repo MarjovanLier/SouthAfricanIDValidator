@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace MarjovanLier\SouthAfricanIDValidator\Tests\Unit;
 
 use MarjovanLier\SouthAfricanIDValidator\SouthAfricanIDValidator;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use ReflectionClass;
 use ReflectionException;
@@ -178,6 +179,7 @@ final class IsValidLuhnChecksumTest extends TestCase
      *
      * @throws ReflectionException
      */
+    #[DataProvider('provideValidLuhnNumbers')]
     public function testValidLuhnNumbers(string $number): void
     {
         $result = $this->getPrivateMethod()->invokeArgs(new SouthAfricanIDValidator(), [$number]);
@@ -193,6 +195,7 @@ final class IsValidLuhnChecksumTest extends TestCase
      *
      * @throws ReflectionException
      */
+    #[DataProvider('provideInvalidLuhnNumbers')]
     public function testInvalidLuhnNumbers(string $number): void
     {
         $result = $this->getPrivateMethod()->invokeArgs(new SouthAfricanIDValidator(), [$number]);
@@ -207,13 +210,14 @@ final class IsValidLuhnChecksumTest extends TestCase
      *
      * @throws ReflectionException
      */
+    #[DataProvider('provideValidLuhnNumbers')]
     public function testValidLuhnNumbersWithCastIntMutation(string $number): void
     {
         // Test to catch CastInt mutation
         $result = $this->getPrivateMethod()->invokeArgs(new SouthAfricanIDValidator(), [$number]);
         self::assertTrue(
             $result,
-            sprintf("Number '%s' should be valid. Failure may indicate issues with integer casting.", $number)
+            sprintf("Number '%s' should be valid. Failure may indicate issues with integer casting.", $number),
         );
     }
 
@@ -242,13 +246,14 @@ final class IsValidLuhnChecksumTest extends TestCase
      *
      * @throws ReflectionException
      */
+    #[DataProvider('provideNumbersWithExpectedOutcome')]
     public function testLuhnNumberValidation(string $number, bool $expectedOutcome, string $description): void
     {
         $result = $this->getPrivateMethod()->invokeArgs(new SouthAfricanIDValidator(), [$number]);
         self::assertSame(
             $expectedOutcome,
             $result,
-            sprintf("Test case '%s' failed. Expected '%s'.", $description, $expectedOutcome ? 'true' : 'false')
+            sprintf("Test case '%s' failed. Expected '%s'.", $description, $expectedOutcome ? 'true' : 'false'),
         );
     }
 

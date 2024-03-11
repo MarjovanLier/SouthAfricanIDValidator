@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace MarjovanLier\SouthAfricanIDValidator\Tests\Unit;
 
 use MarjovanLier\SouthAfricanIDValidator\SouthAfricanIDValidator;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -62,6 +63,7 @@ final class IsValidIDDateTest extends TestCase
     /**
      * @dataProvider provideValidIDDates
      */
+    #[DataProvider('provideValidIDDates')]
     public function testValidIDDates(string $date): void
     {
         self::assertTrue(SouthAfricanIDValidator::isValidIDDate($date));
@@ -71,6 +73,7 @@ final class IsValidIDDateTest extends TestCase
     /**
      * @dataProvider provideInvalidIDDates
      */
+    #[DataProvider('provideInvalidIDDates')]
     public function testInvalidIDDates(string $date): void
     {
         self::assertFalse(SouthAfricanIDValidator::isValidIDDate($date));
