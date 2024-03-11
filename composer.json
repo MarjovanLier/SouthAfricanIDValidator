@@ -57,7 +57,7 @@
     "rector/rector": ">=1.0.2",
     "roave/no-floaters": ">=1.11",
     "roave/security-advisories": "dev-latest",
-    "vimeo/psalm": ">=5.22.2"
+    "vimeo/psalm": ">=5.23.1"
   },
   "scripts-descriptions": {
     "test:code-style": "Check code for stylistic consistency.",
