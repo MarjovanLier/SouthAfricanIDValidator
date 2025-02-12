@@ -187,6 +187,25 @@ final class IsValidLuhnChecksumTest extends TestCase
         self::assertTrue($result);
     }
 
+    /**
+     * This method returns a ReflectionMethod instance of the private method 'isValidLuhnChecksum' in the
+     * SouthAfricanIDValidator class.
+     *
+     * @throws ReflectionException
+     */
+    private function getPrivateMethod(): ReflectionMethod
+    {
+        $reflectionMethod = (new ReflectionClass(SouthAfricanIDValidator::class))->getMethod('isValidLuhnChecksum');
+
+        /**
+         * @noinspection PhpExpressionResultUnusedInspection
+         *
+         * @psalm-suppress UnusedMethodCall
+         */
+        $reflectionMethod->setAccessible(true);
+
+        return $reflectionMethod;
+    }
 
     /**
      * This method tests the Luhn validation method with invalid Luhn numbers.
@@ -201,7 +220,6 @@ final class IsValidLuhnChecksumTest extends TestCase
         $result = $this->getPrivateMethod()->invokeArgs(new SouthAfricanIDValidator(), [$number]);
         self::assertFalse($result);
     }
-
 
     /**
      * This method tests the Luhn validation method with valid Luhn numbers and checks for integer casting issues.
@@ -221,7 +239,6 @@ final class IsValidLuhnChecksumTest extends TestCase
         );
     }
 
-
     /**
      * This method tests the Luhn validation method with a number where not casting to int would fail the Luhn check
      *      due to string concatenation instead of arithmetic addition.
@@ -236,7 +253,6 @@ final class IsValidLuhnChecksumTest extends TestCase
         $result = $this->getPrivateMethod()->invokeArgs(new SouthAfricanIDValidator(), [$number]);
         self::assertTrue($result, 'Failed to handle string digits as integers correctly.');
     }
-
 
     /**
      * This method tests the Luhn validation method with a dataset of numbers and their expected Luhn validation
@@ -255,26 +271,5 @@ final class IsValidLuhnChecksumTest extends TestCase
             $result,
             sprintf("Test case '%s' failed. Expected '%s'.", $description, $expectedOutcome ? 'true' : 'false'),
         );
-    }
-
-
-    /**
-     * This method returns a ReflectionMethod instance of the private method 'isValidLuhnChecksum' in the
-     * SouthAfricanIDValidator class.
-     *
-     * @throws ReflectionException
-     */
-    private function getPrivateMethod(): ReflectionMethod
-    {
-        $reflectionMethod = (new ReflectionClass(SouthAfricanIDValidator::class))->getMethod('isValidLuhnChecksum');
-
-        /**
-         * @noinspection PhpExpressionResultUnusedInspection
-         *
-         * @psalm-suppress UnusedMethodCall
-         */
-        $reflectionMethod->setAccessible(true);
-
-        return $reflectionMethod;
     }
 }

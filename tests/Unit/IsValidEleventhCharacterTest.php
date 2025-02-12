@@ -16,10 +16,7 @@ use ReflectionException;
  */
 final class IsValidEleventhCharacterTest extends TestCase
 {
-    /**
-     * @var string[]
-     */
-    private const INVALID_CHARACTERS = [
+    private const array INVALID_CHARACTERS = [
         '3',
         '4',
         '5',
@@ -32,10 +29,7 @@ final class IsValidEleventhCharacterTest extends TestCase
         'Z',
     ];
 
-    /**
-     * @var string
-     */
-    private const NUMBER = '123456789';
+    private const string NUMBER = '123456789';
 
 
     public function testValidEleventhCharacter(): void
@@ -43,10 +37,8 @@ final class IsValidEleventhCharacterTest extends TestCase
         foreach (['0', '1', '2'] as $char) {
             $number = '1234567890' . $char;
 
-            /**
-             * @var bool $result
-             */
             $result = $this->invokeMethod(new SouthAfricanIDValidator(), 'isValidEleventhCharacter', [$number]);
+            assert(is_bool($result));
             self::assertTrue($result, sprintf('Expected %s to be a valid eleventh character', $char));
         }
     }
@@ -60,7 +52,6 @@ final class IsValidEleventhCharacterTest extends TestCase
      * @param array<int, string> $parameters Array of parameters to pass into method.
      *
      * @return mixed Method return.
-     *
      * @throws ReflectionException
      */
     public function invokeMethod(object $object, string $methodName, array $parameters = []): mixed
@@ -68,8 +59,7 @@ final class IsValidEleventhCharacterTest extends TestCase
         $reflectionMethod = (new ReflectionClass($object::class))->getMethod($methodName);
 
         /**
-         * @noinspection PhpExpressionResultUnusedInspection
-         *
+         * @noinspection   PhpExpressionResultUnusedInspection
          * @psalm-suppress UnusedMethodCall
          */
         $reflectionMethod->setAccessible(true);
@@ -81,31 +71,25 @@ final class IsValidEleventhCharacterTest extends TestCase
     public function testInvalidEleventhCharacter(): void
     {
         foreach (self::INVALID_CHARACTERS as $char) {
-            /**
-             * @var bool $result
-             */
             $result = $this->invokeMethod(new SouthAfricanIDValidator(), 'isValidEleventhCharacter', [self::NUMBER]);
+            assert(is_bool($result));
             self::assertFalse($result, sprintf('Expected %s to be an invalid eleventh character', $char));
         }
     }
 
 
-    public function testShortIDNumber(): void
+    public function testShortIdNumber(): void
     {
-        /**
-         * @var bool $result
-         */
         $result = $this->invokeMethod(new SouthAfricanIDValidator(), 'isValidEleventhCharacter', ['123456789']);
+        assert(is_bool($result));
         self::assertFalse($result, 'Expected short ID number to be invalid');
     }
 
 
     public function testDifferentiateBetweenTenthAndEleventhCharacter(): void
     {
-        /**
-         * @var bool $result
-         */
         $result = $this->invokeMethod(new SouthAfricanIDValidator(), 'isValidEleventhCharacter', ['123456789X0']);
+        assert(is_bool($result));
         self::assertTrue($result);
     }
 }

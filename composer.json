@@ -40,7 +40,7 @@
   "minimum-stability": "stable",
   "require": {
     "php": ">=8.3",
-    "marjovanlier/stringmanipulation": "^1.0.84"
+    "marjovanlier/stringmanipulation": "^2.0.1"
   },
   "require-dev": {
     "enlightn/security-checker": ">=2.0.0",
@@ -52,7 +52,7 @@
     "phpstan/extension-installer": ">=1.4.3",
     "phpstan/phpstan": ">=2.1.4",
     "phpstan/phpstan-strict-rules": ">=2.0.3",
-    "phpunit/phpunit": ">=11.0.4|>=12.0.0",
+    "phpunit/phpunit": ">=12.0.0",
     "psalm/plugin-phpunit": ">=0.19.2",
     "rector/rector": ">=2.0.9",
     "roave/security-advisories": "dev-latest",

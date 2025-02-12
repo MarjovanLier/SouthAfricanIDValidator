@@ -52,8 +52,7 @@ final class SanitizeNumberTest extends TestCase
         $reflectionMethod = (new ReflectionClass($object::class))->getMethod($methodName);
 
         /**
-         * @noinspection PhpExpressionResultUnusedInspection
-         *
+         * @noinspection   PhpExpressionResultUnusedInspection
          * @psalm-suppress UnusedMethodCall
          */
         $reflectionMethod->setAccessible(true);
