@@ -28,6 +28,13 @@ final class SanitizeNumberTest extends TestCase
          */
         $result = $this->invokeMethod(new SouthAfricanIDValidator(), 'sanitizeNumber', ['abc123']);
         self::assertEquals('123', $result);
+
+        // Add test for already clean number (all digits)
+        /**
+         * @var string $result
+         */
+        $result = $this->invokeMethod(new SouthAfricanIDValidator(), 'sanitizeNumber', ['123456']);
+        self::assertEquals('123456', $result);
     }
 
 
