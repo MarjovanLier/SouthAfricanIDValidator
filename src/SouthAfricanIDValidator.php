@@ -39,7 +39,7 @@ class SouthAfricanIDValidator
      *
      * @see self::sanitizeNumber
      */
-    private const NON_DIGIT_REGEX = '#\D#';
+    private const string NON_DIGIT_REGEX = '#\D#';
 
 
     /**
@@ -83,9 +83,8 @@ class SouthAfricanIDValidator
      *
      * @param string $number The South African ID number to validate.
      *
-     * @return null|bool True if the ID number is valid, false if it's not, and null if specific criteria aren't met.
-     *
-     * @see https://en.wikipedia.org/wiki/South_African_identity_card
+     * @return bool|null True if the ID number is valid, false if it's not, and null if specific criteria aren't met.
+     * @see    https://en.wikipedia.org/wiki/South_African_identity_card
      */
     public static function luhnIDValidate(string $number): ?bool
     {
@@ -93,7 +92,7 @@ class SouthAfricanIDValidator
         $number = self::sanitizeNumber($number);
 
         // If the sanitized number isn't exactly 13 characters long, return false
-        if (strlen($number) !== 13) {
+        if (\strlen($number) !== 13) {
             return false;
         }
 
@@ -129,14 +128,13 @@ class SouthAfricanIDValidator
      * @param string $date The date part of the ID, in YYMMDD format.
      *
      * @return bool True if the date is valid for any specified century, false otherwise.
-     *
-     * @see self::isValidDateFor1800sOr1900s
-     * @see self::isValidDateFor2000s
+     * @see    self::isValidDateFor1800sOr1900s
+     * @see    self::isValidDateFor2000s
      */
     public static function isValidIDDate(string $date): bool
     {
         // If the date string isn't 6 characters long, return false
-        if (strlen($date) !== 6) {
+        if (\strlen($date) !== 6) {
             return false;
         }
 
@@ -166,12 +164,12 @@ class SouthAfricanIDValidator
     private static function sanitizeNumber(string $number): string
     {
         // If the input is already all digits, return it as is
-        if (ctype_digit($number)) {
+        if (\ctype_digit($number)) {
             return $number;
         }
 
         // Replace all non-digit characters with an empty string, coalesce null to an empty string if needed
-        return (preg_replace(self::NON_DIGIT_REGEX, '', $number) ?? '');
+        return (\preg_replace(self::NON_DIGIT_REGEX, '', $number) ?? '');
     }
 
 
@@ -193,7 +191,7 @@ class SouthAfricanIDValidator
     private static function isValidEleventhCharacter(string $number): bool
     {
         // Return false if the ID number is shorter than 11 characters
-        if (strlen($number) < 11) {
+        if (\strlen($number) < 11) {
             return false;
         }
 
@@ -201,7 +199,7 @@ class SouthAfricanIDValidator
         $eleventhCharacter = $number[10];
 
         // Return the result of the check
-        return in_array($eleventhCharacter, ['0', '1', '2'], true);
+        return \in_array($eleventhCharacter, ['0', '1', '2'], true);
     }
 
 
@@ -216,13 +214,12 @@ class SouthAfricanIDValidator
      * @param string $number The South African ID number to check.
      *
      * @return bool True if the date component is valid, false otherwise.
-     *
-     * @see self::isValidIDDate
+     * @see    self::isValidIDDate
      */
     private static function isValidDateInID(string $number): bool
     {
         // Extract the date part and validate it
-        $ymd = substr($number, 0, 6);
+        $ymd = \substr($number, 0, 6);
 
         // Return the result of the date validation
         return self::isValidIDDate($ymd);
@@ -242,14 +239,13 @@ class SouthAfricanIDValidator
      *
      * @param string $date A 6-character date string for an 18th or 19th-century date.
      *
-     * @return bool True if it's a valid date in either century, false otherwise.
-     *
+     * @return         bool True if it's a valid date in either century, false otherwise.
      * @psalm-suppress UnusedMethod
      */
     private static function isValidDateFor1800sOr1900s(string $date): bool
     {
         // Return false if the date string isn't exactly 6 characters long
-        if (strlen($date) !== 6) {
+        if (\strlen($date) !== 6) {
             return false;
         }
 
@@ -269,14 +265,13 @@ class SouthAfricanIDValidator
      *
      * @param string $date A 6-character date string for a 20th-century date.
      *
-     * @return bool True if it's a valid 20th-century date, false otherwise.
-     *
+     * @return         bool True if it's a valid 20th-century date, false otherwise.
      * @psalm-suppress UnusedMethod
      */
     private static function isValidDateFor2000s(string $date): bool
     {
         // Return false if the date string isn't exactly 6 characters long
-        if (strlen($date) !== 6) {
+        if (\strlen($date) !== 6) {
             return false;
         }
 
@@ -296,13 +291,12 @@ class SouthAfricanIDValidator
      * @param string $number The number to validate.
      *
      * @return bool True if the number is valid, according to the Luhn algorithm, false otherwise.
-     *
-     * @see https://en.wikipedia.org/wiki/Luhn_algorithm
+     * @see    https://en.wikipedia.org/wiki/Luhn_algorithm
      */
     private static function isValidLuhnChecksum(string $number): bool
     {
         // Check for non-numeric characters
-        if (!ctype_digit($number)) {
+        if (!\ctype_digit($number)) {
             return false;
         }
 
@@ -311,7 +305,7 @@ class SouthAfricanIDValidator
         $double = false;
 
         // Iterate over the number from rightmost to leftmost
-        for ($i = (strlen($number) - 1); $i >= 0; --$i) {
+        for ($i = (\strlen($number) - 1); $i >= 0; --$i) {
             /**
              * Explicit casting.
              *

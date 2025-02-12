@@ -64,7 +64,7 @@ final class IsValidIDDateTest extends TestCase
      * @dataProvider provideValidIDDates
      */
     #[DataProvider('provideValidIDDates')]
-    public function testValidIDDates(string $date): void
+    public function testValidIdDates(string $date): void
     {
         self::assertTrue(SouthAfricanIDValidator::isValidIDDate($date));
     }
@@ -74,7 +74,7 @@ final class IsValidIDDateTest extends TestCase
      * @dataProvider provideInvalidIDDates
      */
     #[DataProvider('provideInvalidIDDates')]
-    public function testInvalidIDDates(string $date): void
+    public function testInvalidIdDates(string $date): void
     {
         self::assertFalse(SouthAfricanIDValidator::isValidIDDate($date));
     }

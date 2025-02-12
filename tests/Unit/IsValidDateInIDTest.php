@@ -12,41 +12,18 @@ use UnexpectedValueException;
 
 /**
  * @internal
- *
- * @covers \MarjovanLier\SouthAfricanIDValidator\SouthAfricanIDValidator::isValidDateInID
+ * @covers   \MarjovanLier\SouthAfricanIDValidator\SouthAfricanIDValidator::isValidDateInID
  */
 final class IsValidDateInIDTest extends TestCase
 {
     /**
      * @throws ReflectionException
      */
-    public function testValidYYMMDDDate(): void
+    public function testValidYymmddDate(): void
     {
         self::assertTrue($this->invokePrivateStaticMethod(['870110xxxxxx']));
         self::assertTrue($this->invokePrivateStaticMethod(['220831xxxxxx']));
     }
-
-
-    /**
-     * @throws ReflectionException
-     */
-    public function testInvalidYYMMDDDate(): void
-    {
-        self::assertFalse($this->invokePrivateStaticMethod(['871332xxxxxx']), 'Invalid day (32)');
-        self::assertFalse($this->invokePrivateStaticMethod(['871313xxxxxx']), 'Invalid month (13)');
-        self::assertFalse($this->invokePrivateStaticMethod(['87-01-10xxxxx']), 'Invalid characters');
-        self::assertFalse($this->invokePrivateStaticMethod(['xyz123xxxxx']), 'Invalid characters');
-    }
-
-
-    /**
-     * @throws ReflectionException
-     */
-    public function testInvalidDateFormat(): void
-    {
-        self::assertFalse($this->invokePrivateStaticMethod(['87101xxxxxx']), 'Invalid length (too short)');
-    }
-
 
     /**
      * @param array<int, string> $parameters
@@ -58,8 +35,7 @@ final class IsValidDateInIDTest extends TestCase
         $reflectionMethod = (new ReflectionClass(SouthAfricanIDValidator::class))->getMethod('isValidDateInID');
 
         /**
-         * @noinspection PhpExpressionResultUnusedInspection
-         *
+         * @noinspection   PhpExpressionResultUnusedInspection
          * @psalm-suppress UnusedMethodCall
          */
         $reflectionMethod->setAccessible(true);
@@ -72,5 +48,24 @@ final class IsValidDateInIDTest extends TestCase
         }
 
         return $result;
+    }
+
+    /**
+     * @throws ReflectionException
+     */
+    public function testInvalidYymmddDate(): void
+    {
+        self::assertFalse($this->invokePrivateStaticMethod(['871332xxxxxx']), 'Invalid day (32)');
+        self::assertFalse($this->invokePrivateStaticMethod(['871313xxxxxx']), 'Invalid month (13)');
+        self::assertFalse($this->invokePrivateStaticMethod(['87-01-10xxxxx']), 'Invalid characters');
+        self::assertFalse($this->invokePrivateStaticMethod(['xyz123xxxxx']), 'Invalid characters');
+    }
+
+    /**
+     * @throws ReflectionException
+     */
+    public function testInvalidDateFormat(): void
+    {
+        self::assertFalse($this->invokePrivateStaticMethod(['87101xxxxxx']), 'Invalid length (too short)');
     }
 }

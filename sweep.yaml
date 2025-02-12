@@ -16,7 +16,7 @@ gha_enabled: True
 # Example:
 #
 # description: This field should briefly describe the coding practices and unique aspects of your project. Use it to inform contributors about any specific standards or requirements.
-description: 'The SouthAfricanIDValidator is a PHP 8.2 package with its codebase located in the src directory. It adheres to the PER Coding Style 2.0, enhancing the PSR-12 standard. This information is crucial for guiding contributors in making compliant contributions.'
+description: 'The SouthAfricanIDValidator is a PHP 8.3 package with its codebase located in the src directory. It adheres to the PER Coding Style 2.0, enhancing the PSR-12 standard. This information is crucial for guiding contributors in making compliant contributions.'
 
 # This sets whether to create pull requests as drafts. If this is set to True, then all pull requests will be created as drafts and GitHub Actions will not be triggered.
 draft: False
