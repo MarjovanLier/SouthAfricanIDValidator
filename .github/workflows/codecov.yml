@@ -9,10 +9,10 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Set up php 8.2
+      - name: Set up php 8.3
         uses: shivammathur/setup-php@v2
         with:
-          php-version: "8.2"
+          php-version: "8.3"
           extensions: mbstring, xml, zip, pdo_mysql, xhprof
 
       - name: Install dependencies

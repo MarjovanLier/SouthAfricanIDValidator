@@ -43,17 +43,17 @@ return static function (RectorConfig $rectorConfig): void {
     $rectorConfig->rule(SeparateMultiUseImportsRector::class);
     $rectorConfig->rule(SplitDoubleAssignRector::class);
 
-    $rectorConfig->phpVersion(PhpVersion::PHP_82);
+    $rectorConfig->phpVersion(PhpVersion::PHP_83);
 
     // define sets of rules
     $rectorConfig->sets(
         [
-            LevelSetList::UP_TO_PHP_82,
+            LevelSetList::UP_TO_PHP_83,
             SetList::CODE_QUALITY,
             SetList::CODING_STYLE,
             SetList::DEAD_CODE,
             SetList::EARLY_RETURN,
-            SetList::PHP_82,
+            SetList::PHP_83,
             SetList::TYPE_DECLARATION,
             SetList::NAMING,
             SetList::PRIVATIZATION,
