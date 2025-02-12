@@ -5,14 +5,13 @@ declare(strict_types=1);
 namespace MarjovanLier\SouthAfricanIDValidator\Tests\Unit;
 
 use MarjovanLier\SouthAfricanIDValidator\SouthAfricanIDValidator;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 /**
  * @internal
  *
  * @covers \MarjovanLier\SouthAfricanIDValidator\SouthAfricanIDValidator::luhnIDValidate
- *
- * @SuppressWarnings(PHPMD.TooManyPublicMethods)
  */
 final class LuhnIDValidateTest extends TestCase
 {
@@ -96,6 +95,7 @@ final class LuhnIDValidateTest extends TestCase
      *
      * @dataProvider provideValidIDNumbers
      */
+    #[DataProvider('provideValidIDNumbers')]
     public function testValidIDNumbers(string $idNumber): void
     {
         self::assertTrue(SouthAfricanIDValidator::luhnIDValidate($idNumber));
@@ -105,6 +105,7 @@ final class LuhnIDValidateTest extends TestCase
     /**
      * @dataProvider provideInvalidIDNumbers
      */
+    #[DataProvider('provideInvalidIDNumbers')]
     public function testInvalidIDNumbers(string $idNumber): void
     {
         self::assertFalse(SouthAfricanIDValidator::luhnIDValidate($idNumber));
@@ -114,6 +115,7 @@ final class LuhnIDValidateTest extends TestCase
     /**
      * @dataProvider provideInvalidFormatIDNumbers
      */
+    #[DataProvider('provideInvalidFormatIDNumbers')]
     public function testInvalidFormatIDNumbers(string $idNumber): void
     {
         self::assertNull(SouthAfricanIDValidator::luhnIDValidate($idNumber));

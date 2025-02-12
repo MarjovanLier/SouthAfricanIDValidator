@@ -20,10 +20,5 @@
     </plugins>
     <issueHandlers>
         <MissingParamType errorLevel="error"/>
-        <UnusedClass>
-            <errorLevel type="suppress">
-                <directory name="tests"/>
-            </errorLevel>
-        </UnusedClass>
     </issueHandlers>
 </psalm>

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace MarjovanLier\SouthAfricanIDValidator\Tests\Unit;
 
 use MarjovanLier\SouthAfricanIDValidator\SouthAfricanIDValidator;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use ReflectionClass;
 use ReflectionMethod;
@@ -83,6 +84,7 @@ final class IsValidDateFor1800sOr1900sTest extends TestCase
      *
      * @dataProvider provideDatesFor1800sOr1900s
      */
+    #[DataProvider('provideDatesFor1800sOr1900s')]
     public function testIsValid18Date(string $date, bool $expected): void
     {
         // Use reflection to access and invoke the private static method `isValidDateFor1800sOr1900s`.
