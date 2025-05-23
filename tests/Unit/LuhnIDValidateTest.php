@@ -4,15 +4,14 @@ declare(strict_types=1);
 
 namespace MarjovanLier\SouthAfricanIDValidator\Tests\Unit;
 
+use PHPUnit\Framework\ExpectationFailedException;
+use PHPUnit\Framework\Exception;
 use MarjovanLier\SouthAfricanIDValidator\SouthAfricanIDValidator;
+use PHPUnit\Framework\Attributes\CoversMethod;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @internal
- *
- * @covers \MarjovanLier\SouthAfricanIDValidator\SouthAfricanIDValidator::luhnIDValidate
- */
+#[CoversMethod(SouthAfricanIDValidator::class, 'luhnIDValidate')]
 final class LuhnIDValidateTest extends TestCase
 {
     private const string ALTERED_ID_NUMBER = '8701105022186';
@@ -90,49 +89,74 @@ final class LuhnIDValidateTest extends TestCase
      *
      * @param string $idNumber The ID number to validate.
      *
-     * @dataProvider provideValidIDNumbers
+     * @throws ExpectationFailedException
+     * @throws Exception
      */
     #[DataProvider('provideValidIDNumbers')]
     public function testValidIdNumbers(string $idNumber): void
     {
-        self::assertTrue(SouthAfricanIDValidator::luhnIDValidate($idNumber));
+        self::assertTrue(
+            SouthAfricanIDValidator::luhnIDValidate($idNumber),
+            sprintf('ID number %s should be valid as it conforms to all South African ID requirements', $idNumber),
+        );
     }
 
 
     /**
-     * @dataProvider provideInvalidIDNumbers
+     * Tests if invalid ID numbers are correctly invalidated.
+     *
+     * @throws ExpectationFailedException
+     * @throws Exception
      */
     #[DataProvider('provideInvalidIDNumbers')]
     public function testInvalidIdNumbers(string $idNumber): void
     {
-        self::assertFalse(SouthAfricanIDValidator::luhnIDValidate($idNumber));
+        self::assertFalse(
+            SouthAfricanIDValidator::luhnIDValidate($idNumber),
+            sprintf('ID number %s should be invalid due to incorrect format or failed validation rules', $idNumber),
+        );
     }
 
 
     /**
-     * @dataProvider provideInvalidFormatIDNumbers
+     * Tests if IDs with invalid format are correctly rejected.
+     *
+     * @throws ExpectationFailedException
+     * @throws Exception
      */
     #[DataProvider('provideInvalidFormatIDNumbers')]
     public function testInvalidFormatIdNumbers(string $idNumber): void
     {
-        self::assertNull(SouthAfricanIDValidator::luhnIDValidate($idNumber));
+        self::assertNull(
+            SouthAfricanIDValidator::luhnIDValidate($idNumber),
+            sprintf('ID number %s should return null due to invalid date format (all zeros)', $idNumber),
+        );
     }
 
 
     /**
      * Tests if non-numeric values at the 11th position are correctly invalidated.
+     *
+     * @throws ExpectationFailedException
+     * @throws Exception
      */
     public function testNonNumericEleventhCharacter(): void
     {
         // X at the 11th position
         $idNumber = '8701105022X86';
         // As per your existing logic, this should return false
-        self::assertFalse(SouthAfricanIDValidator::luhnIDValidate($idNumber));
+        self::assertFalse(
+            SouthAfricanIDValidator::luhnIDValidate($idNumber),
+            sprintf("ID number %s should be invalid due to non-numeric character 'X' at position 11", $idNumber),
+        );
     }
 
 
     /**
      * Tests Luhn algorithm parity and digit logic.
+     *
+     * @throws ExpectationFailedException
+     * @throws Exception
      */
     public function testParityAndDigitLogic(): void
     {
@@ -141,7 +165,11 @@ final class LuhnIDValidateTest extends TestCase
         // This assumes you have a helper function to compute Luhn's checksum without the specific ID logic.
         $expected = $this->computeLuhnChecksum($idNumber);
 
-        self::assertEquals($expected, SouthAfricanIDValidator::luhnIDValidate($idNumber));
+        self::assertEquals(
+            $expected,
+            SouthAfricanIDValidator::luhnIDValidate($idNumber),
+            sprintf('ID number %s should match the expected Luhn checksum validation result', $idNumber),
+        );
     }
 
     private function computeLuhnChecksum(string $number): bool
@@ -169,90 +197,209 @@ final class LuhnIDValidateTest extends TestCase
 
     /**
      * Tests if string number inputs are correctly validated.
+     *
+     * @throws ExpectationFailedException
+     * @throws Exception
      */
     public function testStringNumberInput(): void
     {
         $idNumber = '8701105800085';
-        self::assertTrue(SouthAfricanIDValidator::luhnIDValidate($idNumber));
+        self::assertTrue(
+            SouthAfricanIDValidator::luhnIDValidate($idNumber),
+            'String number input should be validated correctly: ' . $idNumber,
+        );
     }
 
     /**
      * Tests if non-integer values in the ID number are correctly invalidated.
+     *
+     * @throws ExpectationFailedException
+     * @throws Exception
      */
     public function testNonIntegerValues(): void
     {
         $idNumber = '87011X5022086';
-        self::assertFalse(SouthAfricanIDValidator::luhnIDValidate($idNumber));
+        self::assertFalse(
+            SouthAfricanIDValidator::luhnIDValidate($idNumber),
+            "ID with non-numeric character 'X' at position 6 should fail: " . $idNumber,
+        );
     }
 
     /**
      * Tests the parity logic of the Luhn algorithm.
+     *
+     * @throws ExpectationFailedException
+     * @throws Exception
      */
     public function testParityLogic(): void
     {
         $idNumber = '8701105800085';
-        self::assertTrue(SouthAfricanIDValidator::luhnIDValidate($idNumber));
+        self::assertTrue(
+            SouthAfricanIDValidator::luhnIDValidate($idNumber),
+            'Valid ID should pass parity check: ' . $idNumber,
+        );
 
         $idNumberAltered = '8701105022186';
         // Try to change a number that would affect parity calculation.
-        self::assertFalse(SouthAfricanIDValidator::luhnIDValidate($idNumberAltered));
+        self::assertFalse(
+            SouthAfricanIDValidator::luhnIDValidate($idNumberAltered),
+            'Altered ID should fail parity check: ' . $idNumberAltered,
+        );
     }
 
     /**
      * Tests if ID numbers containing the digit five are correctly validated.
+     *
+     * @throws ExpectationFailedException
+     * @throws Exception
      */
     public function testNumberHavingFive(): void
     {
         $idNumber = '8701155022086';
-        self::assertFalse(SouthAfricanIDValidator::luhnIDValidate($idNumber));
+        self::assertFalse(
+            SouthAfricanIDValidator::luhnIDValidate($idNumber),
+            'ID with invalid checksum should fail: ' . $idNumber,
+        );
     }
 
     /**
      * Tests if the Luhn checksum logic works correctly when digits are incremented or decremented.
+     *
+     * @throws ExpectationFailedException
+     * @throws Exception
      */
     public function testTotalIncrementDecrementLogic(): void
     {
         $idNumber = '8701105800085';
-        self::assertTrue(SouthAfricanIDValidator::luhnIDValidate($idNumber));
+        self::assertTrue(
+            SouthAfricanIDValidator::luhnIDValidate($idNumber),
+            'Original valid ID should pass: ' . $idNumber,
+        );
 
         $idNumberAltered = '8701105022087';
         // Altering the last digit should make the ID invalid.
-        self::assertFalse(SouthAfricanIDValidator::luhnIDValidate($idNumberAltered));
+        self::assertFalse(
+            SouthAfricanIDValidator::luhnIDValidate($idNumberAltered),
+            sprintf('ID with altered checksum digit should fail: %s (last digit changed)', $idNumberAltered),
+        );
     }
 
     /**
      * Tests the parity logic of the Luhn algorithm.
+     *
+     * @throws ExpectationFailedException
+     * @throws Exception
      */
     public function testLuhnParityLogic(): void
     {
         $idNumber = '8701105025086';
-        self::assertFalse(SouthAfricanIDValidator::luhnIDValidate($idNumber));
+        self::assertFalse(
+            SouthAfricanIDValidator::luhnIDValidate($idNumber),
+            'ID with incorrect Luhn checksum should fail: ' . $idNumber,
+        );
     }
 
     /**
      * Tests if the Luhn algorithm correctly splits double digits.
+     *
+     * @throws ExpectationFailedException
+     * @throws Exception
      */
     public function testLuhnDoubleDigitSplit(): void
     {
         $idNumber = '8701105026086';
         // The 10th character when doubled becomes 12, which should be treated as 1 + 2
-        self::assertFalse(SouthAfricanIDValidator::luhnIDValidate($idNumber));
+        self::assertFalse(
+            SouthAfricanIDValidator::luhnIDValidate($idNumber),
+            sprintf("ID with digit that doubles to >9 should be handled correctly: %s (10th digit '6' doubles to 12 -> 1+2=3)", $idNumber),
+        );
     }
 
     /**
      * Tests if altering a digit in the ID number makes it invalid.
+     *
+     * @throws ExpectationFailedException
+     * @throws Exception
      */
     public function testAlterationMakesIdInvalid(): void
     {
         // Altering a single digit to make it invalid
-        self::assertFalse(SouthAfricanIDValidator::luhnIDValidate(self::ALTERED_ID_NUMBER));
+        self::assertFalse(
+            SouthAfricanIDValidator::luhnIDValidate(self::ALTERED_ID_NUMBER),
+            "Altered ID constant should fail validation: " . self::ALTERED_ID_NUMBER,
+        );
     }
 
+    /**
+     * @throws ExpectationFailedException
+     * @throws Exception
+     */
     public function testLuhnIdValidateWithMod5True(): void
     {
-        self::assertTrue(SouthAfricanIDValidator::luhnIDValidate('8809260027087'));
-        self::assertFalse(SouthAfricanIDValidator::luhnIDValidate('6804045679085'));
-        self::assertFalse(SouthAfricanIDValidator::luhnIDValidate('8806087993185'));
+        self::assertTrue(
+            SouthAfricanIDValidator::luhnIDValidate('8809260027087'),
+            "Valid ID 8809260027087 should pass validation",
+        );
+        self::assertFalse(
+            SouthAfricanIDValidator::luhnIDValidate('6804045679085'),
+            "Invalid ID 6804045679085 should fail validation",
+        );
+        self::assertFalse(
+            SouthAfricanIDValidator::luhnIDValidate('8806087993185'),
+            "Invalid ID 8806087993185 should fail validation",
+        );
+    }
+
+
+    /**
+     * Tests that ID numbers with non-numeric characters are properly sanitised and validated.
+     *
+     * @throws ExpectationFailedException
+     * @throws Exception
+     */
+    public function testIdNumbersWithNonNumericCharacters(): void
+    {
+        // Valid ID with spaces - should be sanitised and validated
+        self::assertTrue(
+            SouthAfricanIDValidator::luhnIDValidate('8701 1058 0008 5'),
+            "ID with spaces should be sanitised and validated: '8701 1058 0008 5'",
+        );
+
+        // Valid ID with dashes - should be sanitised and validated
+        self::assertTrue(
+            SouthAfricanIDValidator::luhnIDValidate('8701-10-5800-08-5'),
+            "ID with dashes should be sanitised and validated: '8701-10-5800-08-5'",
+        );
+
+        // Valid ID with mixed special characters - should be sanitised and validated
+        self::assertTrue(
+            SouthAfricanIDValidator::luhnIDValidate('8701.10(5800)085'),
+            "ID with mixed special characters should be sanitised: '8701.10(5800)085'",
+        );
+
+        // Invalid ID with letters mixed in - should fail after sanitisation
+        self::assertFalse(
+            SouthAfricanIDValidator::luhnIDValidate('ABC123DEF456'),
+            "ID with letters mixed in should fail: 'ABC123DEF456' (only extracts: 123456)",
+        );
+
+        // All letters - should fail (empty after sanitisation)
+        self::assertFalse(
+            SouthAfricanIDValidator::luhnIDValidate('ABCDEFGHIJKLM'),
+            "ID with only letters should fail: 'ABCDEFGHIJKLM' (no digits to extract)",
+        );
+
+        // Empty string - should fail
+        self::assertFalse(
+            SouthAfricanIDValidator::luhnIDValidate(''),
+            "Empty string should fail validation",
+        );
+
+        // Only special characters - should fail (empty after sanitisation)
+        self::assertFalse(
+            SouthAfricanIDValidator::luhnIDValidate('!@#$%^&*()_+-='),
+            "String with only special characters should fail: '!@#$%^&*()_+-=' (no digits)",
+        );
     }
 
 

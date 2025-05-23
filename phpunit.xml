@@ -8,6 +8,10 @@
          displayDetailsOnTestsThatTriggerErrors="true"
          displayDetailsOnTestsThatTriggerWarnings="true"
          displayDetailsOnTestsThatTriggerNotices="true"
+         failOnRisky="true"
+         failOnWarning="true"
+         failOnIncomplete="true"
+         failOnSkipped="true"
 >
     <testsuites>
         <testsuite name="Unit">
@@ -37,4 +41,10 @@
     <logging>
         <junit outputFile="reports/code-coverage/junit.xml"/>
     </logging>
+    <extensions>
+        <bootstrap class="RobinIngelbrecht\PHPUnitCoverageTools\PhpUnitExtension">
+            <parameter name="exitOnLowCoverage" value="1"/>
+            <parameter name="cleanUpCloverXml" value="1"/>
+        </bootstrap>
+    </extensions>
 </phpunit>

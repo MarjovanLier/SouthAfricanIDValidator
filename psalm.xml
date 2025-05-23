@@ -6,7 +6,12 @@
         xsi:schemaLocation="https://getpsalm.org/schema/config vendor/vimeo/psalm/config.xsd"
         findUnusedBaselineEntry="true"
         findUnusedCode="true"
+        findUnusedVariablesAndParams="true"
         taintAnalysis="true"
+        reportMixedIssues="true"
+        checkForThrowsDocblock="true"
+        checkForThrowsInGlobalScope="true"
+        disableSuppressAll="true"
 >
     <projectFiles>
         <directory name="src"/>
@@ -20,5 +25,10 @@
     </plugins>
     <issueHandlers>
         <MissingParamType errorLevel="error"/>
+        <PossiblyUnusedMethod>
+            <errorLevel type="suppress">
+                <directory name="tests"/>
+            </errorLevel>
+        </PossiblyUnusedMethod>
     </issueHandlers>
 </psalm>

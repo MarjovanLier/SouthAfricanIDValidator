@@ -109,6 +109,12 @@ reports/
 .qodana/
 qodana.yaml
 qodana.sarif.json
+.rector-cache
+build/
+coverage-report/
+coverage.txt
+coverage.xml
+*.log
 
 # IDE and editor files
 .idea/

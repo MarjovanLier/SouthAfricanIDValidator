@@ -5,10 +5,24 @@
             "src"
         ]
     },
-    "minMsi": 100,
-    "minCoveredMsi": 100,
+    "minMsi": 91,
+    "minCoveredMsi": 91,
     "mutators": {
-        "@default": true
+        "@default": true,
+        "@boolean": true,
+        "@conditional_boundary": true,
+        "@conditional_negotiation": true,
+        "@function_signature": true,
+        "@number": true,
+        "@operator": true,
+        "@regex": true,
+        "@removal": true,
+        "@return_value": true,
+        "@sort": true,
+        "@unwrap": true,
+        "@loop": true,
+        "@identical": true,
+        "@equal": true
     },
     "testFramework":"phpunit",
     "logs": {

@@ -161,7 +161,7 @@ return [
     // `PHP53CompatibilityPlugin` may be worth looking into if you are not running
     // syntax checks for php 5.3 through another method such as
     // `InvokePHPNativeSyntaxCheckPlugin` (see .phan/plugins/README.md).
-    'backward_compatibility_checks' => false,
+    'backward_compatibility_checks' => true,
 
     // If true, check to make sure the return type declared
     // in the doc-block (if any) matches the return type
@@ -265,7 +265,7 @@ return [
     // `Issue::SEVERITY_CRITICAL`. Setting it to only
     // critical issues is a good place to start on a big
     // sloppy mature code base.
-    'minimum_severity' => Issue::SEVERITY_CRITICAL,
+    'minimum_severity' => Issue::SEVERITY_LOW,
 
     // Add any issue types (such as `'PhanUndeclaredMethod'`)
     // to this list to inhibit them from being reported.
@@ -285,7 +285,9 @@ return [
     //
     // This is useful for excluding hopelessly unanalyzable
     // files that can't be removed for whatever reason.
-    'exclude_file_list' => [],
+    'exclude_file_list' => [
+        'vendor/rector/rector/stubs-rector/PHPUnit/Framework/TestCase.php',
+    ],
 
     // A directory list that defines files that will be excluded
     // from static analysis, but whose class and method
@@ -306,7 +308,8 @@ return [
 
     // The number of processes to fork off during the analysis
     // phase.
-    'processes' => 4,
+    // Set to 1 for dead code detection
+    'processes' => 1,
 
     // List of case-insensitive file extensions supported by Phan.
     // (e.g. `['php', 'html', 'htm']`)
@@ -346,6 +349,10 @@ return [
         'StrictComparisonPlugin',
         'LoopVariableReusePlugin',
     ],
+    
+    // Additional strictness settings
+    'error_prone_truthy_condition_detection' => true,
+    'analyze_signature_compatibility' => true,
 
     // A list of directories that should be parsed for class and
     // method information. After excluding the directories
@@ -356,6 +363,7 @@ return [
     // your application should be included in this list.
     'directory_list' => [
         'src',
+        'tests',
         'vendor',
     ],
 
