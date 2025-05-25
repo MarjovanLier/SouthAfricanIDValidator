@@ -161,7 +161,7 @@ return [
     // `PHP53CompatibilityPlugin` may be worth looking into if you are not running
     // syntax checks for php 5.3 through another method such as
     // `InvokePHPNativeSyntaxCheckPlugin` (see .phan/plugins/README.md).
-    'backward_compatibility_checks' => true,
+    'backward_compatibility_checks' => false,
 
     // If true, check to make sure the return type declared
     // in the doc-block (if any) matches the return type
