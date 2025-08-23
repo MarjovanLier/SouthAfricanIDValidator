@@ -106,17 +106,8 @@ final class IsValidDateFor1800sOr1900sTest extends TestCase
      */
     private function getPrivateMethod(): ReflectionMethod
     {
-        $reflectionMethod = (new ReflectionClass(SouthAfricanIDValidator::class))->getMethod(
+        return (new ReflectionClass(SouthAfricanIDValidator::class))->getMethod(
             'isValidDateFor1800sOr1900s',
         );
-
-        /**
-         * @noinspection PhpExpressionResultUnusedInspection
-         *
-         * @psalm-suppress UnusedMethodCall
-         */
-        $reflectionMethod->setAccessible(true);
-
-        return $reflectionMethod;
     }
 }

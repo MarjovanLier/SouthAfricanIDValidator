@@ -195,16 +195,7 @@ final class IsValidLuhnChecksumTest extends TestCase
      */
     private function getPrivateMethod(): ReflectionMethod
     {
-        $reflectionMethod = (new ReflectionClass(SouthAfricanIDValidator::class))->getMethod('isValidLuhnChecksum');
-
-        /**
-         * @noinspection PhpExpressionResultUnusedInspection
-         *
-         * @psalm-suppress UnusedMethodCall
-         */
-        $reflectionMethod->setAccessible(true);
-
-        return $reflectionMethod;
+        return (new ReflectionClass(SouthAfricanIDValidator::class))->getMethod('isValidLuhnChecksum');
     }
 
     /**

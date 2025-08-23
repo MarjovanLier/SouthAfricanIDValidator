@@ -106,15 +106,6 @@ final class IsValidDateFor2000sTest extends TestCase
      */
     private function getPrivateMethod(): ReflectionMethod
     {
-        $reflectionMethod = (new ReflectionClass(SouthAfricanIDValidator::class))->getMethod('isValidDateFor2000s');
-
-        /**
-         * @noinspection PhpExpressionResultUnusedInspection
-         *
-         * @psalm-suppress UnusedMethodCall
-         */
-        $reflectionMethod->setAccessible(true);
-
-        return $reflectionMethod;
+        return (new ReflectionClass(SouthAfricanIDValidator::class))->getMethod('isValidDateFor2000s');
     }
 }

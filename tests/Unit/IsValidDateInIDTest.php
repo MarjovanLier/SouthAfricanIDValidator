@@ -34,12 +34,6 @@ final class IsValidDateInIDTest extends TestCase
     {
         $reflectionMethod = (new ReflectionClass(SouthAfricanIDValidator::class))->getMethod('isValidDateInID');
 
-        /**
-         * @noinspection   PhpExpressionResultUnusedInspection
-         * @psalm-suppress UnusedMethodCall
-         */
-        $reflectionMethod->setAccessible(true);
-
         $result = $reflectionMethod->invokeArgs(null, $parameters);
 
         if (!is_bool($result)) {

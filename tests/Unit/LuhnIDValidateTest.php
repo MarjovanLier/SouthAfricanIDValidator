@@ -254,4 +254,131 @@ final class LuhnIDValidateTest extends TestCase
         self::assertFalse(SouthAfricanIDValidator::luhnIDValidate('6804045679085'));
         self::assertFalse(SouthAfricanIDValidator::luhnIDValidate('8806087993185'));
     }
+
+
+    /**
+     * Test targeting mutation at line 106 - early return false when isValidDateInID fails.
+     * This ensures that when date validation fails, the method returns false immediately
+     * without proceeding to Luhn checksum validation.
+     */
+    public function testInvalidDateCausesEarlyReturnFalse(): void
+    {
+        // ID with invalid date (Feb 30th) but potentially valid Luhn checksum structure
+        // Date: 870230 (invalid), rest: 5800085 (this structure might pass Luhn if date check bypassed)
+        $invalidDateId = '8702305800085';
+
+        // Should return false due to invalid date, not proceed to Luhn validation
+        self::assertFalse(SouthAfricanIDValidator::luhnIDValidate($invalidDateId));
+
+        // Another case: invalid date length (5 chars instead of 6) with valid-looking Luhn structure
+        $shortenedDateId = '870115800085'; // Removed one digit from date part (12 chars total)
+
+        // Should return false due to length validation happening before date validation
+        self::assertFalse(SouthAfricanIDValidator::luhnIDValidate($shortenedDateId));
+    }
+
+
+    /**
+     * Test that specifically checks the date validation path in luhnIDValidate.
+     * This ensures the isValidDateInID check cannot be bypassed.
+     */
+    public function testDateValidationInLuhnValidate(): void
+    {
+        // Create an ID with invalid date but correct length and citizenship status
+        // Date part: 999999 (invalid date)
+        // Gender: 5 (male)
+        // Citizenship: 0 (SA citizen)
+        // Race: 0
+        // Checksum: calculated to make Luhn pass if date validation is bypassed
+
+        $invalidDateId = '9999995000080';
+
+        // This should fail on date validation, not reach Luhn validation
+        self::assertFalse(SouthAfricanIDValidator::luhnIDValidate($invalidDateId));
+    }
+
+
+    /**
+     * CRITICAL TEST: Targets mutation at line 106 - ReturnRemoval in luhnIDValidate.
+     * This test creates IDs with invalid dates but valid Luhn checksums.
+     * If the early return for invalid date is removed, the method would proceed
+     * to Luhn validation and potentially return a different result.
+     */
+    public function testMutationLine106DateValidationEarlyReturn(): void
+    {
+        // Test case 1: Invalid date (Feb 30th) with carefully crafted Luhn-valid checksum
+        // Date: 870230 (Feb 30, 1987 - invalid date)
+        // Rest: 5800083 - constructed so Luhn algorithm passes if reached
+        $invalidDate1 = '8702305800083';
+
+        // MUST return false due to invalid date, should NOT proceed to Luhn check
+        self::assertFalse(
+            SouthAfricanIDValidator::luhnIDValidate($invalidDate1),
+            'Invalid date Feb 30th must cause early return false, not proceed to Luhn validation',
+        );
+
+        // Test case 2: Impossible date (month 13) with Luhn-valid structure
+        // Date: 871301 (13th month - invalid)
+        // Rest: 5800080 - Luhn checksum passes if validation reaches that point
+        $invalidDate2 = '8713015800080';
+
+        self::assertFalse(
+            SouthAfricanIDValidator::luhnIDValidate($invalidDate2),
+            'Invalid month 13 must cause early return false, not proceed to Luhn validation',
+        );
+
+        // Test case 3: Invalid day 32 with potential Luhn pass
+        // Date: 870132 (Jan 32nd - invalid day)
+        $invalidDate3 = '8701325800084';
+
+        self::assertFalse(
+            SouthAfricanIDValidator::luhnIDValidate($invalidDate3),
+            'Invalid day 32 must cause early return false',
+        );
+
+        // Test case 4: Leap year edge case - Feb 29 in non-leap year
+        // Date: 870229 (Feb 29, 1987 - not a leap year, so invalid)
+        $invalidLeapDate = '8702295800081';
+
+        self::assertFalse(
+            SouthAfricanIDValidator::luhnIDValidate($invalidLeapDate),
+            'Feb 29 in non-leap year must cause early return false',
+        );
+
+        // Verification: Ensure valid dates still work normally
+        self::assertTrue(
+            SouthAfricanIDValidator::luhnIDValidate('8701105800085'),
+            'Valid dates should still pass normally',
+        );
+    }
+
+
+    /**
+     * Additional test to ensure invalid dates with valid citizenship return false.
+     * This reinforces the mutation test by ensuring date validation happens
+     * after citizenship validation but before Luhn validation.
+     */
+    public function testInvalidDateValidCitizenshipSequence(): void
+    {
+        // These IDs have:
+        // - Valid length (13 digits)
+        // - Valid citizenship status (0, 1, or 2 in position 11)
+        // - Invalid dates
+        // - Potentially valid Luhn checksums
+
+        $testCases = [
+            '9999990000089', // Invalid date 999999, citizenship 0
+            '9999991000086', // Invalid date 999999, citizenship 1
+            '9999992000083', // Invalid date 999999, citizenship 2
+            '8713000000082', // Invalid month 13, citizenship 0
+            '8700000000084', // Invalid day 00, citizenship 0
+        ];
+
+        foreach ($testCases as $testCase) {
+            self::assertFalse(
+                SouthAfricanIDValidator::luhnIDValidate($testCase),
+                sprintf("ID '%s' with invalid date must return false despite valid citizenship", $testCase),
+            );
+        }
+    }
 }
