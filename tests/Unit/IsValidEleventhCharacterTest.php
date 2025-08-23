@@ -58,12 +58,6 @@ final class IsValidEleventhCharacterTest extends TestCase
     {
         $reflectionMethod = (new ReflectionClass($object::class))->getMethod($methodName);
 
-        /**
-         * @noinspection   PhpExpressionResultUnusedInspection
-         * @psalm-suppress UnusedMethodCall
-         */
-        $reflectionMethod->setAccessible(true);
-
         return $reflectionMethod->invokeArgs($object, $parameters);
     }
 
