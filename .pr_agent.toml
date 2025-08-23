@@ -1,3 +1,17 @@
+[config]
+# Auto Approval Settings
+enable_auto_approval = true
+enable_comment_approval = true
+auto_approve_for_low_review_effort = 3
+auto_approve_for_no_suggestions = true
+
+# Language and Output
+language = "en"
+output_relevant_configurations = false
+
+# Filtering Options  
+ignore_ticket_labels = ["skip-review", "wont-fix", "draft"]
+
 [pr_reviewer]
 inline_code_comments = true
 ask_and_reflect = true
@@ -11,8 +25,7 @@ require_all_thresholds_for_incremental_review = false
 minimal_commits_for_incremental_review = 2
 minimal_minutes_for_incremental_review = 10
 enable_help_text = false
-enable_auto_approval = true
-maximal_review_effort = 5
+maximal_review_effort = 4
 
 [pr_code_suggestions]
 num_code_suggestions = 5
@@ -20,6 +33,8 @@ summarize = true
 auto_extended_mode = true
 rank_suggestions = true
 enable_help_text = false
+demand_code_suggestions_self_review = true
+approve_pr_on_self_review = true
 
 [pr_update_changelog]
 push_changelog_changes = false
@@ -34,7 +49,7 @@ pr_commands = [
     "/describe --pr_description.add_original_user_description=true --pr_description.keep_original_user_title=true",
     "/update_changelog --pr_update_changelog.push_changelog_changes=false",
     "/improve --extended --pr_code_suggestions.summarize=true",
-    "/review auto_approve --pr_reviewer.num_code_suggestions=0 --pr_reviewer.inline_code_comments=true",
+    "/review --pr_reviewer.num_code_suggestions=0 --pr_reviewer.inline_code_comments=true",
 ]
 push_commands = [
     "/describe --pr_description.add_original_user_description=true --pr_description.keep_original_user_title=true",
@@ -53,6 +68,6 @@ push_commands = [
        --pr_reviewer.minimal_minutes_for_incremental_review=10 \
        --pr_reviewer.extra_instructions='' \
     """,
-    "/review auto_approve --pr_reviewer.num_code_suggestions=0 --pr_reviewer.inline_code_comments=true"
+    "/review --pr_reviewer.num_code_suggestions=0 --pr_reviewer.inline_code_comments=true"
 ]
 handle_push_trigger = true
