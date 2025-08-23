@@ -1,8 +1,140 @@
+# Whitelist approach - ignore everything except specified files
+# This approach provides better security by denying all files by default
+# and explicitly allowing only essential development files
+
+# ========================================
+# DENY ALL BY DEFAULT
+# ========================================
+*
+
+# ========================================
+# ALLOW DIRECTORY TRAVERSAL (CRITICAL)
+# ========================================
+# Without this pattern, Git cannot traverse subdirectories
+# to check for whitelisted files within them
+!*/
+
+# ========================================
+# CORE APPLICATION FILES  
+# ========================================
+!*.php
+!composer.json
+!LICENSE
+
+# ========================================
+# DOCUMENTATION
+# ========================================
+!README.md
+!CONTRIBUTING.md
+!CHANGELOG.md
+
+# ========================================
+# SOURCE CODE & TESTS
+# ========================================
+!src/
+!src/**
+!tests/
+!tests/**
+
+# ========================================
+# CONFIGURATION FILES
+# ========================================
+!phpunit.xml
+!phpcs.xml
+!phpstan.neon
+!psalm.xml
+!phpmd.xml
+!pint.json
+!rector.php
+!infection.json5
+
+# ========================================
+# CI/CD & GITHUB
+# ========================================
+!.github/
+!.github/**
+!.pre-commit-config.yaml
+!.codacy.yaml
+
+# ========================================
+# DOCKER & INFRASTRUCTURE  
+# ========================================
+!Dockerfile
+!docker-compose.yml
+
+# ========================================
+# DEVELOPMENT SCRIPTS
+# ========================================
+!*.sh
+
+# ========================================
+# NODE.JS CONFIGURATION (if present)
+# ========================================
+!package.json
+!commitlint.config.js
+
+# ========================================
+# ADDITIONAL CONFIGURATIONS
+# ========================================
+!.coderabbit.yaml
+!.dockerignore
+!.pr_agent.toml
+!sweep.yaml
+
+# ========================================  
+# GIT CONFIGURATION
+# ========================================
+!.gitignore
+!.gitattributes
+!.gitmessage
+
+# ========================================
+# EXPLICITLY DENIED ITEMS
+# (These remain ignored even with whitelist)
+# ========================================
+# Dependencies and lock files
+vendor/
+node_modules/
 composer.lock
-vendor
-tests/temp
-.idea
+package-lock.json
+
+# Cache and temporary files
 .phpunit.cache
 .phpunit.result.cache
 .php-cs-fixer.cache
-reports
+*.tmp
+
+# Build artifacts and reports
+reports/
+.qodana/
+qodana.yaml
+qodana.sarif.json
+
+# IDE and editor files
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# AI tooling directories (private)
+.claude/
+.claude-flow/
+.hive-mind/
+.kilocode/
+.roo/
+.qodo/
+
+# Private documentation
+CLAUDE.local.md
+AGENTS.md
+
+# Docker overrides
+.docker/
+docker-compose.override.yml
+
+# Pre-commit cache
+.pre-commit/
+
+# System files
+.DS_Store
+Thumbs.db
