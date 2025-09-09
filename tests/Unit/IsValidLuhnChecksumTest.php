@@ -4,7 +4,10 @@ declare(strict_types=1);
 
 namespace MarjovanLier\SouthAfricanIDValidator\Tests\Unit;
 
+use PHPUnit\Framework\ExpectationFailedException;
+use PHPUnit\Framework\Exception;
 use MarjovanLier\SouthAfricanIDValidator\SouthAfricanIDValidator;
+use PHPUnit\Framework\Attributes\CoversMethod;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use ReflectionClass;
@@ -12,16 +15,13 @@ use ReflectionException;
 use ReflectionMethod;
 
 /**
- * This class tests the Luhn checksum validation method in the SouthAfricanIDValidator class.
- *
- * @internal
- *
- * @covers \MarjovanLier\SouthAfricanIDValidator\SouthAfricanIDValidator::isValidLuhnChecksum
+ * Tests the Luhn checksum validation method in the SouthAfricanIDValidator class.
  */
+#[CoversMethod(SouthAfricanIDValidator::class, 'isValidLuhnChecksum')]
 final class IsValidLuhnChecksumTest extends TestCase
 {
     /**
-     * This method returns an array of valid Luhn numbers for testing.
+     * Provides valid Luhn numbers for testing.
      *
      * @return array<array<string>>
      *
@@ -56,7 +56,7 @@ final class IsValidLuhnChecksumTest extends TestCase
 
 
     /**
-     * This method returns an array of invalid Luhn numbers for testing.
+     * Provides invalid Luhn numbers for testing.
      *
      * @return array<array<string>>
      *
@@ -112,10 +112,12 @@ final class IsValidLuhnChecksumTest extends TestCase
 
 
     /**
-     * This method returns an array of numbers with their expected Luhn validation outcome and a description for
+     * Provides numbers with their expected Luhn validation outcome and a description for
      * testing.
      *
-     * @return array<array{0: string, 1: bool, 2: string}>
+     * @return (bool|string)[][]
+     *
+     * @psalm-return list{list{'1234567812345670', true, 'Valid Luhn number with even digits'}, list{'79927398714', false, 'Classic invalid Luhn number'}, list{'1234567812345678', false, 'Invalid Luhn number with even digits'}, list{'0', true, 'Minimum valid Luhn number'}, list{'18', true, 'Valid Luhn number, testing edge case'}, list{'79927398713', true, 'Testing PlusEqual mutation'}, list{'091', true, 'Testing ExactDoublingToNine mutation'}, list{'123abc', false, 'Non-numeric string expected to fail'}, list{'4561231231234', false, 'Invalid number expected to fail'}}
      */
     public static function provideNumbersWithExpectedOutcome(): array
     {
@@ -173,10 +175,10 @@ final class IsValidLuhnChecksumTest extends TestCase
 
 
     /**
-     * This method tests the Luhn validation method with valid Luhn numbers.
+     * Tests the Luhn validation method with valid Luhn numbers.
      *
-     * @dataProvider provideValidLuhnNumbers
-     *
+     * @throws ExpectationFailedException
+     * @throws Exception
      * @throws ReflectionException
      */
     #[DataProvider('provideValidLuhnNumbers')]
@@ -184,39 +186,51 @@ final class IsValidLuhnChecksumTest extends TestCase
     {
         $result = $this->getPrivateMethod()->invokeArgs(new SouthAfricanIDValidator(), [$number]);
 
-        self::assertTrue($result);
+        self::assertTrue(
+            $result,
+            sprintf("Number '%s' must pass Luhn checksum validation as it is a valid Luhn number", $number),
+        );
     }
 
     /**
-     * This method returns a ReflectionMethod instance of the private method 'isValidLuhnChecksum' in the
+     * Returns a ReflectionMethod instance of the private method 'isValidLuhnChecksum' in the
      * SouthAfricanIDValidator class.
      *
      * @throws ReflectionException
      */
     private function getPrivateMethod(): ReflectionMethod
     {
+        /**
+         * @noinspection PhpExpressionResultUnusedInspection
+         *
+         * @psalm-suppress UnusedMethodCall
+         */
+
         return (new ReflectionClass(SouthAfricanIDValidator::class))->getMethod('isValidLuhnChecksum');
     }
 
     /**
-     * This method tests the Luhn validation method with invalid Luhn numbers.
+     * Tests the Luhn validation method with invalid Luhn numbers.
      *
-     * @dataProvider provideInvalidLuhnNumbers
-     *
+     * @throws ExpectationFailedException
+     * @throws Exception
      * @throws ReflectionException
      */
     #[DataProvider('provideInvalidLuhnNumbers')]
     public function testInvalidLuhnNumbers(string $number): void
     {
         $result = $this->getPrivateMethod()->invokeArgs(new SouthAfricanIDValidator(), [$number]);
-        self::assertFalse($result);
+        self::assertFalse(
+            $result,
+            sprintf("Number '%s' must fail Luhn checksum validation as it is an invalid Luhn number", $number),
+        );
     }
 
     /**
-     * This method tests the Luhn validation method with valid Luhn numbers and checks for integer casting issues.
+     * Tests the Luhn validation method with valid Luhn numbers and verifies integer casting.
      *
-     * @dataProvider provideValidLuhnNumbers
-     *
+     * @throws ExpectationFailedException
+     * @throws Exception
      * @throws ReflectionException
      */
     #[DataProvider('provideValidLuhnNumbers')]
@@ -226,19 +240,21 @@ final class IsValidLuhnChecksumTest extends TestCase
         $result = $this->getPrivateMethod()->invokeArgs(new SouthAfricanIDValidator(), [$number]);
         self::assertTrue(
             $result,
-            sprintf("Number '%s' should be valid. Failure may indicate issues with integer casting.", $number),
+            sprintf("Number '%s' must be valid. Failure may indicate issues with integer casting.", $number),
         );
     }
 
     /**
-     * This method tests the Luhn validation method with a number where not casting to int would fail the Luhn check
+     * Tests the Luhn validation method with a number where not casting to int would fail the Luhn check
      *      due to string concatenation instead of arithmetic addition.
      *
+     * @throws ExpectationFailedException
+     * @throws Exception
      * @throws ReflectionException
      */
     public function testIsValidLuhnChecksumHandlesStringDigitsAsIntegers(): void
     {
-        // Use a number where not casting to int would fail the Luhn check due to string concatenation instead of arithmetic addition.
+        // Utilise a number where not casting to int would fail the Luhn check due to string concatenation instead of arithmetic addition.
         $number = '4111111111111111';
         // A valid Visa credit card number
         $result = $this->getPrivateMethod()->invokeArgs(new SouthAfricanIDValidator(), [$number]);
@@ -246,11 +262,11 @@ final class IsValidLuhnChecksumTest extends TestCase
     }
 
     /**
-     * This method tests the Luhn validation method with a dataset of numbers and their expected Luhn validation
+     * Tests the Luhn validation method with a dataset of numbers and their expected Luhn validation
      *      outcome.
      *
-     * @dataProvider provideNumbersWithExpectedOutcome
-     *
+     * @throws ExpectationFailedException
+     * @throws Exception
      * @throws ReflectionException
      */
     #[DataProvider('provideNumbersWithExpectedOutcome')]

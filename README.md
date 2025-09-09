@@ -25,6 +25,8 @@ applying the Luhn algorithm for checksum digit validation.
 
 ## Badges
 
+[![CI](https://github.com/MarjovanLier/SouthAfricanIDValidator/actions/workflows/ci.yml/badge.svg)](https://github.com/MarjovanLier/SouthAfricanIDValidator/actions/workflows/ci.yml)
+[![OSV-Scanner](https://github.com/MarjovanLier/SouthAfricanIDValidator/actions/workflows/osv-scanner.yml/badge.svg)](https://github.com/MarjovanLier/SouthAfricanIDValidator/actions/workflows/osv-scanner.yml)
 [![Packagist Version](https://img.shields.io/packagist/v/marjovanlier/southafricanidvalidator)](https://packagist.org/packages/marjovanlier/southafricanidvalidator)
 [![Packagist Downloads](https://img.shields.io/packagist/dt/marjovanlier/southafricanidvalidator)](https://packagist.org/packages/marjovanlier/southafricanidvalidator)
 [![Packagist License](https://img.shields.io/packagist/l/marjovanlier/southafricanidvalidator)](https://choosealicense.com/licenses/mit/)
@@ -34,14 +36,21 @@ applying the Luhn algorithm for checksum digit validation.
 [![Phan Enabled](https://img.shields.io/badge/Phan-enabled-brightgreen.svg?style=flat)](https://github.com/phan/phan/)
 [![Psalm Enabled](https://img.shields.io/badge/Psalm-enabled-brightgreen.svg?style=flat)](https://psalm.dev/)
 [![codecov](https://codecov.io/github/MarjovanLier/SouthAfricanIDValidator/graph/badge.svg?token=bwkvkESlLe)](https://codecov.io/github/MarjovanLier/SouthAfricanIDValidator)
-[![Qodana](https://github.com/MarjovanLier/SouthAfricanIDValidator/actions/workflows/qodana_code_quality.yml/badge.svg)](https://github.com/MarjovanLier/SouthAfricanIDValidator/actions/workflows/qodana_code_quality.yml)
 
 ## Features
 
-- Validates the structure and format of South African ID numbers.
-- Checks the validity of the birth date encoded within the ID number.
-- Verifies gender, citizenship status, and race indicator digits.
-- Applies the Luhn algorithm to validate the checksum digit.
+- **Comprehensive Structure Validation**: Validates the complete structure and format of South African ID numbers
+- **Historical Date Support**: Correctly handles dates from the 1800s, 1900s, and 2000s with smart century determination
+- **Birth Date Validation**: 
+  - Validates encoded birth dates with proper calendar checks
+  - Supports historical IDs (the 13-digit system was introduced in 1980-81 for all citizens)
+  - Rejects dates more than 130 years in the past or in the future
+- **Component Verification**:
+  - Gender digit validation (positions 7-10)
+  - Citizenship status validation (position 11: 0, 1, or 2)
+  - Race indicator validation (position 12: must be 0-9)
+- **Luhn Algorithm**: Applies the Luhn algorithm for checksum digit validation
+- **Performance Optimised**: Includes early returns and efficient validation logic
 
 ## System Requirements
 
@@ -51,7 +60,7 @@ applying the Luhn algorithm for checksum digit validation.
 
 ### Getting Started
 
-To begin using the `SouthAfricanIDValidator` in your project, follow these simple steps:
+To begin using the `SouthAfricanIDValidator` in your project, follow these steps:
 
 1. **Install via Composer** - Run the following command to install the package:
 
@@ -59,8 +68,8 @@ To begin using the `SouthAfricanIDValidator` in your project, follow these simpl
    composer require marjovanlier/southafricanidvalidator
    ```
 
-2. **Basic Usage Example** - After installation, you can start validating South African ID numbers with the following
-   code snippet:
+2. **Basic Usage Example** - After installation, South African ID numbers may be validated with the following
+   code:
 
    ```php
    use MarjovanLier\SouthAfricanIDValidator\SouthAfricanIDValidator;
@@ -87,6 +96,56 @@ To integrate the `SouthAfricanIDValidator` into your project, install it via Com
 composer require marjovanlier/southafricanidvalidator
 ```
 
+## South African ID Number Format
+
+A South African ID number is a 13-digit number with the format: **YYMMDDSSSSCAZ**
+
+- **YYMMDD** (positions 1-6): Date of birth
+  - YY can represent years from three centuries (1800s, 1900s, 2000s)
+  - For example, "96" could mean 1896 or 1996, determined by age constraints
+- **SSSS** (positions 7-10): Gender indicator
+  - 0000-4999 for females
+  - 5000-9999 for males
+- **C** (position 11): Citizenship status
+  - 0 = South African citizen
+  - 1 = Permanent resident
+  - 2 = Refugee
+- **A** (position 12): Race indicator (deprecated since late 1980s, but must still be 0-9)
+  - In the 1980s: 0=White, 1=Cape Coloured, 2=Malay, 3=Griqua, 4=Chinese, 5=Indian, 6=Other Asian, 7=Other Coloured
+  - Post-1994: This digit was neutralised and no longer indicates race
+- **Z** (position 13): Checksum digit (calculated using Luhn algorithm)
+
+### Historical Context
+
+The 13-digit ID number system was first introduced with the green bar-coded ID book in **1980**, replacing the older 9-digit system. The system was then legally codified by the Identification Act 72 of 1986.
+
+#### Pre-1980 ID Format (Not supported by this validator)
+The blue "Book of Life" (1972-1979) used a 9-digit number plus a race letter:
+- **Format**: `YY DDD NNNN L` (e.g., `55 603 0142 W`)
+- **YY**: Last two digits of birth year
+- **DDD**: Census district code
+- **NNNN**: Birth registration serial number
+- **L**: Race classification letter:
+  - **W** = White
+  - **C** = Cape Coloured
+  - **M** = Malay
+  - **G** = Griqua
+  - **H** = Chinese
+  - **I** = Indian
+  - **A** = Other Asian
+  - **O** = Other Coloured
+- **No checksum**: The Luhn algorithm was NOT used
+
+Note: Black South Africans were issued separate "Reference Books" with different serial numbers and were not included in the blue Book of Life system.
+
+#### Key Differences
+- The old 9-digit system had **no Luhn checksum validation**
+- Only stored the year of birth, not the full date
+- Included geographic information (census district)
+- Used a letter for race classification instead of a digit
+
+When the 13-digit system was introduced in 1980, it was issued to all citizens including elderly adults, which is why valid IDs can contain birth dates from the 1800s.
+
 ## Usage
 
 To validate a South African ID number, instantiate the `SouthAfricanIDValidator` class and call the `luhnIDValidate`
@@ -108,16 +167,20 @@ if ($result) {
 }
 ```
 
-The `luhnIDValidate` method returns `true` if the ID number is valid, `false` if it's invalid, and `null` if specific
-criteria aren't met (e.g., incorrect citizenship status digit).
+### Return Values
+
+The `luhnIDValidate` method returns:
+- `true`: The ID number is completely valid
+- `false`: The ID has structural issues (wrong length, invalid date, invalid race indicator, or failed checksum)
+- `null`: The citizenship status digit is invalid (not 0, 1, or 2). This special return value is maintained for backward compatibility.
 
 ## Troubleshooting
 
-Encountering issues? Here are solutions to some common problems:
+Should you encounter issues, the following solutions address common problems:
 
 - **Problem:** Difficulty in installing the package via Composer.
-    - **Solution:** Verify your PHP version is at least 8.3 and that Composer is correctly installed on your system. For
-      persistent issues, try clearing Composer's cache with `composer clear-cache` and attempt the installation again.
+    - **Solution:** Ensure your PHP version is at least 8.3 and that Composer is correctly installed on your system. For
+      persistent issues, clear Composer's cache with `composer clear-cache` and attempt the installation again.
 
 - **Problem:** Validation consistently results in `false`.
     - **Solution:** Ensure the ID number being validated conforms to the South African ID standard format of
@@ -128,7 +191,11 @@ Encountering issues? Here are solutions to some common problems:
       character). This digit must be '0', '1', or '2' to represent a South African citizen, a permanent resident, or a
       refugee, respectively.
 
-For additional help or to report a new issue, please visit our GitHub issue tracker.
+- **Problem:** Trying to validate a 9-digit ID from the old "Book of Life" system.
+    - **Solution:** This validator only supports the 13-digit format introduced in 1980. The old 9-digit format
+      (YY DDD NNNN + race letter) did not use Luhn validation and is not supported.
+
+For additional assistance or to report an issue, please refer to the GitHub issue tracker.
 
 ## Testing
 
@@ -149,16 +216,16 @@ We value your contributions to the SouthAfricanIDValidator package! Here's how y
 2. **Contribute Code** - Fork the repo, then create a new branch for your work, adhering to our branching strategy
    guidelines. This keeps things organised and ensures consistency across contributions.
 
-3. **Follow Our Coding Standards** - Write clean, readable code that adheres to our coding standards. This makes it
-   easier for everyone to understand and maintain.
+3. **Follow Our Coding Standards** - Write clean, readable code that adheres to the project coding standards. This ensures
+   consistency and maintainability.
 
-4. **Write or Update Tests** - Help ensure reliability by writing tests for new features or updating existing tests as
-   needed.
+4. **Write or Update Tests** - Ensure reliability by writing tests for new features or updating existing tests where
+   required.
 
-5. **Submit a Pull Request** - Finished making changes? Open a pull request against the main branch with a detailed
-   explanation of what you did and why.
+5. **Submit a Pull Request** - Upon completion of changes, open a pull request against the main branch with a comprehensive
+   explanation of the modifications and their rationale.
 
-Your contributions are crucial to improving the SouthAfricanIDValidator package for everyone!
+Contributions are essential to the continued improvement of the SouthAfricanIDValidator package.
 
 ## License Information
 
@@ -167,6 +234,22 @@ This licence allows you to use, modify, distribute and contribute back to the pa
 projects, but you must include the original copyright and license notice in any copy of the software.
 For full details about your rights and obligations, refer to the [License File](LICENSE).
 
+## Recent Improvements
+
+The validator has been enhanced with the following improvements:
+
+### Enhanced Validation
+- **Historically Accurate**: Now correctly handles IDs from citizens born in the 1800s (based on research showing the 13-digit ID system was introduced in 1980 with the green ID book)
+- **Smart Century Detection**: Automatically determines the correct century (1800s, 1900s, or 2000s) based on age constraints
+- **Age Validation**: Rejects IDs representing ages over 130 years
+- **Future Date Protection**: Rejects IDs with birth dates in the future
+- **Race Indicator Validation**: Now validates that position 12 contains a digit (0-9)
+
+### Code Quality
+- Improved documentation with clear explanations of all return values
+- Performance optimisations with early returns
+- Full backward compatibility maintained
+
 ## Release Notes
 
-Stay updated by checking our [GitHub Releases page](https://github.com/MarjovanLier/SouthAfricanIDValidator/releases).
+Please refer to the [GitHub Releases page](https://github.com/MarjovanLier/SouthAfricanIDValidator/releases) for the latest updates.

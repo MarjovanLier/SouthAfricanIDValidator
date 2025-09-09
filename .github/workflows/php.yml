@@ -73,7 +73,7 @@ jobs:
       - name: Check for vulnerabilities
         id: vulnerabilities-check
         if: steps.composer-install.outcome == 'success'
-        run: composer test:vulnerabilities-check
+        run: composer test:vulnerabilities
 
       # This step runs linting in parallel to speed up the process.
       - name: Run parallel linting
