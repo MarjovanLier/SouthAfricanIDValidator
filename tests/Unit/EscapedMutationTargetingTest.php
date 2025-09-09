@@ -105,7 +105,7 @@ final class EscapedMutationTargetingTest extends TestCase
 
         foreach ($cleanDigitStrings as $cleanDigitString) {
             /** @var string $result */
-            $result = $this->invokePrivateMethod('sanitizeNumber', [$cleanDigitString]);
+            $result = $this->invokePrivateMethod('sanitiseNumber', [$cleanDigitString]);
             self::assertEquals(
                 $cleanDigitString,
                 $result,
@@ -115,7 +115,7 @@ final class EscapedMutationTargetingTest extends TestCase
 
         // Test edge case: empty string (ctype_digit returns false for empty string)
         /** @var string $result */
-        $result = $this->invokePrivateMethod('sanitizeNumber', ['']);
+        $result = $this->invokePrivateMethod('sanitiseNumber', ['']);
         self::assertEquals('', $result, 'Empty string should be handled correctly');
     }
 
@@ -142,7 +142,7 @@ final class EscapedMutationTargetingTest extends TestCase
 
         foreach ($invalidLengthDates as $invalidLengthDate) {
             /** @var bool $result */
-            $result = $this->invokePrivateMethod('isValidDateFor1800sOr1900s', [$invalidLengthDate]);
+            $result = $this->invokePrivateMethod('isValidIDDate', [$invalidLengthDate]);
             self::assertFalse(
                 $result,
                 sprintf("Date '%s' (length %d) should return false due to invalid length", $invalidLengthDate, strlen($invalidLengthDate)),
@@ -151,7 +151,7 @@ final class EscapedMutationTargetingTest extends TestCase
 
         // Verify that valid length dates can return true
         /** @var bool $result */
-        $result = $this->invokePrivateMethod('isValidDateFor1800sOr1900s', ['880101']);
+        $result = $this->invokePrivateMethod('isValidIDDate', ['880101']);
         self::assertTrue($result, 'Valid length date 880101 should work for 1800s validation');
     }
 
@@ -178,7 +178,7 @@ final class EscapedMutationTargetingTest extends TestCase
 
         foreach ($invalidLengthDates as $invalidLengthDate) {
             /** @var bool $result */
-            $result = $this->invokePrivateMethod('isValidDateFor2000s', [$invalidLengthDate]);
+            $result = $this->invokePrivateMethod('isValidIDDate', [$invalidLengthDate]);
             self::assertFalse(
                 $result,
                 sprintf("Date '%s' (length %d) should return false due to invalid length", $invalidLengthDate, strlen($invalidLengthDate)),
@@ -187,7 +187,7 @@ final class EscapedMutationTargetingTest extends TestCase
 
         // Verify that valid length dates can return true
         /** @var bool $result */
-        $result = $this->invokePrivateMethod('isValidDateFor2000s', ['000101']);
+        $result = $this->invokePrivateMethod('isValidIDDate', ['000101']);
         self::assertTrue($result, 'Valid length date 000101 should work for 2000s validation');
     }
 

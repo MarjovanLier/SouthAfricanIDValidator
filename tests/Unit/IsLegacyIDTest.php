@@ -32,15 +32,17 @@ final class IsLegacyIDTest extends TestCase
                     $digit -= 9;
                 }
             }
+
             $sum += $digit;
             $double = !$double;
         }
+
         $checksum = (10 - ($sum % 10)) % 10;
         $idNumber = $baseId . $checksum;
 
         $result = SouthAfricanIDValidator::isLegacyID($idNumber);
 
-        $this->assertTrue($result, "Race indicator {$raceIndicator} should indicate legacy ID");
+        $this->assertTrue($result, sprintf('Race indicator %s should indicate legacy ID', $raceIndicator));
     }
 
     /**
@@ -62,15 +64,17 @@ final class IsLegacyIDTest extends TestCase
                     $digit -= 9;
                 }
             }
+
             $sum += $digit;
             $double = !$double;
         }
+
         $checksum = (10 - ($sum % 10)) % 10;
         $idNumber = $baseId . $checksum;
 
         $result = SouthAfricanIDValidator::isLegacyID($idNumber);
 
-        $this->assertFalse($result, "Race indicator {$raceIndicator} should indicate modern ID");
+        $this->assertFalse($result, sprintf('Race indicator %s should indicate modern ID', $raceIndicator));
     }
 
     /**

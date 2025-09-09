@@ -32,8 +32,8 @@ final class MutationEdgeCaseTest extends TestCase
         // We need to ensure at least one date requires 1800s validation
 
         // Actually test a full ID to ensure the path is exercised
-        $id = '0002290001086'; // Born 1900-02-29 or 2000-02-29
-        $result = SouthAfricanIDValidator::luhnIDValidate($id);
+        $idNumber = '0002290001086'; // Born 1900-02-29 or 2000-02-29
+        $result = SouthAfricanIDValidator::luhnIDValidate($idNumber);
         $this->assertTrue($result, 'ID with ambiguous century should validate');
     }
 
@@ -47,8 +47,8 @@ final class MutationEdgeCaseTest extends TestCase
         // With subtraction, we'd get negative totals
 
         // ID with high digits that would create large negative if subtracted
-        $id = '9909099999081'; // High digits everywhere
-        $result = SouthAfricanIDValidator::luhnIDValidate($id);
+        $idNumber = '9909099999081'; // High digits everywhere
+        $result = SouthAfricanIDValidator::luhnIDValidate($idNumber);
         $this->assertTrue($result, 'High digit ID requires addition not subtraction');
 
         // ID with specific pattern that only works with addition
@@ -79,7 +79,7 @@ final class MutationEdgeCaseTest extends TestCase
             $this->assertSame(
                 $expected,
                 $result,
-                "ID ending in {$digit} should " . ($expected ? 'pass' : 'fail'),
+                sprintf('ID ending in %d should ', $digit) . ($expected ? 'pass' : 'fail'),
             );
         }
     }
@@ -92,8 +92,8 @@ final class MutationEdgeCaseTest extends TestCase
     {
         // Test with ID containing digit '9' which doubles to 18
         // String "1" + "8" = "18" but we need 1 + 8 = 9 after digit reduction
-        $id = '9901019999002'; // Valid date with 9s, citizenship 0
-        $result = SouthAfricanIDValidator::luhnIDValidate($id);
+        $idNumber = '9901019999002'; // Valid date with 9s, citizenship 0
+        $result = SouthAfricanIDValidator::luhnIDValidate($idNumber);
         $this->assertTrue($result, 'Luhn needs integer math for digit reduction');
 
         // Test with zeros - string "0" behaves differently than int 0
@@ -121,8 +121,8 @@ final class MutationEdgeCaseTest extends TestCase
         $this->assertSame('male', $gender2, 'Int 5000 >= 5000 so male');
 
         // Critical: "0999" as string > "5000" but as int 999 < 5000
-        $femaleWithLeadingZero = '8001010999084'; // Sequence "0999"
-        $gender3 = SouthAfricanIDValidator::extractGender($femaleWithLeadingZero);
+        $femaleIdWithZero = '8001010999084'; // Sequence "0999"
+        $gender3 = SouthAfricanIDValidator::extractGender($femaleIdWithZero);
         $this->assertSame('female', $gender3, 'String "0999" > "5000" but int 999 < 5000');
     }
 
@@ -278,7 +278,7 @@ final class MutationEdgeCaseTest extends TestCase
             if ($converted !== null) {
                 $this->assertTrue(
                     SouthAfricanIDValidator::luhnIDValidate($converted),
-                    "Converted ID from race {$race} is valid",
+                    sprintf('Converted ID from race %s is valid', $race),
                 );
             }
         }

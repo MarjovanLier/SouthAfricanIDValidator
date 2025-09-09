@@ -44,22 +44,22 @@ final class KillMutationsTest extends TestCase
             '0001010000089',
         ];
 
-        foreach ($validIds as $id) {
+        foreach ($validIds as $validId) {
             self::assertTrue(
-                SouthAfricanIDValidator::luhnIDValidate($id),
+                SouthAfricanIDValidator::luhnIDValidate($validId),
                 sprintf(
                     'Valid SA ID %s should pass Luhn with addition; subtraction mutation would break it.',
-                    $id,
+                    $validId,
                 ),
             );
         }
 
         // Also assert a minimal Luhn-positive case directly via the private method
         // to make the arithmetic direction unmistakable for the mutator.
-        $reflection = new ReflectionClass(SouthAfricanIDValidator::class);
-        $method = $reflection->getMethod('isValidLuhnChecksum');
+        $reflectionClass = new ReflectionClass(SouthAfricanIDValidator::class);
+        $reflectionMethod = $reflectionClass->getMethod('isValidLuhnChecksum');
         self::assertTrue(
-            $method->invoke(null, '26'),
+            $reflectionMethod->invoke(null, '26'),
             "Minimal Luhn '26' must be valid using addition, not subtraction.",
         );
     }
@@ -97,13 +97,13 @@ final class KillMutationsTest extends TestCase
      */
     public function testIsValidLuhnChecksumTreatsDigitsAsIntegersWithRealId(): void
     {
-        $id = '8001015009087';
+        $idNumber = '8001015009087';
 
-        $reflection = new ReflectionClass(SouthAfricanIDValidator::class);
-        $method = $reflection->getMethod('isValidLuhnChecksum');
+        $reflectionClass = new ReflectionClass(SouthAfricanIDValidator::class);
+        $reflectionMethod = $reflectionClass->getMethod('isValidLuhnChecksum');
 
         self::assertTrue(
-            $method->invoke(null, $id),
+            $reflectionMethod->invoke(null, $idNumber),
             'Digits must be treated as integers in checksum calculation for real IDs.',
         );
     }

@@ -49,9 +49,11 @@ final class ExtractInfoTest extends TestCase
                     $digit -= 9;
                 }
             }
+
             $sum += $digit;
             $double = !$double;
         }
+
         $checksum = (10 - ($sum % 10)) % 10;
         $idNumber = $baseId . $checksum;
 
@@ -110,10 +112,9 @@ final class ExtractInfoTest extends TestCase
 
         $dateComponents = $result['date_components'];
         /** @phpstan-ignore-next-line */
-        if ($dateComponents !== null) {
-            $this->assertArrayHasKey('year', $dateComponents, 'Date components should have year');
-            $this->assertSame('80', $dateComponents['year'], 'Year should be extracted correctly');
-        }
+        $this->assertArrayHasKey('year', $dateComponents, 'Date components should have year');
+        $this->assertSame('80', $dateComponents['year'], 'Year should be extracted correctly');
+
         $this->assertSame('male', $result['gender'], 'Gender should be extracted correctly');
     }
 

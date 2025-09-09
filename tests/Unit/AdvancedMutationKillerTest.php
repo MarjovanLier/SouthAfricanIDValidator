@@ -116,7 +116,7 @@ final class AdvancedMutationKillerTest extends TestCase
     public function testLine168MutationDetectionViaOptimizationBypass(): void
     {
         // Use reflection to access private method
-        $reflectionMethod = new ReflectionMethod(SouthAfricanIDValidator::class, 'sanitizeNumber');
+        $reflectionMethod = new ReflectionMethod(SouthAfricanIDValidator::class, 'sanitiseNumber');
 
         // Strategy 1: Performance-based detection
         // If optimization is bypassed, regex operations on large strings are slower

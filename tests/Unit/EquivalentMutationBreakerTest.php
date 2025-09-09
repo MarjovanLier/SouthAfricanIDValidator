@@ -151,7 +151,7 @@ final class EquivalentMutationBreakerTest extends TestCase
         // This would force all inputs through the preg_replace path
 
         // Strategy 1: Performance detection (may be unreliable in unit tests)
-        $reflectionMethod = new ReflectionMethod(SouthAfricanIDValidator::class, 'sanitizeNumber');
+        $reflectionMethod = new ReflectionMethod(SouthAfricanIDValidator::class, 'sanitiseNumber');
 
         // Test with a very large all-digit string
         $largeDigitString = str_repeat('1234567890', 10000); // 100,000 characters
@@ -225,7 +225,7 @@ final class EquivalentMutationBreakerTest extends TestCase
         );
 
         // Verify sanitizer works for clean input (baseline for Line 168)
-        $reflectionMethod = new ReflectionMethod(SouthAfricanIDValidator::class, 'sanitizeNumber');
+        $reflectionMethod = new ReflectionMethod(SouthAfricanIDValidator::class, 'sanitiseNumber');
         $result = $reflectionMethod->invoke(null, '123456');
         self::assertSame('123456', $result, 'Baseline: Clean digits should remain unchanged');
 

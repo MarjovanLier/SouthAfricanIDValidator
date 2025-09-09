@@ -22,8 +22,8 @@ final class MutationSpecificTest extends TestCase
     {
         // This ID has a specific checksum that only works with addition
         // If += is changed to -=, the checksum calculation will be wrong
-        $id = '8001015009087';
-        $result = SouthAfricanIDValidator::luhnIDValidate($id);
+        $idNumber = '8001015009087';
+        $result = SouthAfricanIDValidator::luhnIDValidate($idNumber);
         $this->assertTrue($result, 'Luhn should work with addition');
 
         // Test another ID to ensure consistency
@@ -63,8 +63,8 @@ final class MutationSpecificTest extends TestCase
     public function testLuhnRequiresIntegerCasting(): void
     {
         // Test with ID containing '0' which when not cast could cause issues
-        $id = '0001010000089'; // Many zeros, with valid checksum
-        $result = SouthAfricanIDValidator::luhnIDValidate($id);
+        $idNumber = '0001010000089'; // Many zeros, with valid checksum
+        $result = SouthAfricanIDValidator::luhnIDValidate($idNumber);
         $this->assertTrue($result, 'Should handle zeros with proper int casting');
 
         // Test with mixed digits
@@ -161,9 +161,10 @@ final class MutationSpecificTest extends TestCase
             if ($invalidId === '8001015009087') {
                 continue; // Skip the valid one
             }
+
             $this->assertFalse(
                 SouthAfricanIDValidator::luhnIDValidate($invalidId),
-                "Checksum ending in {$i} (mod 10 !== 0) should fail",
+                sprintf('Checksum ending in %d (mod 10 !== 0) should fail', $i),
             );
         }
     }

@@ -135,7 +135,7 @@ final class BatchValidateTest extends TestCase
     public function testBatchValidateHandlesMixedTypesInternally(): void
     {
         // Use reflection to bypass type checking and test the actual runtime behavior
-        $method = new ReflectionMethod(SouthAfricanIDValidator::class, 'batchValidate');
+        $reflectionMethod = new ReflectionMethod(SouthAfricanIDValidator::class, 'batchValidate');
 
         // Create an array with mixed types that would be filtered at runtime
         $mixedArray = [
@@ -146,7 +146,7 @@ final class BatchValidateTest extends TestCase
 
         // Invoke with mixed array to test the continue statement
         /** @var array<string, bool|null> $results */
-        $results = $method->invoke(null, $mixedArray);
+        $results = $reflectionMethod->invoke(null, $mixedArray);
 
         // Should only process string values
         $this->assertCount(2, $results, 'Should only process string values');
@@ -169,7 +169,7 @@ final class BatchValidateTest extends TestCase
         $this->assertArrayHasKey('80-01-01 5009-087', $results, 'Should preserve formatted key');
         $this->assertArrayHasKey('8001015009095', $results, 'Should preserve unformatted key');
         $this->assertNotNull($results['80-01-01 5009-087'] ?? null, 'Formatted ID should have result');
-        $this->assertTrue(isset($results['80-01-01 5009-087']) && $results['80-01-01 5009-087'] === true, 'Formatted ID should be valid');
+        $this->assertTrue(isset($results['80-01-01 5009-087']) && $results['80-01-01 5009-087'], 'Formatted ID should be valid');
         $this->assertNotNull($results['8001015009095'] ?? null, 'Unformatted ID should have result');
         $this->assertTrue(isset($results['8001015009095']) && $results['8001015009095'] === true, 'Unformatted ID should be valid');
     }

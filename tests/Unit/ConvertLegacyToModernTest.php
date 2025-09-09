@@ -103,15 +103,15 @@ final class ConvertLegacyToModernTest extends TestCase
 
         $this->assertIsString(
             $result,
-            "convertLegacyToModern should return a string for valid legacy ID with race indicator {$raceIndicator}",
+            'convertLegacyToModern should return a string for valid legacy ID with race indicator ' . $raceIndicator,
         );
         /** @var string $result */
         /** @var non-empty-string $baseId */
         $this->assertStringStartsWith($baseId, $result, 'The first 11 digits should remain unchanged');
-        $this->assertSame('8', $result[11], "Race indicator {$raceIndicator} should be changed to 8");
+        $this->assertSame('8', $result[11], sprintf('Race indicator %s should be changed to 8', $raceIndicator));
         $this->assertTrue(
             SouthAfricanIDValidator::luhnIDValidate($result),
-            "The converted ID with original race indicator {$raceIndicator} should pass Luhn validation",
+            sprintf('The converted ID with original race indicator %s should pass Luhn validation', $raceIndicator),
         );
     }
 
@@ -247,17 +247,18 @@ final class ConvertLegacyToModernTest extends TestCase
 
         $this->assertIsString(
             $result,
-            "convertLegacyToModern should return a string for ID with citizenship {$citizenship}",
+            'convertLegacyToModern should return a string for ID with citizenship ' . $citizenship,
         );
         /** @phpstan-ignore-next-line */
         if (!is_string($result)) {
             $this->fail('Result should be a string');
         }
+
         $this->assertSame($citizenship, $result[10], 'Citizenship digit should remain unchanged');
         $this->assertSame('8', $result[11], 'Race indicator should be changed to 8');
         $this->assertTrue(
             SouthAfricanIDValidator::luhnIDValidate($result),
-            "The converted ID with citizenship {$citizenship} should pass Luhn validation",
+            sprintf('The converted ID with citizenship %s should pass Luhn validation', $citizenship),
         );
     }
 

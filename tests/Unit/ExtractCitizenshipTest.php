@@ -102,7 +102,7 @@ final class ExtractCitizenshipTest extends TestCase
             $this->assertSame(
                 $testCase['expected'],
                 $result,
-                "Citizenship digit {$testCase['digit']} should map to {$testCase['expected']}",
+                sprintf('Citizenship digit %s should map to %s', $testCase['digit'], $testCase['expected']),
             );
         }
     }

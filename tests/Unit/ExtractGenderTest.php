@@ -32,15 +32,17 @@ final class ExtractGenderTest extends TestCase
                     $digit -= 9;
                 }
             }
+
             $sum += $digit;
             $double = !$double;
         }
+
         $checksum = (10 - ($sum % 10)) % 10;
         $idNumber = $baseId . $checksum;
 
         $result = SouthAfricanIDValidator::extractGender($idNumber);
 
-        $this->assertSame('female', $result, "Sequence {$sequenceNumber} should indicate female");
+        $this->assertSame('female', $result, sprintf('Sequence %s should indicate female', $sequenceNumber));
     }
 
     /**
@@ -62,15 +64,17 @@ final class ExtractGenderTest extends TestCase
                     $digit -= 9;
                 }
             }
+
             $sum += $digit;
             $double = !$double;
         }
+
         $checksum = (10 - ($sum % 10)) % 10;
         $idNumber = $baseId . $checksum;
 
         $result = SouthAfricanIDValidator::extractGender($idNumber);
 
-        $this->assertSame('male', $result, "Sequence {$sequenceNumber} should indicate male");
+        $this->assertSame('male', $result, sprintf('Sequence %s should indicate male', $sequenceNumber));
     }
 
     /**
