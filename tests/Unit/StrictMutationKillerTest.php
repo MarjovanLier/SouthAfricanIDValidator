@@ -239,4 +239,3 @@ final class StrictMutationKillerTest extends TestCase
         );
     }
 }
-
