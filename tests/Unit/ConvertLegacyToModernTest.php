@@ -103,7 +103,7 @@ final class ConvertLegacyToModernTest extends TestCase
 
         $this->assertIsString(
             $result,
-            'convertLegacyToModern should return a string for valid legacy ID with race indicator ' . $raceIndicator,
+            sprintf('convertLegacyToModern should return a string for valid legacy ID with race indicator %s', $raceIndicator),
         );
         /** @var string $result */
         /** @var non-empty-string $baseId */
@@ -247,7 +247,7 @@ final class ConvertLegacyToModernTest extends TestCase
 
         $this->assertIsString(
             $result,
-            'convertLegacyToModern should return a string for ID with citizenship ' . $citizenship,
+            sprintf('convertLegacyToModern should return a string for ID with citizenship %s', $citizenship),
         );
         /** @phpstan-ignore-next-line */
         if (!is_string($result)) {
