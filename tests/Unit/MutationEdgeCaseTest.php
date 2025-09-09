@@ -20,7 +20,7 @@ final class MutationEdgeCaseTest extends TestCase
      */
     public function testCenturyArrayRequires1800s(): void
     {
-        // February 30 is never valid, but let's use a real approach
+        // February 30 is never valid, but let us use a real approach
         // The year 00 could be 1800, 1900, or 2000
         // But only 1900 and 2000 have 00 as a leap year issue
 
@@ -212,7 +212,7 @@ final class MutationEdgeCaseTest extends TestCase
         $this->assertFalse($info3['valid'], 'Invalid citizenship has valid=false');
         $this->assertNull($info3['date_components'], 'No date components');
 
-        // Too short - doesn't pass length check
+        // Too short - does not pass length check
         $tooShort = '800101500908';
         $info4 = SouthAfricanIDValidator::extractInfo($tooShort);
         $this->assertFalse($info4['valid'], 'Too short has valid=false');

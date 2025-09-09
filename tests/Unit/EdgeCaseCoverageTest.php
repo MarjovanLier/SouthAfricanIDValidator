@@ -54,7 +54,7 @@ final class EdgeCaseCoverageTest extends TestCase
         $result = $reflectionMethod->invoke(null, 'abcdef');
         self::assertSame('', $result, 'Expected string with no digits to return empty string');
 
-        // Test string that's already all digits (optimization path)
+        // Test string that is already all digits (optimization path)
         /** @var string $result */
         $result = $reflectionMethod->invoke(null, '1234567890');
         self::assertSame('1234567890', $result, 'Expected all-digit string to be returned unchanged');

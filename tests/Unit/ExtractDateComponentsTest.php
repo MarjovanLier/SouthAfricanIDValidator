@@ -79,7 +79,7 @@ final class ExtractDateComponentsTest extends TestCase
     {
         // 01 could be 1901 (not a leap year) or 2001 (not a leap year)
         // But could also be 1801 (not leap) or hypothetically 2101
-        // The validation should check if it's valid in ANY possible century
+        // The validation should check if it is valid in ANY possible century
         $idNumber = '0102295009088'; // Feb 29, 01
 
         $result = SouthAfricanIDValidator::extractDateComponents($idNumber);

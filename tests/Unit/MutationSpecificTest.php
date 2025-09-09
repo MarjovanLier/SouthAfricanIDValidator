@@ -43,7 +43,7 @@ final class MutationSpecificTest extends TestCase
         // None equal exactly 9, but we can test the boundary
 
         // Test conversion with valid legacy IDs
-        // First, let's use a known valid legacy ID
+        // First, let us use a known valid legacy ID
         $legacyId = '8001015009004'; // Valid legacy ID with race indicator 0
         $result = SouthAfricanIDValidator::convertLegacyToModern($legacyId);
         $this->assertIsString($result, 'Should convert valid legacy ID');
@@ -96,7 +96,7 @@ final class MutationSpecificTest extends TestCase
      */
     public function testCenturyArrayNeedsAllThreeCenturies(): void
     {
-        // Test date that's valid in 1800s
+        // Test date that is valid in 1800s
         $result = SouthAfricanIDValidator::isValidIDDate('850101');
         $this->assertTrue($result, 'Date should be valid in at least one century');
 

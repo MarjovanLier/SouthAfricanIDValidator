@@ -22,7 +22,7 @@ final class StrictMutationKillerTest extends TestCase
      */
     public function testDateRequiring1800sCentury(): void
     {
-        // 99-02-30 is never valid in any century (30th February doesn't exist)
+        // 99-02-30 is never valid in any century (30th February does not exist)
         // But we need to ensure the loop actually tests 1800s
 
         // Instead, test that removing '18' would break the validation
@@ -172,7 +172,7 @@ final class StrictMutationKillerTest extends TestCase
         // Test with invalid citizenship (luhnIDValidate returns null)
         $invalidCitizen = '8001015009287'; // Citizenship 2 (refugee)
         $info3 = SouthAfricanIDValidator::extractInfo($invalidCitizen);
-        // Citizenship 2 is actually valid, let's use 3 instead
+        // Citizenship 2 is actually valid, let us use 3 instead
         $invalidCitizen = '8001015009387'; // Citizenship 3 (invalid)
         $info3 = SouthAfricanIDValidator::extractInfo($invalidCitizen);
         $this->assertFalse($info3['valid'], 'Invalid citizenship should have valid=false');

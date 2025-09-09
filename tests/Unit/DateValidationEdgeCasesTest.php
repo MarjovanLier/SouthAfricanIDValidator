@@ -62,7 +62,7 @@ final class DateValidationEdgeCasesTest extends TestCase
         self::assertTrue(SouthAfricanIDValidator::isValidIDDate('200229')); // 2020-02-29 (leap year)
 
         // These would reach 2000s validation but fail length check
-        // (they're not valid 1800s/1900s either)
+        // (they are not valid 1800s/1900s either)
         self::assertFalse(SouthAfricanIDValidator::isValidIDDate(''));
         self::assertFalse(SouthAfricanIDValidator::isValidIDDate('0'));
         self::assertFalse(SouthAfricanIDValidator::isValidIDDate('00'));
@@ -107,8 +107,8 @@ final class DateValidationEdgeCasesTest extends TestCase
 
         // Dates that are invalid in both centuries
         $invalidBothCenturies = [
-            '990230', // Feb 30th doesn't exist in any year
-            '001301', // Month 13 doesn't exist
+            '990230', // Feb 30th does not exist in any year
+            '001301', // Month 13 does not exist
             '000000', // Invalid date
         ];
 
@@ -121,7 +121,7 @@ final class DateValidationEdgeCasesTest extends TestCase
     }
 
     /**
-     * Test that demonstrates the mutation impact by checking method behavior
+     * Test that demonstrates the mutation impact by checking method behaviour
      * when private method length validation is bypassed.
      */
     public function testMutationImpactOnPrivateMethods(): void
@@ -160,7 +160,7 @@ final class DateValidationEdgeCasesTest extends TestCase
 
         // Strategy: Test dates that would trigger the 1800s/1900s path but have wrong lengths
         // These dates should fail the public isValidIDDate length check first (line 138)
-        // But if that's bypassed AND the private method length check (line 249) is bypassed,
+        // But if that is bypassed AND the private method length check (line 249) is bypassed,
         // we need to ensure StringManipulation still behaves correctly
 
         // Test cases that would reach isValidDateFor1800sOr1900s if length checks are bypassed
@@ -192,7 +192,7 @@ final class DateValidationEdgeCasesTest extends TestCase
 
     /**
      * CRITICAL TEST: Targets mutation at line 275 - ReturnRemoval in isValidDateFor2000s.
-     * Tests edge cases where bypassing length validation would cause invalid behavior
+     * Tests edge cases where bypassing length validation would cause invalid behaviour
      * in the 2000s date validation path.
      */
     public function testMutationLine275PrivateMethod2000sLengthValidation(): void

@@ -392,7 +392,7 @@ final class ComprehensiveEdgeCaseTest extends TestCase
             'ID with 14 digits must fail validation as South African IDs require exactly 13 digits',
         );
 
-        // Just right
+        // Correct length
         self::assertTrue(
             SouthAfricanIDValidator::luhnIDValidate('8001015009087'),
             'ID with exactly 13 digits must be recognised as having the correct length',
@@ -448,7 +448,7 @@ final class ComprehensiveEdgeCaseTest extends TestCase
         $futureId = $this->generateValidId($year . $month . $day . '500000');
 
         // Future dates might be interpreted as past dates from another century
-        // So we can't definitively say they should fail
+        // So we cannot definitively say they should fail
         $result = SouthAfricanIDValidator::luhnIDValidate($futureId);
         self::assertIsBool(
             $result,

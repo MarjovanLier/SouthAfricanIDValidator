@@ -13,7 +13,7 @@ use ReflectionMethod;
  * the mutated code would actually behave differently from the original.
  *
  * These tests target the 3 specific escaped mutations that appear to be equivalent
- * but may have subtle behavioral differences under specific conditions.
+ * but may have subtle behavioural differences under specific conditions.
  */
 final class EquivalentMutationBreakerTest extends TestCase
 {
@@ -86,7 +86,7 @@ final class EquivalentMutationBreakerTest extends TestCase
         // This would cause valid 1800s dates to also be checked against 2000s validation
 
         // Strategy: Find dates that are valid as 1800s/1900s but invalid as 2000s
-        // This is tricky because the methods just validate date format, not ranges
+        // This is complex because the methods only validate date format, not ranges
 
         // Key insight: Both validation methods use StringManipulation::isValidDate()
         // The difference is the century prefix: '18' vs '20'
@@ -139,7 +139,7 @@ final class EquivalentMutationBreakerTest extends TestCase
     }
 
     /**
-     * CRITICAL: Test for Line 168 - The sanitizeNumber optimization removal.
+     * CRITICAL: Test for Line 168 - The sanitiseNumber optimisation removal.
      *
      * This is the most challenging mutation because both code paths produce
      * identical results for all inputs. However, we can try to detect performance
@@ -202,15 +202,15 @@ final class EquivalentMutationBreakerTest extends TestCase
                 $allDigitInput,
                 $result,
                 sprintf("All-digit input '%s' MUST be returned unchanged. ", $allDigitInput) .
-                "Any modification suggests unexpected behavior from Line 168 mutation.",
+                "Any modification suggests unexpected behaviour from Line 168 mutation.",
             );
         }
     }
 
     /**
-     * Meta-test: Verify our understanding of the mutations by testing known behaviors.
+     * Meta-test: Verify our understanding of the mutations by testing known behaviours.
      */
-    public function testMutationBehaviorVerification(): void
+    public function testMutationBehaviourVerification(): void
     {
         // Verify that valid 6-character dates work (baseline test)
         self::assertTrue(
@@ -224,12 +224,12 @@ final class EquivalentMutationBreakerTest extends TestCase
             'Baseline: Invalid length should fail',
         );
 
-        // Verify sanitizer works for clean input (baseline for Line 168)
+        // Verify sanitiser works for clean input (baseline for Line 168)
         $reflectionMethod = new ReflectionMethod(SouthAfricanIDValidator::class, 'sanitiseNumber');
         $result = $reflectionMethod->invoke(null, '123456');
         self::assertSame('123456', $result, 'Baseline: Clean digits should remain unchanged');
 
         // If these baseline tests pass but mutations still escape,
-        // the mutations might be truly equivalent (no behavioral difference)
+        // the mutations might be truly equivalent (no behavioural difference)
     }
 }

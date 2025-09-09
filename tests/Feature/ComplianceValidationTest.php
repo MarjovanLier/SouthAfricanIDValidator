@@ -15,7 +15,7 @@ use ReflectionClass;
 final class ComplianceValidationTest extends TestCase
 {
     /**
-     * Test that validator doesn't store or leak personal information
+     * Test that validator does not store or leak personal information
      *
      * @throws ExpectationFailedException
      * @throws \PHPUnit\Framework\Exception
@@ -82,7 +82,7 @@ final class ComplianceValidationTest extends TestCase
                 // Verify the result is a boolean or null, not the ID itself
                 self::assertContains($result, [true, false, null], 'Result must be bool or null');
             } catch (\Exception $e) {
-                // If an exception is thrown, ensure it doesn't contain the ID
+                // If an exception is thrown, ensure it does not contain the ID
                 self::assertStringNotContainsString($invalidId, $e->getMessage(), 'Exception message must not contain the actual ID number to comply with GDPR');
                 self::assertStringNotContainsString($invalidId, $e->getTraceAsString(), 'Exception trace must not contain the actual ID number to prevent PII exposure');
             }
@@ -147,7 +147,7 @@ final class ComplianceValidationTest extends TestCase
     {
         $validId = '8001015009087';
 
-        // The validator should only process what's necessary
+        // The validator should only process what is necessary
         // It should not extract or expose individual components unnecessarily
         $result = SouthAfricanIDValidator::luhnIDValidate($validId);
 
@@ -211,7 +211,7 @@ final class ComplianceValidationTest extends TestCase
             }
         }
 
-        // The validator has static constants but shouldn't have mutable static state
+        // The validator has static constants but should not have mutable static state
         self::assertGreaterThanOrEqual(0, $staticProps, "Validator can have static constants");
     }
 
@@ -291,7 +291,7 @@ final class ComplianceValidationTest extends TestCase
 
         self::assertTrue($result, 'Validator must successfully validate ID whilst adhering to purpose limitation principle');
 
-        // Ensure the validator doesn't expose methods that could be misused
+        // Ensure the validator does not expose methods that could be misused
         $reflectionClass = new ReflectionClass(SouthAfricanIDValidator::class);
 
         $suspiciousMethods = [

@@ -97,7 +97,7 @@ final class AccessibilityValidationTest extends TestCase
             'eight hundred and one zero one five thousand and nine zero eight seven',
         ];
 
-        // These should all fail as they're not numeric
+        // These should all fail as they are not numeric
         foreach ($voicePatterns as $voicePattern) {
             $result = SouthAfricanIDValidator::luhnIDValidate($voicePattern);
             self::assertFalse($result, 'Should not validate voice pattern: ' . $voicePattern);
@@ -131,7 +131,7 @@ final class AccessibilityValidationTest extends TestCase
      */
     public function testHighContrastModeInput(): void
     {
-        // High contrast mode shouldn't affect validation
+        // High contrast mode should not affect validation
         // but users might make more input errors
 
         $highContrastErrors = [

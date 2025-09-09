@@ -96,7 +96,7 @@ final class MoreCitizenshipTest extends TestCase
      */
     public function testCitizenshipBoundaryPositions(): void
     {
-        // Test with too short ID (citizenship position doesn't exist)
+        // Test with too short ID (citizenship position does not exist)
         $shortId = '870110580';
         self::assertFalse(
             SouthAfricanIDValidator::luhnIDValidate($shortId),

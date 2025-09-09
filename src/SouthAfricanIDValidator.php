@@ -93,7 +93,7 @@ final class SouthAfricanIDValidator
      * - null: Invalid citizenship digit (not 0, 1, or 2). This special case is
      *         maintained for backward compatibility.
      *
-     * Note: The null return for invalid citizenship is a legacy behavior. Consider
+     * Note: The null return for invalid citizenship is a legacy behaviour. Consider
      * it as a specific type of validation failure rather than an absence of result.
      *
      * @param string $number The South African ID number to validate (may contain formatting).
@@ -106,23 +106,23 @@ final class SouthAfricanIDValidator
         // Remove all non-numeric characters from the input
         $number = self::sanitiseNumber($number);
 
-        // If the sanitised number isn't exactly 13 characters long, return false
+        // If the sanitised number is not exactly 13 characters long, return false
         if (\strlen($number) !== 13) {
             return false;
         }
 
-        // If the eleventh character doesn't comply with citizenship rules, return null
+        // If the eleventh character does not comply with citizenship rules, return null
         if (!self::isValidCitizenshipDigit($number)) {
             return null;
         }
 
-        // If the date part isn't valid, return false
+        // If the date part is not valid, return false
         if (!self::isValidDateInID($number)) {
             return false;
         }
 
         // Check the entire number against the Luhn algorithm and return the result
-        // Note: Race indicator validation is not needed since we already know it's a digit
+        // Note: Race indicator validation is not needed since we already know it is a digit
         return self::isValidLuhnChecksum($number);
     }
 
@@ -151,7 +151,7 @@ final class SouthAfricanIDValidator
      */
     public static function isValidIDDate(string $date): bool
     {
-        // If the date string isn't 6 characters long, return false
+        // If the date string is not 6 characters long, return false
         if (\strlen($date) !== 6) {
             return false;
         }
@@ -217,7 +217,7 @@ final class SouthAfricanIDValidator
      */
     private static function isValidCitizenshipDigit(string $number): bool
     {
-        // Extract the eleventh character and check if it's a valid citizenship status
+        // Extract the eleventh character and check if it is a valid citizenship status
         $eleventhCharacter = $number[10];
 
         // Return the result of the check
@@ -331,7 +331,7 @@ final class SouthAfricanIDValidator
             return null;
         }
 
-        // Check if it's actually a legacy ID (race indicator 0-7)
+        // Check if it is a legacy ID (race indicator 0-7)
         $raceDigit = $legacyId[11];
         if (!\in_array($raceDigit, ['0', '1', '2', '3', '4', '5', '6', '7'], true)) {
             // Already modern format (8 or 9)

@@ -16,7 +16,7 @@ use ReflectionClass;
  * 1. Line 106: luhnIDValidate early return false when isValidDateInID fails
  * 2. Line 138: isValidIDDate early return false for wrong string length
  * 3. Line 143: isValidIDDate early return true for valid 1800s/1900s dates
- * 4. Line 168: sanitizeNumber early return for clean digits
+ * 4. Line 168: sanitiseNumber early return for clean digits
  * 5. Line 249: isValidDateFor1800sOr1900s early return false for wrong length
  * 6. Line 275: isValidDateFor2000s early return false for wrong length
  *
@@ -24,7 +24,7 @@ use ReflectionClass;
  *
  * @covers \MarjovanLier\SouthAfricanIDValidator\SouthAfricanIDValidator::luhnIDValidate
  * @covers \MarjovanLier\SouthAfricanIDValidator\SouthAfricanIDValidator::isValidIDDate
- * @covers \MarjovanLier\SouthAfricanIDValidator\SouthAfricanIDValidator::sanitizeNumber
+ * @covers \MarjovanLier\SouthAfricanIDValidator\SouthAfricanIDValidator::sanitiseNumber
  * @covers \MarjovanLier\SouthAfricanIDValidator\SouthAfricanIDValidator::isValidDateFor1800sOr1900s
  * @covers \MarjovanLier\SouthAfricanIDValidator\SouthAfricanIDValidator::isValidDateFor2000s
  */
@@ -87,7 +87,7 @@ final class EscapedMutationTargetingTest extends TestCase
     }
 
     /**
-     * Test targeting mutation at line 168 - early return for clean digits in sanitizeNumber.
+     * Test targeting mutation at line 168 - early return for clean digits in sanitiseNumber.
      *
      * This test ensures that the early return path for already-clean numbers is properly tested.
      * While both paths should produce the same result, this test verifies the early return
@@ -237,7 +237,7 @@ final class EscapedMutationTargetingTest extends TestCase
     private function calculateLuhnChecksum(string $number): string
     {
         $total = 0;
-        $double = true; // Start with doubling since we're calculating the check digit
+        $double = true; // Start with doubling since we are calculating the check digit
 
         // Process from right to left (excluding the check digit position)
         for ($i = strlen($number) - 1; $i >= 0; --$i) {

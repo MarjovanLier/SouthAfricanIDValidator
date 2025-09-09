@@ -130,11 +130,11 @@ final class BatchValidateTest extends TestCase
 
     /**
      * Tests that batchValidate handles mixed types internally.
-     * This test uses reflection to test the internal behavior without PHPStan issues.
+     * This test uses reflection to test the internal behaviour without PHPStan issues.
      */
     public function testBatchValidateHandlesMixedTypesInternally(): void
     {
-        // Use reflection to bypass type checking and test the actual runtime behavior
+        // Use reflection to bypass type checking and test the actual runtime behaviour
         $reflectionMethod = new ReflectionMethod(SouthAfricanIDValidator::class, 'batchValidate');
 
         // Create an array with mixed types that would be filtered at runtime

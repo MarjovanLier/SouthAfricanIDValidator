@@ -86,7 +86,7 @@ final class SecurityValidationTest extends TestCase
             self::assertTrue($result, 'Valid ID with XSS should be sanitised: ' . $attempt);
         }
 
-        // This pattern doesn't work due to quotes breaking extraction
+        // This pattern does not work due to quotes breaking extraction
         $brokenPattern = '8001015009087<img src=x onerror=alert(1)>';
         $result = SouthAfricanIDValidator::luhnIDValidate($brokenPattern);
         // The HTML tags prevent proper extraction
@@ -213,7 +213,7 @@ final class SecurityValidationTest extends TestCase
 
             $invalidTime = microtime(true) - $invalidStart;
 
-            // Skip very fast failures (like too short) as they're expected to be much faster
+            // Skip very fast failures (like too short) as they are expected to be much faster
             if ($invalidTime < 0.0001) {
                 continue;
             }
@@ -260,7 +260,7 @@ final class SecurityValidationTest extends TestCase
      */
     public function testSafeErrorHandling(): void
     {
-        // Test that validator doesn't expose sensitive information
+        // Test that validator does not expose sensitive information
         $testCases = [
             '', // Empty string
             'null', // String literal
@@ -320,7 +320,7 @@ final class SecurityValidationTest extends TestCase
         $result = SouthAfricanIDValidator::luhnIDValidate($extractablePattern);
         self::assertTrue($result, 'Should extract valid ID from broken pattern: ' . $extractablePattern);
 
-        // Pattern that truly can't yield valid ID
+        // Pattern that truly cannot yield valid ID
         $invalidPattern = 'abcdefghijklm'; // No valid digits
         $result = SouthAfricanIDValidator::luhnIDValidate($invalidPattern);
         self::assertFalse($result, 'Should not validate pattern without digits: ' . $invalidPattern);

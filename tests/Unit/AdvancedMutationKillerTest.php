@@ -13,17 +13,17 @@ use ReflectionMethod;
  * Uses sophisticated testing techniques to detect when early returns are bypassed.
  *
  * @covers \MarjovanLier\SouthAfricanIDValidator\SouthAfricanIDValidator::isValidIDDate
- * @covers \MarjovanLier\SouthAfricanIDValidator\SouthAfricanIDValidator::sanitizeNumber
+ * @covers \MarjovanLier\SouthAfricanIDValidator\SouthAfricanIDValidator::sanitiseNumber
  */
 final class AdvancedMutationKillerTest extends TestCase
 {
     /**
      * CRITICAL TEST: Detects Line 138 mutation by using specific inputs that would
-     * cause different behavior if length validation is bypassed.
+     * cause different behaviour if length validation is bypassed.
      */
     public function testLine138MutationDetectionViaLengthBypass(): void
     {
-        // Strategy: Test inputs that would cause errors or unexpected behavior
+        // Strategy: Test inputs that would cause errors or unexpected behaviour
         // if passed to the private methods without length validation
 
         // These short inputs would cause substr() issues or unexpected results
@@ -111,7 +111,7 @@ final class AdvancedMutationKillerTest extends TestCase
     }
 
     /**
-     * CRITICAL TEST: Detects Line 168 mutation through performance and behavior analysis.
+     * CRITICAL TEST: Detects Line 168 mutation through performance and behaviour analysis.
      */
     public function testLine168MutationDetectionViaOptimizationBypass(): void
     {
@@ -131,7 +131,7 @@ final class AdvancedMutationKillerTest extends TestCase
             $endTime = microtime(true);
             $executionTime = $endTime - $startTime;
 
-            // The optimized path should be very fast
+            // The optimised path should be very fast
             self::assertLessThan(
                 0.05, // 50ms threshold
                 $executionTime,
@@ -146,7 +146,7 @@ final class AdvancedMutationKillerTest extends TestCase
             );
         }
 
-        // Strategy 2: Behavioral consistency check
+        // Strategy 2: Behavioural consistency check
         // Both paths should produce identical results, but test extensively
         $consistencyTestCases = [
             '0',
@@ -211,7 +211,7 @@ final class AdvancedMutationKillerTest extends TestCase
             'Integration: 1800s early return must work (Line 143)',
         );
 
-        // Line 168 test: sanitizer optimization (indirect through full ID validation)
+        // Line 168 test: sanitiser optimisation (indirect through full ID validation)
         self::assertNotNull(
             SouthAfricanIDValidator::luhnIDValidate('8701105800085'),
             'Integration: Sanitizer optimization should work in full validation context (Line 168)',

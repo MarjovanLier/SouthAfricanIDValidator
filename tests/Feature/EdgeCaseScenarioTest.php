@@ -226,7 +226,7 @@ final class EdgeCaseScenarioTest extends TestCase
     public function testSpecialCitizenshipCases(): void
     {
         // Test boundary between citizenship values
-        // We can't generate valid IDs with different citizenship values
+        // We cannot generate valid IDs with different citizenship values
         // without proper checksum, so we test the concept
 
         $knownCitizenId = '8701105800085'; // Citizenship = 0

@@ -116,7 +116,7 @@ final class DateConcatenationMutationTest extends TestCase
         // 1896 is a leap year (divisible by 4)
         // 1996 is a leap year
         // 2096 is a leap year
-        // So this won't work. Let me try another approach.
+        // So this will not work. Let me try another approach.
 
         // Actually, all three centuries would have the same calendar dates
         // The mutation test is about the concatenation itself, not finding unique dates

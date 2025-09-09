@@ -113,7 +113,7 @@ final class Y2KBoundaryTest extends TestCase
      */
     public function testY2KTransitionPeriod(): void
     {
-        // Document behavior for years around 2000
+        // Document behaviour for years around 2000
         // Years 95-05 could be particularly ambiguous
 
         // We can only test with valid IDs we have

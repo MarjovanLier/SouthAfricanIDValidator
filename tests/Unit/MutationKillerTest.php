@@ -31,7 +31,7 @@ final class MutationKillerTest extends TestCase
     /**
      * Tests that strlen !== 13 cannot be mutated to strlen != 13.
      *
-     * This test ensures that we're using strict comparison for length validation.
+     * This test ensures that we are using strict comparison for length validation.
      * The mutation from !== to != would allow "13.0" or similar values.
      *
      * @throws ExpectationFailedException
@@ -122,8 +122,8 @@ final class MutationKillerTest extends TestCase
         $reflectionClass = new ReflectionClass(SouthAfricanIDValidator::class);
         $reflectionMethod = $reflectionClass->getMethod('isValidIDDate');
 
-        // Test a date that's only valid in 18xx
-        // 991231 is valid in all centuries, so let's use a better example
+        // Test a date that is only valid in 18xx
+        // 991231 is valid in all centuries, so let us use a better example
         // 990229 would be invalid as 1999-02-29 (not leap) and 2099-02-29 (not leap)
         // But invalid as 1899-02-29 (not leap) too, so we need a different approach
 
@@ -138,7 +138,7 @@ final class MutationKillerTest extends TestCase
         );
 
         // The key is that if '18' is removed, StringManipulation::isValidDate('850315', 'Ymd')
-        // would be called, which should fail because it's not 8 digits
+        // would be called, which should fail because it is not 8 digits
     }
 
     /**
@@ -152,7 +152,7 @@ final class MutationKillerTest extends TestCase
         $reflectionClass = new ReflectionClass(SouthAfricanIDValidator::class);
         $reflectionMethod = $reflectionClass->getMethod('isValidIDDate');
 
-        // Test a date that's only valid in 19xx
+        // Test a date that is only valid in 19xx
         // 800229 is valid as 1980-02-29 (leap year)
         // But invalid as 1880-02-29 (not leap) or 2080-02-29 (not leap)
         $result = $reflectionMethod->invoke(null, '800229');
@@ -185,7 +185,7 @@ final class MutationKillerTest extends TestCase
         );
 
         // 040229 is valid only as 2004-02-29 (leap year)
-        // Invalid as 1804-02-29 (not leap) or 1904-02-29 (leap but let's double check)
+        // Invalid as 1804-02-29 (not leap) or 1904-02-29 (leap but let us double check)
         /** @var bool $result */
         $result = $reflectionMethod->invoke(null, '040229');
         self::assertTrue(
@@ -216,7 +216,7 @@ final class MutationKillerTest extends TestCase
         $reflectionMethod = $reflectionClass->getMethod('isValidLuhnChecksum');
 
         // The key is to test numbers where the checksum calculation results in exactly 0
-        // vs numbers where it doesn't, to ensure === 0 vs == 0 distinction
+        // vs numbers where it does not, to ensure === 0 vs == 0 distinction
 
         // Valid Luhn that results in total % 10 === 0
         $validLuhn = '8801235111088';

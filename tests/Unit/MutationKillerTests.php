@@ -10,7 +10,7 @@ use ReflectionMethod;
 
 /**
  * Dedicated tests to kill specific mutations that are escaping.
- * These tests are designed to fail if early returns are removed, proving they're necessary.
+ * These tests are designed to fail if early returns are removed, proving they are necessary.
  */
 final class MutationKillerTests extends TestCase
 {
@@ -18,7 +18,7 @@ final class MutationKillerTests extends TestCase
      * Test to kill Line 138 mutation - length validation early return in isValidIDDate().
      *
      * Since we removed length checks from private methods, invalid lengths would now
-     * cause different behavior if this early return is bypassed.
+     * cause different behaviour if this early return is bypassed.
      */
     public function testLine138LengthValidationMutationKiller(): void
     {
@@ -117,16 +117,16 @@ final class MutationKillerTests extends TestCase
     }
 
     /**
-     * Test to kill Line 168 mutation - early return optimization in sanitizeNumber().
+     * Test to kill Line 168 mutation - early return optimisation in sanitiseNumber().
      *
      * This is challenging because both paths produce identical results for digit strings.
      * Strategy: Create comprehensive tests that would expose performance degradation
-     * or behavioral differences if the optimization is removed.
+     * or behavioural differences if the optimisation is removed.
      */
     public function testLine168SanitizerOptimizationMutationKiller(): void
     {
         // Use reflection to access private method
-        $reflectionMethod = new ReflectionMethod(SouthAfricanIDValidator::class, 'sanitizeNumber');
+        $reflectionMethod = new ReflectionMethod(SouthAfricanIDValidator::class, 'sanitiseNumber');
 
         // Strategy 1: Test massive all-digit strings where performance optimization matters
         $perfCases = [
@@ -234,11 +234,11 @@ final class MutationKillerTests extends TestCase
             '1800s early return optimization must work correctly',
         );
 
-        // Test the sanitizer in context of full ID validation
+        // Test the sanitiser in context of full ID validation
         // This indirectly tests the Line 168 mutation
         self::assertTrue(
             SouthAfricanIDValidator::luhnIDValidate('8701105800085'),
-            'Full ID validation should work with sanitizer optimization',
+            'Full ID validation should work with sanitiser optimisation',
         );
     }
 }
