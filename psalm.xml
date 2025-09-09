@@ -15,8 +15,8 @@
 >
     <projectFiles>
         <directory name="src"/>
-        <directory name="tests"/>
         <ignoreFiles>
+            <directory name="tests"/>
             <directory name="vendor"/>
         </ignoreFiles>
     </projectFiles>
@@ -25,10 +25,10 @@
     </plugins>
     <issueHandlers>
         <MissingParamType errorLevel="error"/>
-        <PossiblyUnusedMethod>
+        <UnusedClass>
             <errorLevel type="suppress">
-                <directory name="tests"/>
+                <referencedClass name="MarjovanLier\SouthAfricanIDValidator\SouthAfricanIDValidator"/>
             </errorLevel>
-        </PossiblyUnusedMethod>
+        </UnusedClass>
     </issueHandlers>
 </psalm>

@@ -115,7 +115,9 @@ final class IsValidLuhnChecksumTest extends TestCase
      * Provides numbers with their expected Luhn validation outcome and a description for
      * testing.
      *
-     * @return array<array{0: string, 1: bool, 2: string}>
+     * @return (bool|string)[][]
+     *
+     * @psalm-return list{list{'1234567812345670', true, 'Valid Luhn number with even digits'}, list{'79927398714', false, 'Classic invalid Luhn number'}, list{'1234567812345678', false, 'Invalid Luhn number with even digits'}, list{'0', true, 'Minimum valid Luhn number'}, list{'18', true, 'Valid Luhn number, testing edge case'}, list{'79927398713', true, 'Testing PlusEqual mutation'}, list{'091', true, 'Testing ExactDoublingToNine mutation'}, list{'123abc', false, 'Non-numeric string expected to fail'}, list{'4561231231234', false, 'Invalid number expected to fail'}}
      */
     public static function provideNumbersWithExpectedOutcome(): array
     {

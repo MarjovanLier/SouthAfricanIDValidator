@@ -20,7 +20,9 @@ final class InvalidDateTest extends TestCase
     /**
      * Provides ID numbers with invalid date combinations.
      *
-     * @return array<array<string>>
+     * @return string[][]
+     *
+     * @psalm-return array{'month 00': list{'8700015800085'}, 'month 13': list{'8713015800085'}, 'month 20': list{'8720015800085'}, 'month 99': list{'8799015800085'}, 'day 00': list{'8701005800085'}, 'day 32': list{'8701325800085'}, 'day 40': list{'8701405800085'}, 'day 99': list{'8701995800085'}, 'April 31': list{'8704315800085'}, 'June 31': list{'8706315800085'}, 'September 31': list{'8709315800085'}, 'November 31': list{'8711315800085'}, 'February 30': list{'8702305800085'}, 'February 31': list{'8702315800085'}}
      */
     public static function provideInvalidDateNumbers(): array
     {

@@ -20,7 +20,9 @@ final class MoreCitizenshipTest extends TestCase
     /**
      * Provides ID numbers with various invalid citizenship values.
      *
-     * @return array<array<string>>
+     * @return string[][]
+     *
+     * @psalm-return array{'citizenship 3': list{'8701105003085'}, 'citizenship 4': list{'8701105004085'}, 'citizenship 5': list{'8701105005085'}, 'citizenship 6': list{'8701105006085'}, 'citizenship 7': list{'8701105007085'}, 'citizenship 8': list{'8701105008085'}, 'citizenship 9': list{'8701105009085'}, 'citizenship A': list{'870110500A085'}, 'citizenship X': list{'870110500X085'}, 'citizenship space': list{'870110500 085'}, 'citizenship -': list{'870110500-085'}}
      */
     public static function provideInvalidCitizenshipNumbers(): array
     {

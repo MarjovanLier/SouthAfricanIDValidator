@@ -62,6 +62,7 @@ final class ComprehensiveEdgeCaseTest extends TestCase
 
     /**
      * Helper method to generate a valid ID with correct Luhn checksum
+     *
      * @throws \InvalidArgumentException
      */
     private function generateValidId(string $prefix): string

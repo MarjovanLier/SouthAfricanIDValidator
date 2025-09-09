@@ -17,7 +17,9 @@ final class HistoricalDateValidationTest extends TestCase
     /**
      * Provides test cases for historical date validation.
      *
-     * @return array<array{0: string, 1: bool, 2: string}>
+     * @return (bool|string)[][]
+     *
+     * @psalm-return list{list{'960314', true, '1896-03-14 should be valid (90-year-old in 1986)'}, list{'950515', true, '1895-05-15 should be valid if within 130 years'}, list{'940101', true, '1894-01-01 should be valid if within 130 years'}, list{string, true, 'Exactly 130 years ago should be valid'}, list{'920101', bool, '1892-01-01 validity depends on current year'}, list{'900101', bool, '1890-01-01 validity depends on current year'}, list{'990101', bool, '2099-01-01 should be invalid as future date'}, list{'000000', false, 'Month and day cannot be 0'}, list{'001301', false, 'Invalid month (13)'}, list{'000231', false, 'Invalid day for February'}, list{'000101', true, '2000-01-01 should be valid'}, list{'010101', true, '2001-01-01 should be valid'}, list{'240101', true, '2024-01-01 should be valid'}, list{'000229', true, '2000-02-29 is valid (leap year)'}, list{'960229', true, '1896-02-29 is valid (leap year)'}, list{'010229', false, '2001-02-29 is invalid (not a leap year)'}, list{'970229', false, '1897-02-29 is invalid (not a leap year)'}}
      */
     public static function provideHistoricalDates(): array
     {

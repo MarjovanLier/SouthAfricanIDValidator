@@ -285,4 +285,294 @@ final class SouthAfricanIDValidator
 
         return ($total % 10) === 0;
     }
+
+
+    /**
+     * Converts a legacy South African ID to modern format.
+     *
+     * Changes the race indicator (position 12) from legacy values (0-7) to a
+     * modern indicator (8 or 9) and recalculates the checksum.
+     *
+     * Historical context:
+     * The Identification Act of 1986 initiated the removal of racial criteria
+     * from identity numbers, signalling a move away from the apartheid system.
+     * Following this legislative change, old ID numbers were reissued, and all
+     * new numbers were generated without racial identifiers.
+     *
+     * Legacy race indicators (0-7) were used during the apartheid era:
+     * - 0: White
+     * - 1: Cape Coloured
+     * - 2: Malay
+     * - 3: Griqua
+     * - 4: Chinese
+     * - 5: Indian
+     * - 6: Other Asian
+     * - 7: Other Coloured
+     *
+     * Modern indicators (8-9) are used post-apartheid:
+     * - 8: Generic category (standard modern format, default)
+     * - 9: Alternative indicator (used administratively to prevent duplicates)
+     *
+     * @param string $legacyId         The legacy SA ID number to convert.
+     * @param int    $modernIndicator  The modern race indicator to use (8 or 9, defaults to 8).
+     *
+     * @return string|null The modernised ID with the specified race indicator, or null if input is invalid.
+     */
+    public static function convertLegacyToModern(string $legacyId, int $modernIndicator = 8): ?string
+    {
+        // Validate modern indicator parameter
+        if (!\in_array($modernIndicator, [8, 9], true)) {
+            return null;
+        }
+
+        // Validate the input ID
+        $validationResult = self::luhnIDValidate($legacyId);
+        if ($validationResult !== true) {
+            return null;
+        }
+
+        // Check if it's actually a legacy ID (race indicator 0-7)
+        $raceDigit = $legacyId[11];
+        if (!\in_array($raceDigit, ['0', '1', '2', '3', '4', '5', '6', '7'], true)) {
+            // Already modern format (8 or 9)
+            return $legacyId;
+        }
+
+        // Replace race indicator with the specified modern indicator
+        $modernId = \substr($legacyId, 0, 11) . (string) $modernIndicator;
+
+        // Recalculate checksum using optimised Luhn algorithm
+        $sum = 0;
+        $double = true; // Start with doubling for the 12th digit (position 11) from right
+
+        // Process digits in reverse, doubling every second digit
+        for ($i = 11; $i >= 0; --$i) {
+            $digit = (int) $modernId[$i];
+
+            if ($double) {
+                $digit <<= 1; // Bit shift is faster than multiplication
+                if ($digit > 9) {
+                    $digit -= 9;
+                }
+            }
+
+            $sum += $digit;
+            $double = !$double; // Toggle doubling for next digit
+        }
+
+        $checksum = (10 - ($sum % 10)) % 10;
+
+        return $modernId . (string) $checksum;
+    }
+
+
+    /**
+     * Extracts comprehensive information from a South African ID number.
+     *
+     * Returns an array containing all extractable components from the ID.
+     * Note: The century cannot be definitively determined from the ID alone
+     * as it only contains a 2-digit year.
+     *
+     * @param string $idNumber The South African ID number to analyse.
+     *
+     * @return (bool|null|string|string[])[]
+     *
+     * @psalm-return array{valid: bool, date_components: array{year: string, month: string, day: string}|null, gender: null|string, citizenship: null|string, is_legacy: bool, race_indicator: null|string}
+     */
+    public static function extractInfo(string $idNumber): array
+    {
+        $sanitised = self::sanitiseNumber($idNumber);
+        $isValid = self::luhnIDValidate($sanitised) !== false && self::luhnIDValidate($sanitised) !== null;
+
+        if (!$isValid || \strlen($sanitised) !== 13) {
+            return [
+                'valid' => false,
+                'date_components' => null,
+                'gender' => null,
+                'citizenship' => null,
+                'is_legacy' => false,
+                'race_indicator' => null,
+            ];
+        }
+
+        return [
+            'valid' => true,
+            'date_components' => self::extractDateComponents($sanitised),
+            'gender' => self::extractGender($sanitised),
+            'citizenship' => self::extractCitizenship($sanitised),
+            'is_legacy' => self::isLegacyID($sanitised),
+            'race_indicator' => $sanitised[11],
+        ];
+    }
+
+
+    /**
+     * Extracts date components from a South African ID number.
+     *
+     * Returns the year (2-digit), month, and day from the ID.
+     * Note: Century cannot be determined from the 2-digit year alone.
+     *
+     * @param string $idNumber The South African ID number (must be 13 digits).
+     *
+     * @return array{year: string, month: string, day: string}|null Date components or null if invalid.
+     */
+    public static function extractDateComponents(string $idNumber): ?array
+    {
+        $sanitised = self::sanitiseNumber($idNumber);
+
+        if (\strlen($sanitised) !== 13) {
+            return null;
+        }
+
+        $year = \substr($sanitised, 0, 2);
+        $month = \substr($sanitised, 2, 2);
+        $day = \substr($sanitised, 4, 2);
+
+        // Validate the date components
+        if (!self::isValidIDDate($year . $month . $day)) {
+            return null;
+        }
+
+        return [
+            'year' => $year,
+            'month' => $month,
+            'day' => $day,
+        ];
+    }
+
+
+    /**
+     * Extracts gender from a South African ID number.
+     *
+     * The sequence number (positions 7-10) indicates gender:
+     * - 0000-4999: Female
+     * - 5000-9999: Male
+     *
+     * @param string $idNumber The South African ID number (must be 13 digits).
+     *
+     * @return null|string 'female', 'male', or null if invalid.
+     *
+     * @psalm-return 'female'|'male'|null
+     */
+    public static function extractGender(string $idNumber): string|null
+    {
+        $sanitised = self::sanitiseNumber($idNumber);
+
+        if (\strlen($sanitised) !== 13) {
+            return null;
+        }
+
+        $sequenceNumber = (int) \substr($sanitised, 6, 4);
+
+        return $sequenceNumber < 5000 ? 'female' : 'male';
+    }
+
+
+    /**
+     * Extracts citizenship status from a South African ID number.
+     *
+     * The 11th digit indicates citizenship:
+     * - 0: South African citizen
+     * - 1: Permanent resident
+     * - 2: Refugee
+     *
+     * @param string $idNumber The South African ID number (must be 13 digits).
+     *
+     * @return null|string Citizenship status or null if invalid.
+     *
+     * @psalm-return 'permanent_resident'|'refugee'|'south_african_citizen'|null
+     */
+    public static function extractCitizenship(string $idNumber): string|null
+    {
+        $sanitised = self::sanitiseNumber($idNumber);
+
+        if (\strlen($sanitised) !== 13) {
+            return null;
+        }
+
+        $citizenshipDigit = $sanitised[10];
+
+        return match ($citizenshipDigit) {
+            '0' => 'south_african_citizen',
+            '1' => 'permanent_resident',
+            '2' => 'refugee',
+            default => null,
+        };
+    }
+
+
+    /**
+     * Checks if a South African ID number uses the legacy format.
+     *
+     * Legacy IDs have race indicators 0-7 in position 12.
+     * Modern IDs use 8 or 9 in this position.
+     *
+     * @param string $idNumber The South African ID number to check.
+     *
+     * @return bool True if legacy format (race indicators 0-7), false otherwise.
+     */
+    public static function isLegacyID(string $idNumber): bool
+    {
+        $sanitised = self::sanitiseNumber($idNumber);
+
+        if (\strlen($sanitised) !== 13) {
+            return false;
+        }
+
+        $raceIndicator = $sanitised[11];
+
+        return \in_array($raceIndicator, ['0', '1', '2', '3', '4', '5', '6', '7'], true);
+    }
+
+
+    /**
+     * Batch validates multiple South African ID numbers.
+     *
+     * Processes an array of ID numbers and returns their validation status.
+     *
+     * @param array<int|string, mixed> $idNumbers Array of ID numbers to validate.
+     *
+     * @return array{}|non-empty-array<string,?bool> Array keyed by ID number with validation results.
+     */
+    public static function batchValidate(array $idNumbers): array
+    {
+        $results = [];
+
+        foreach ($idNumbers as $idNumber) {
+            if (!\is_string($idNumber)) {
+                continue;
+            }
+
+            $results[$idNumber] = self::luhnIDValidate($idNumber);
+        }
+
+        return $results;
+    }
+
+
+    /**
+     * Checks if two South African IDs would be duplicates.
+     *
+     * Two IDs are potential duplicates if they share the same first 11 digits
+     * (date, sequence, citizenship). Such cases require using digit 9 instead
+     * of 8 in position 12 to differentiate them.
+     *
+     * @param string $id1 First South African ID number.
+     * @param string $id2 Second South African ID number.
+     *
+     * @return bool True if they share the same first 11 digits, false otherwise.
+     */
+    public static function wouldBeDuplicates(string $id1, string $id2): bool
+    {
+        $sanitised1 = self::sanitiseNumber($id1);
+        $sanitised2 = self::sanitiseNumber($id2);
+
+        // Both must be valid 13-digit IDs
+        if (\strlen($sanitised1) !== 13 || \strlen($sanitised2) !== 13) {
+            return false;
+        }
+
+        // Compare first 11 digits
+        return \substr($sanitised1, 0, 11) === \substr($sanitised2, 0, 11);
+    }
 }
