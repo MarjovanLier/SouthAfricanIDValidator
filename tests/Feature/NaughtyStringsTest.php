@@ -58,6 +58,7 @@ final class NaughtyStringsTest extends TestCase
 
     /**
      * Safely encode a value to JSON for display in error messages.
+     *
      * @throws \JsonException
      */
     private function safeJsonEncode(string $value, int $flags = 0): string

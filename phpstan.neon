@@ -27,5 +27,4 @@ parameters:
     
     paths:
         - src
-        - tests
     ignoreErrors:

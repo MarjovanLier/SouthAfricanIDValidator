@@ -362,6 +362,8 @@ final class BulkValidationTest extends TestCase
 
     /**
      * Helper method to count valid IDs in a range.
+     *
+     * @psalm-return int<0, max>
      */
     private function countValidInRange(int $start, int $end): int
     {
