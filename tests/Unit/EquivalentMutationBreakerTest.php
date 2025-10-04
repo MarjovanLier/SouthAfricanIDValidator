@@ -120,8 +120,8 @@ final class EquivalentMutationBreakerTest extends TestCase
         foreach ($validHistoricalDates as $validHistoricalDate) {
             self::assertTrue(
                 SouthAfricanIDValidator::isValidIDDate($validHistoricalDate),
-                sprintf('Date %s MUST be valid via 1800s path. ', $validHistoricalDate) .
-                "If fails, Line 143 early return may have been bypassed and date rejected by 2000s validation!",
+                sprintf('Date %s MUST be valid via 1800s path. ', $validHistoricalDate)
+                . "If fails, Line 143 early return may have been bypassed and date rejected by 2000s validation!",
             );
         }
 
@@ -168,9 +168,9 @@ final class EquivalentMutationBreakerTest extends TestCase
         self::assertLessThan(
             1.0, // 1 second threshold
             $executionTime,
-            sprintf('PERFORMANCE INDICATOR: Execution took %ss. ', $executionTime) .
-            "If significantly slow, Line 168 optimization may have been bypassed. " .
-            "Note: This may vary by system performance.",
+            sprintf('PERFORMANCE INDICATOR: Execution took %ss. ', $executionTime)
+            . "If significantly slow, Line 168 optimization may have been bypassed. "
+            . "Note: This may vary by system performance.",
         );
 
         // Strategy 2: Edge case testing
@@ -201,8 +201,8 @@ final class EquivalentMutationBreakerTest extends TestCase
             self::assertSame(
                 $allDigitInput,
                 $result,
-                sprintf("All-digit input '%s' MUST be returned unchanged. ", $allDigitInput) .
-                "Any modification suggests unexpected behaviour from Line 168 mutation.",
+                sprintf("All-digit input '%s' MUST be returned unchanged. ", $allDigitInput)
+                . "Any modification suggests unexpected behaviour from Line 168 mutation.",
             );
         }
     }
