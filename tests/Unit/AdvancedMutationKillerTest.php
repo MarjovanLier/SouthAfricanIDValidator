@@ -79,8 +79,8 @@ final class AdvancedMutationKillerTest extends TestCase
         foreach ($historicalLeapDates as $historicalLeapDate) {
             self::assertTrue(
                 SouthAfricanIDValidator::isValidIDDate($historicalLeapDate),
-                sprintf('MUTATION DETECTOR: Date %s should be valid via 1800s early return. ', $historicalLeapDate) .
-                "If this fails, Line 143 mutation may have caused fall-through to 2000s validation!",
+                sprintf('MUTATION DETECTOR: Date %s should be valid via 1800s early return. ', $historicalLeapDate)
+                . "If this fails, Line 143 mutation may have caused fall-through to 2000s validation!",
             );
         }
 
@@ -94,8 +94,8 @@ final class AdvancedMutationKillerTest extends TestCase
             $result = SouthAfricanIDValidator::isValidIDDate($centuryBoundaryDate);
             self::assertTrue(
                 $result,
-                sprintf('MUTATION DETECTOR: Date %s must be valid via 1800s path early return. ', $centuryBoundaryDate) .
-                "Failure suggests Line 143 mutation escaped and date fell through to 2000s validation.",
+                sprintf('MUTATION DETECTOR: Date %s must be valid via 1800s path early return. ', $centuryBoundaryDate)
+                . "Failure suggests Line 143 mutation escaped and date fell through to 2000s validation.",
             );
         }
 
@@ -135,8 +135,8 @@ final class AdvancedMutationKillerTest extends TestCase
             self::assertLessThan(
                 0.05, // 50ms threshold
                 $executionTime,
-                "MUTATION DETECTOR: Performance degraded for large digit string! " .
-                sprintf('Execution time: %ss. Line 168 optimization may have been bypassed by mutation.', $executionTime),
+                "MUTATION DETECTOR: Performance degraded for large digit string! "
+                . sprintf('Execution time: %ss. Line 168 optimization may have been bypassed by mutation.', $executionTime),
             );
 
             self::assertSame(
@@ -163,8 +163,8 @@ final class AdvancedMutationKillerTest extends TestCase
             self::assertSame(
                 $consistencyTestCase,
                 $result,
-                sprintf("MUTATION DETECTOR: Digit string '%s' should be returned unchanged. ", $consistencyTestCase) .
-                "If modified, Line 168 optimization was bypassed!",
+                sprintf("MUTATION DETECTOR: Digit string '%s' should be returned unchanged. ", $consistencyTestCase)
+                . "If modified, Line 168 optimization was bypassed!",
             );
 
             // Verify it would trigger the optimization path
