@@ -168,9 +168,9 @@ final class EquivalentMutationBreakerTest extends TestCase
         self::assertLessThan(
             1.0, // 1 second threshold
             $executionTime,
-            sprintf('PERFORMANCE INDICATOR: Execution took %ss. ', $executionTime) .
-            "If significantly slow, Line 168 optimization may have been bypassed. " .
-            "Note: This may vary by system performance.",
+            sprintf('PERFORMANCE INDICATOR: Execution took %ss. ', $executionTime)
+            . "If significantly slow, Line 168 optimization may have been bypassed. "
+            . "Note: This may vary by system performance.",
         );
 
         // Strategy 2: Edge case testing

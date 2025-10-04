@@ -454,7 +454,7 @@ final class SouthAfricanIDValidator
      *
      * @psalm-return 'female'|'male'|null
      */
-    public static function extractGender(string $idNumber): string|null
+    public static function extractGender(string $idNumber): ?string
     {
         $sanitised = self::sanitiseNumber($idNumber);
 
@@ -482,7 +482,7 @@ final class SouthAfricanIDValidator
      *
      * @psalm-return 'permanent_resident'|'refugee'|'south_african_citizen'|null
      */
-    public static function extractCitizenship(string $idNumber): string|null
+    public static function extractCitizenship(string $idNumber): ?string
     {
         $sanitised = self::sanitiseNumber($idNumber);
 

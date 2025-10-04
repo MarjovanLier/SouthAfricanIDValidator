@@ -41,8 +41,8 @@ final class AdvancedMutationKillerTest extends TestCase
             self::assertFalse(
                 SouthAfricanIDValidator::isValidIDDate($problematicLength),
                 sprintf(
-                    "Input '%s' (length %d) MUST fail due to length validation at line 138. " .
-                    "If this passes, the early return was bypassed by mutation!",
+                    "Input '%s' (length %d) MUST fail due to length validation at line 138. "
+                    . "If this passes, the early return was bypassed by mutation!",
                     $problematicLength,
                     strlen($problematicLength),
                 ),
@@ -53,8 +53,8 @@ final class AdvancedMutationKillerTest extends TestCase
         // This is the most dangerous case - '1234' -> '181234' might be valid
         self::assertFalse(
             SouthAfricanIDValidator::isValidIDDate('1234'),
-            'MUTATION DETECTOR: If this passes, Line 138 mutation escaped! ' .
-            'Input "1234" should fail length check, not become valid date "181234"',
+            'MUTATION DETECTOR: If this passes, Line 138 mutation escaped! '
+            . 'Input "1234" should fail length check, not become valid date "181234"',
         );
     }
 

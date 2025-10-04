@@ -225,8 +225,8 @@ final class EscapedMutationTargetingTest extends TestCase
 
             self::assertFalse(
                 SouthAfricanIDValidator::luhnIDValidate($fullId),
-                sprintf('ID %s should return false due to invalid date (%s), ', $fullId, $testCase['description']) .
-                "even though Luhn checksum is valid",
+                sprintf('ID %s should return false due to invalid date (%s), ', $fullId, $testCase['description'])
+                . "even though Luhn checksum is valid",
             );
         }
     }
