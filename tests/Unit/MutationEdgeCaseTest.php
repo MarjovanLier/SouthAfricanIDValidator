@@ -196,9 +196,9 @@ final class MutationEdgeCaseTest extends TestCase
     {
         // Valid ID - luhnIDValidate returns true
         $validId = '8001015009087';
-        $info = SouthAfricanIDValidator::extractInfo($validId);
-        $this->assertTrue($info['valid'], 'Valid ID has valid=true');
-        $this->assertIsArray($info['date_components'], 'Has date components');
+        $idValidationResult = SouthAfricanIDValidator::extractInfo($validId);
+        $this->assertTrue($idValidationResult['valid'], 'Valid ID has valid=true');
+        $this->assertIsArray($idValidationResult['date_components'], 'Has date components');
 
         // Invalid checksum - luhnIDValidate returns false
         $invalidChecksum = '8001015009088';
