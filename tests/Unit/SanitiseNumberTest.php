@@ -94,9 +94,9 @@ final class SanitiseNumberTest extends TestCase
             '',
         ];
 
-        foreach ($allNoiseInputs as $input) {
-            $result = $this->invokeMethod(new SouthAfricanIDValidator(), 'sanitiseNumber', [$input]);
-            self::assertSame('', $result, sprintf('All-noise input "%s" should return empty string', $input));
+        foreach ($allNoiseInputs as $allNoiseInput) {
+            $result = $this->invokeMethod(new SouthAfricanIDValidator(), 'sanitiseNumber', [$allNoiseInput]);
+            self::assertSame('', $result, sprintf('All-noise input "%s" should return empty string', $allNoiseInput));
         }
     }
 

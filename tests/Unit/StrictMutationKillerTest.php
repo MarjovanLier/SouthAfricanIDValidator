@@ -165,9 +165,9 @@ final class StrictMutationKillerTest extends TestCase
     {
         // Test with valid ID (luhnIDValidate returns true)
         $validId = '8001015009087';
-        $info = SouthAfricanIDValidator::extractInfo($validId);
-        $this->assertTrue($info['valid'], 'Valid ID should have valid=true');
-        $this->assertIsArray($info['date_components'], 'Should have date components');
+        $idValidationResult = SouthAfricanIDValidator::extractInfo($validId);
+        $this->assertTrue($idValidationResult['valid'], 'Valid ID should have valid=true');
+        $this->assertIsArray($idValidationResult['date_components'], 'Should have date components');
 
         // Test with invalid checksum (luhnIDValidate returns false)
         $invalidChecksum = '8001015009088'; // Wrong checksum
