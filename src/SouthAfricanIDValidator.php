@@ -4,6 +4,11 @@ declare(strict_types=1);
 
 namespace MarjovanLier\SouthAfricanIDValidator;
 
+use MarjovanLier\SouthAfricanIDValidator\DTO\DateComponents;
+use MarjovanLier\SouthAfricanIDValidator\DTO\IDValidationResult;
+use MarjovanLier\SouthAfricanIDValidator\Enum\Citizenship;
+use MarjovanLier\SouthAfricanIDValidator\Enum\Gender;
+use MarjovanLier\SouthAfricanIDValidator\Enum\RaceIndicator;
 use MarjovanLier\StringManipulation\StringManipulation;
 
 /**
@@ -369,40 +374,62 @@ final class SouthAfricanIDValidator
     /**
      * Extracts comprehensive information from a South African ID number.
      *
-     * Returns an array containing all extractable components from the ID.
+     * Returns an IDValidationResult DTO containing all extractable components from the ID.
+     * The DTO implements ArrayAccess for backwards compatibility with array syntax.
      * Note: The century cannot be definitively determined from the ID alone
      * as it only contains a 2-digit year.
      *
      * @param string $idNumber The South African ID number to analyse.
      *
-     * @return (bool|null|string|string[])[]
-     *
-     * @psalm-return array{valid: bool, date_components: array{year: string, month: string, day: string}|null, gender: null|string, citizenship: null|string, is_legacy: bool, race_indicator: null|string}
+     * @return IDValidationResult The validation result as a type-safe DTO.
      */
-    public static function extractInfo(string $idNumber): array
+    public static function extractInfo(string $idNumber): IDValidationResult
     {
         $sanitised = self::sanitiseNumber($idNumber);
         $isValid = self::luhnIDValidate($sanitised) !== false && self::luhnIDValidate($sanitised) !== null;
 
         if (!$isValid || \strlen($sanitised) !== 13) {
-            return [
-                'valid' => false,
-                'date_components' => null,
-                'gender' => null,
-                'citizenship' => null,
-                'is_legacy' => false,
-                'race_indicator' => null,
-            ];
+            return IDValidationResult::invalid();
         }
 
-        return [
-            'valid' => true,
-            'date_components' => self::extractDateComponents($sanitised),
-            'gender' => self::extractGender($sanitised),
-            'citizenship' => self::extractCitizenship($sanitised),
-            'is_legacy' => self::isLegacyID($sanitised),
-            'race_indicator' => $sanitised[11],
-        ];
+        $dateArray = self::extractDateComponents($sanitised);
+
+        return new IDValidationResult(
+            valid: true,
+            dateComponents: $dateArray !== null ? DateComponents::fromArray($dateArray) : null,
+            gender: self::extractGenderEnum($sanitised),
+            citizenship: self::extractCitizenshipEnum($sanitised),
+            isLegacy: self::isLegacyID($sanitised),
+            raceIndicator: RaceIndicator::fromDigit($sanitised[11]),
+        );
+    }
+
+
+    /**
+     * Extracts gender as an enum from a South African ID number.
+     *
+     * @param string $idNumber The South African ID number (must be exactly 13 digits, already sanitised).
+     *
+     * @return Gender The gender enum.
+     */
+    private static function extractGenderEnum(string $idNumber): Gender
+    {
+        $sequenceNumber = (int) \substr($idNumber, 6, 4);
+
+        return Gender::fromSequenceNumber($sequenceNumber);
+    }
+
+
+    /**
+     * Extracts citizenship as an enum from a South African ID number.
+     *
+     * @param string $idNumber The South African ID number (must be exactly 13 digits, already sanitised).
+     *
+     * @return Citizenship|null The citizenship enum, or null if invalid digit.
+     */
+    private static function extractCitizenshipEnum(string $idNumber): ?Citizenship
+    {
+        return Citizenship::fromDigit($idNumber[10]);
     }
 
 

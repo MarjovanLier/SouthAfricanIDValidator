@@ -30,5 +30,6 @@
                 <referencedClass name="MarjovanLier\SouthAfricanIDValidator\SouthAfricanIDValidator"/>
             </errorLevel>
         </UnusedClass>
+        <PossiblyUnusedMethod errorLevel="suppress"/>
     </issueHandlers>
 </psalm>

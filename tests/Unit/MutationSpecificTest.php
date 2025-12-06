@@ -212,8 +212,8 @@ final class MutationSpecificTest extends TestCase
     {
         // Test with fully valid ID
         $validId = '8001015009087';
-        $info = SouthAfricanIDValidator::extractInfo($validId);
-        $this->assertTrue($info['valid'], 'Valid ID should have valid=true');
+        $idValidationResult = SouthAfricanIDValidator::extractInfo($validId);
+        $this->assertTrue($idValidationResult['valid'], 'Valid ID should have valid=true');
 
         // Test with invalid checksum (luhnIDValidate returns false)
         $invalidChecksum = '8001015009086';

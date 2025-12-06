@@ -108,7 +108,7 @@ final class BulkValidationTest extends TestCase
 
         $startTime = microtime(true);
         $results = array_map(
-            static fn(string $idNumber): ?bool => SouthAfricanIDValidator::luhnIDValidate($idNumber),
+            SouthAfricanIDValidator::luhnIDValidate(...),
             $dataset,
         );
         $endTime = microtime(true);

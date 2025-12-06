@@ -60,4 +60,115 @@ final class EdgeCaseInputTest extends TestCase
         $encoded = json_encode($input);
         self::assertSame($expected, $result, sprintf('Edge case input should be handled: %s', $encoded !== false ? $encoded : 'encoding error'));
     }
+
+    /**
+     * Tests whitespace handling with valid IDs.
+     *
+     * @throws ExpectationFailedException
+     * @throws Exception
+     */
+    public function testWhitespaceWithValidId(): void
+    {
+        $validId = '8701105800085';
+
+        // Leading whitespace
+        $result = SouthAfricanIDValidator::luhnIDValidate('   ' . $validId);
+        self::assertTrue($result, 'Valid ID with leading whitespace should be accepted after sanitisation');
+
+        // Trailing whitespace
+        $result = SouthAfricanIDValidator::luhnIDValidate($validId . '   ');
+        self::assertTrue($result, 'Valid ID with trailing whitespace should be accepted after sanitisation');
+
+        // Both
+        $result = SouthAfricanIDValidator::luhnIDValidate('  ' . $validId . '  ');
+        self::assertTrue($result, 'Valid ID with surrounding whitespace should be accepted after sanitisation');
+
+        // Interspersed whitespace
+        $result = SouthAfricanIDValidator::luhnIDValidate('8701 1058 0008 5');
+        self::assertTrue($result, 'Valid ID with spaces should be accepted after sanitisation');
+    }
+
+    /**
+     * Tests extremely long inputs.
+     *
+     * @throws ExpectationFailedException
+     * @throws Exception
+     */
+    public function testExtremelyLongInputs(): void
+    {
+        // Very long string that contains a valid ID
+        $validId = '8701105800085';
+        $longPrefix = str_repeat('9', 1000);
+        $longSuffix = str_repeat('0', 1000);
+
+        $result = SouthAfricanIDValidator::luhnIDValidate($longPrefix . $validId . $longSuffix);
+        self::assertFalse($result, 'Extremely long input should be invalid');
+
+        // Exactly 13 digits buried in non-numeric characters
+        $mixed = 'abc' . $validId . 'xyz';
+        $result = SouthAfricanIDValidator::luhnIDValidate($mixed);
+        self::assertTrue($result, 'Valid ID within non-numeric characters should be extracted and validated');
+    }
+
+    /**
+     * Tests inputs with only non-numeric characters.
+     *
+     * @throws ExpectationFailedException
+     * @throws Exception
+     */
+    public function testNonNumericOnly(): void
+    {
+        $inputs = [
+            'abcdefghijklm',
+            'ABCDEFGHIJKLM',
+            '!@#$%^&*()_+-',
+            'Hello World!!',
+            '.............',
+            '-------------',
+        ];
+
+        foreach ($inputs as $input) {
+            $result = SouthAfricanIDValidator::luhnIDValidate($input);
+            self::assertFalse($result, 'Non-numeric input should be invalid: ' . $input);
+        }
+    }
+
+    /**
+     * Tests boundary length cases.
+     *
+     * @throws ExpectationFailedException
+     * @throws Exception
+     */
+    public function testBoundaryLengths(): void
+    {
+        // Test lengths from 0 to 20
+        for ($i = 0; $i <= 20; $i++) {
+            if ($i === 13) {
+                continue; // Skip valid length
+            }
+
+            $number = str_repeat('1', $i);
+            $result = SouthAfricanIDValidator::luhnIDValidate($number);
+            self::assertFalse($result, sprintf('Length %d should be invalid', $i));
+        }
+    }
+
+    /**
+     * Tests mixed valid and invalid characters.
+     *
+     * @throws ExpectationFailedException
+     * @throws Exception
+     */
+    public function testMixedCharacters(): void
+    {
+        // Valid ID with each digit replaced by a letter
+        $validId = '8701105800085';
+
+        for ($i = 0; $i < 13; $i++) {
+            $mixed = $validId;
+            $mixed[$i] = 'X';
+            $result = SouthAfricanIDValidator::luhnIDValidate($mixed);
+            self::assertFalse($result, sprintf('ID with letter at position %d should be invalid', $i));
+        }
+    }
 }

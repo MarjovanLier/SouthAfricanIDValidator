@@ -173,4 +173,51 @@ final class BatchValidateTest extends TestCase
         $this->assertNotNull($results['8001015009095'] ?? null, 'Unformatted ID should have result');
         $this->assertTrue(isset($results['8001015009095']) && $results['8001015009095'] === true, 'Unformatted ID should be valid');
     }
+
+    /**
+     * Tests batchValidate with IDs that all return null (invalid citizenship).
+     *
+     * Ensures batch operations handle the null return case correctly when all IDs
+     * have invalid citizenship digits.
+     */
+    public function testBatchValidateAllNullReturns(): void
+    {
+        // Create IDs with invalid citizenship digit (3 is invalid)
+        $idNumbers = [
+            '8001015009381', // Invalid citizenship 3
+            '8701105800383', // Invalid citizenship 3
+            '9012315000385', // Invalid citizenship 3
+        ];
+
+        $results = SouthAfricanIDValidator::batchValidate($idNumbers);
+
+        // All should return null
+        $this->assertCount(3, $results, 'Should have 3 results');
+        $this->assertNull($results['8001015009381'], 'ID with invalid citizenship should return null');
+        $this->assertNull($results['8701105800383'], 'ID with invalid citizenship should return null');
+        $this->assertNull($results['9012315000385'], 'ID with invalid citizenship should return null');
+    }
+
+    /**
+     * Tests batchValidate with all invalid IDs.
+     *
+     * Ensures the boundary case where all IDs are invalid is handled correctly.
+     */
+    public function testBatchValidateAllInvalid(): void
+    {
+        $idNumbers = [
+            '1234567890123', // Wrong checksum
+            '800101500908',  // Wrong length
+            'NOTANID',       // Not numeric
+            '1111111111111', // Invalid checksum
+        ];
+
+        $results = SouthAfricanIDValidator::batchValidate($idNumbers);
+
+        $this->assertCount(4, $results, 'Should have 4 results');
+        $this->assertFalse($results['1234567890123'], 'Invalid ID should return false');
+        $this->assertFalse($results['800101500908'], 'Short ID should return false');
+        $this->assertFalse($results['NOTANID'], 'Non-numeric ID should return false');
+        $this->assertFalse($results['1111111111111'], 'Invalid checksum should return false');
+    }
 }

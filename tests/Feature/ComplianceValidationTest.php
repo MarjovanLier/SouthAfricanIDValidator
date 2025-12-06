@@ -205,8 +205,8 @@ final class ComplianceValidationTest extends TestCase
 
         // Count static properties (should only have constants)
         $staticProps = 0;
-        foreach ($reflectionClass->getProperties() as $property) {
-            if ($property->isStatic() && !$property->isPrivate()) {
+        foreach ($reflectionClass->getProperties() as $reflectionProperty) {
+            if ($reflectionProperty->isStatic() && !$reflectionProperty->isPrivate()) {
                 $staticProps++;
             }
         }

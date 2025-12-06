@@ -39,6 +39,7 @@ final class StrictMutationKillerTest extends TestCase
         // the method works, it proves '18' is needed
     }
 
+
     /**
      * Test CastInt mutation in convertLegacyToModern.
      * Without the cast, string concatenation would occur instead of arithmetic.
@@ -56,6 +57,7 @@ final class StrictMutationKillerTest extends TestCase
             'Converted ID should be valid, requiring integer arithmetic',
         );
     }
+
 
     /**
      * Test GreaterThan mutation (> 9 vs >= 9) in bit shift reduction.
@@ -78,6 +80,7 @@ final class StrictMutationKillerTest extends TestCase
         );
     }
 
+
     /**
      * Test CastString mutation in checksum concatenation.
      * Without the cast, PHP might do unexpected type juggling.
@@ -97,6 +100,7 @@ final class StrictMutationKillerTest extends TestCase
         $this->assertIsString($result9, 'Result should be string');
         $this->assertMatchesRegularExpression('/^\d{13}$/', $result9, 'Should be 13 digits');
     }
+
 
     /**
      * Test CastInt mutation in extractGender.
@@ -128,6 +132,7 @@ final class StrictMutationKillerTest extends TestCase
         $this->assertSame('male', $gender4, 'Sequence 9999 should be male');
     }
 
+
     /**
      * Test IdenticalEqual mutation in wouldBeDuplicates.
      * The substr comparison should use === for type safety.
@@ -151,6 +156,7 @@ final class StrictMutationKillerTest extends TestCase
         );
     }
 
+
     /**
      * Test all NotIdenticalNotEqual mutations for extractInfo.
      * The validation result comparisons need strict type checking.
@@ -159,9 +165,9 @@ final class StrictMutationKillerTest extends TestCase
     {
         // Test with valid ID (luhnIDValidate returns true)
         $validId = '8001015009087';
-        $info = SouthAfricanIDValidator::extractInfo($validId);
-        $this->assertTrue($info['valid'], 'Valid ID should have valid=true');
-        $this->assertIsArray($info['date_components'], 'Should have date components');
+        $idValidationResult = SouthAfricanIDValidator::extractInfo($validId);
+        $this->assertTrue($idValidationResult['valid'], 'Valid ID should have valid=true');
+        $this->assertIsArray($idValidationResult['date_components'], 'Should have date components');
 
         // Test with invalid checksum (luhnIDValidate returns false)
         $invalidChecksum = '8001015009088'; // Wrong checksum
@@ -182,6 +188,7 @@ final class StrictMutationKillerTest extends TestCase
         $info4 = SouthAfricanIDValidator::extractInfo($tooShort);
         $this->assertFalse($info4['valid'], 'Too short should have valid=false');
     }
+
 
     /**
      * Test that all strlen comparisons use strict equality.
