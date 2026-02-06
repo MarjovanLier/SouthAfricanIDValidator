@@ -23,7 +23,7 @@ final class WouldBeDuplicatesTest extends TestCase
 
         $result = SouthAfricanIDValidator::wouldBeDuplicates($id1, $id2);
 
-        $this->assertTrue($result, 'IDs with same first 11 digits should be duplicates');
+        self::assertTrue($result, 'IDs with same first 11 digits should be duplicates');
     }
 
     /**
@@ -36,7 +36,7 @@ final class WouldBeDuplicatesTest extends TestCase
 
         $result = SouthAfricanIDValidator::wouldBeDuplicates($id1, $id2);
 
-        $this->assertFalse($result, 'IDs with different dates should not be duplicates');
+        self::assertFalse($result, 'IDs with different dates should not be duplicates');
     }
 
     /**
@@ -49,7 +49,7 @@ final class WouldBeDuplicatesTest extends TestCase
 
         $result = SouthAfricanIDValidator::wouldBeDuplicates($id1, $id2);
 
-        $this->assertFalse($result, 'IDs with different sequence numbers should not be duplicates');
+        self::assertFalse($result, 'IDs with different sequence numbers should not be duplicates');
     }
 
     /**
@@ -62,7 +62,7 @@ final class WouldBeDuplicatesTest extends TestCase
 
         $result = SouthAfricanIDValidator::wouldBeDuplicates($id1, $id2);
 
-        $this->assertFalse($result, 'IDs with different citizenship should not be duplicates');
+        self::assertFalse($result, 'IDs with different citizenship should not be duplicates');
     }
 
     /**
@@ -74,7 +74,7 @@ final class WouldBeDuplicatesTest extends TestCase
 
         $result = SouthAfricanIDValidator::wouldBeDuplicates($idNumber, $idNumber);
 
-        $this->assertTrue($result, 'Identical IDs should be considered duplicates');
+        self::assertTrue($result, 'Identical IDs should be considered duplicates');
     }
 
     /**
@@ -87,11 +87,11 @@ final class WouldBeDuplicatesTest extends TestCase
 
         $result = SouthAfricanIDValidator::wouldBeDuplicates($id1, $id2);
 
-        $this->assertFalse($result, 'Should return false when any ID has invalid length');
+        self::assertFalse($result, 'Should return false when any ID has invalid length');
 
         // Both invalid
         $result = SouthAfricanIDValidator::wouldBeDuplicates('123', '456');
-        $this->assertFalse($result, 'Should return false when both IDs have invalid length');
+        self::assertFalse($result, 'Should return false when both IDs have invalid length');
     }
 
     /**
@@ -104,7 +104,7 @@ final class WouldBeDuplicatesTest extends TestCase
 
         $result = SouthAfricanIDValidator::wouldBeDuplicates($id1, $id2);
 
-        $this->assertTrue($result, 'Should handle formatted IDs correctly');
+        self::assertTrue($result, 'Should handle formatted IDs correctly');
     }
 
     /**
@@ -118,7 +118,7 @@ final class WouldBeDuplicatesTest extends TestCase
 
         $result = SouthAfricanIDValidator::wouldBeDuplicates($legacyId, $modernId);
 
-        $this->assertTrue($result, 'Legacy and modern IDs with same first 11 digits should be duplicates');
+        self::assertTrue($result, 'Legacy and modern IDs with same first 11 digits should be duplicates');
     }
 
     /**
@@ -133,10 +133,10 @@ final class WouldBeDuplicatesTest extends TestCase
 
         $result = SouthAfricanIDValidator::wouldBeDuplicates($person1, $person2);
 
-        $this->assertTrue($result, 'These IDs would be duplicates without different race indicators');
+        self::assertTrue($result, 'These IDs would be duplicates without different race indicators');
 
         // Verify they have same first 11 digits
-        $this->assertSame(
+        self::assertSame(
             substr($person1, 0, 11),
             substr($person2, 0, 11),
             'First 11 digits should match',

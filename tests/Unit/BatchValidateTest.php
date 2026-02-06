@@ -26,13 +26,13 @@ final class BatchValidateTest extends TestCase
 
         $results = SouthAfricanIDValidator::batchValidate($idNumbers);
 
-        $this->assertCount(3, $results, 'Should return 3 results');
-        $this->assertArrayHasKey('8001015009087', $results, 'First ID should be in results');
-        $this->assertArrayHasKey('8001015009095', $results, 'Second ID should be in results');
-        $this->assertArrayHasKey('8001015009004', $results, 'Third ID should be in results');
-        $this->assertTrue(isset($results['8001015009087']) && $results['8001015009087'] === true, 'First ID should be valid');
-        $this->assertTrue(isset($results['8001015009095']) && $results['8001015009095'] === true, 'Second ID should be valid');
-        $this->assertTrue(isset($results['8001015009004']) && $results['8001015009004'] === true, 'Third ID should be valid');
+        self::assertCount(3, $results, 'Should return 3 results');
+        self::assertArrayHasKey('8001015009087', $results, 'First ID should be in results');
+        self::assertArrayHasKey('8001015009095', $results, 'Second ID should be in results');
+        self::assertArrayHasKey('8001015009004', $results, 'Third ID should be in results');
+        self::assertTrue(isset($results['8001015009087']) && $results['8001015009087'] === true, 'First ID should be valid');
+        self::assertTrue(isset($results['8001015009095']) && $results['8001015009095'] === true, 'Second ID should be valid');
+        self::assertTrue(isset($results['8001015009004']) && $results['8001015009004'] === true, 'Third ID should be valid');
     }
 
     /**
@@ -49,15 +49,15 @@ final class BatchValidateTest extends TestCase
 
         $results = SouthAfricanIDValidator::batchValidate($idNumbers);
 
-        $this->assertCount(4, $results, 'Should return 4 results');
-        $this->assertArrayHasKey('8001015009087', $results, 'First ID should be in results');
-        $this->assertTrue(isset($results['8001015009087']) && $results['8001015009087'] === true, 'First ID should be valid');
-        $this->assertArrayHasKey('1234567890123', $results, 'Second ID should be in results');
-        $this->assertFalse(isset($results['1234567890123']) && $results['1234567890123'] === true, 'Second ID should be invalid');
-        $this->assertArrayHasKey('800101500908', $results, 'Third ID should be in results');
-        $this->assertFalse($results['800101500908'] === true, 'Third ID should be invalid');
-        $this->assertArrayHasKey('8001015009095', $results, 'Fourth ID should be in results');
-        $this->assertTrue($results['8001015009095'] === true, 'Fourth ID should be valid');
+        self::assertCount(4, $results, 'Should return 4 results');
+        self::assertArrayHasKey('8001015009087', $results, 'First ID should be in results');
+        self::assertTrue(isset($results['8001015009087']) && $results['8001015009087'] === true, 'First ID should be valid');
+        self::assertArrayHasKey('1234567890123', $results, 'Second ID should be in results');
+        self::assertFalse(isset($results['1234567890123']) && $results['1234567890123'] === true, 'Second ID should be invalid');
+        self::assertArrayHasKey('800101500908', $results, 'Third ID should be in results');
+        self::assertFalse($results['800101500908'] === true, 'Third ID should be invalid');
+        self::assertArrayHasKey('8001015009095', $results, 'Fourth ID should be in results');
+        self::assertTrue($results['8001015009095'] === true, 'Fourth ID should be valid');
     }
 
     /**
@@ -72,10 +72,10 @@ final class BatchValidateTest extends TestCase
 
         $results = SouthAfricanIDValidator::batchValidate($idNumbers);
 
-        $this->assertArrayHasKey('8001015009087', $results, 'Valid citizenship ID should be in results');
-        $this->assertTrue(isset($results['8001015009087']) && $results['8001015009087'] === true, 'Valid citizenship ID should pass');
-        $this->assertArrayHasKey('8001015009387', $results, 'Invalid citizenship ID should be in results');
-        $this->assertNull($results['8001015009387'], 'Invalid citizenship should return null');
+        self::assertArrayHasKey('8001015009087', $results, 'Valid citizenship ID should be in results');
+        self::assertTrue(isset($results['8001015009087']) && $results['8001015009087'] === true, 'Valid citizenship ID should pass');
+        self::assertArrayHasKey('8001015009387', $results, 'Invalid citizenship ID should be in results');
+        self::assertNull($results['8001015009387'], 'Invalid citizenship should return null');
     }
 
     /**
@@ -85,7 +85,7 @@ final class BatchValidateTest extends TestCase
     {
         $results = SouthAfricanIDValidator::batchValidate([]);
 
-        $this->assertCount(0, $results, 'Should have no results');
+        self::assertCount(0, $results, 'Should have no results');
     }
 
     /**
@@ -101,11 +101,11 @@ final class BatchValidateTest extends TestCase
 
         $results = SouthAfricanIDValidator::batchValidate($idNumbers);
 
-        $this->assertCount(2, $results, 'Should have 2 unique results');
-        $this->assertArrayHasKey('8001015009087', $results, 'Duplicate ID should be in results');
-        $this->assertTrue(isset($results['8001015009087']) && $results['8001015009087'] === true, 'Duplicate ID should be validated once');
-        $this->assertArrayHasKey('8001015009095', $results, 'Other ID should be in results');
-        $this->assertTrue(isset($results['8001015009095']) && $results['8001015009095'] === true, 'Other ID should be validated');
+        self::assertCount(2, $results, 'Should have 2 unique results');
+        self::assertArrayHasKey('8001015009087', $results, 'Duplicate ID should be in results');
+        self::assertTrue(isset($results['8001015009087']) && $results['8001015009087'] === true, 'Duplicate ID should be validated once');
+        self::assertArrayHasKey('8001015009095', $results, 'Other ID should be in results');
+        self::assertTrue(isset($results['8001015009095']) && $results['8001015009095'] === true, 'Other ID should be validated');
     }
 
     /**
@@ -123,9 +123,9 @@ final class BatchValidateTest extends TestCase
         // Since batchValidate expects array<string>, we test with valid strings only
         $results = SouthAfricanIDValidator::batchValidate($validIds);
 
-        $this->assertCount(2, $results, 'Should process both valid IDs');
-        $this->assertArrayHasKey('8001015009087', $results, 'First ID should be processed');
-        $this->assertArrayHasKey('8001015009095', $results, 'Second ID should be processed');
+        self::assertCount(2, $results, 'Should process both valid IDs');
+        self::assertArrayHasKey('8001015009087', $results, 'First ID should be processed');
+        self::assertArrayHasKey('8001015009095', $results, 'Second ID should be processed');
     }
 
     /**
@@ -149,9 +149,9 @@ final class BatchValidateTest extends TestCase
         $results = $reflectionMethod->invoke(null, $mixedArray);
 
         // Should only process string values
-        $this->assertCount(2, $results, 'Should only process string values');
-        $this->assertArrayHasKey('8001015009087', $results, 'First string should be processed');
-        $this->assertArrayHasKey('8001015009095', $results, 'Second string should be processed');
+        self::assertCount(2, $results, 'Should only process string values');
+        self::assertArrayHasKey('8001015009087', $results, 'First string should be processed');
+        self::assertArrayHasKey('8001015009095', $results, 'Second string should be processed');
     }
 
     /**
@@ -166,12 +166,12 @@ final class BatchValidateTest extends TestCase
 
         $results = SouthAfricanIDValidator::batchValidate($idNumbers);
 
-        $this->assertArrayHasKey('80-01-01 5009-087', $results, 'Should preserve formatted key');
-        $this->assertArrayHasKey('8001015009095', $results, 'Should preserve unformatted key');
-        $this->assertNotNull($results['80-01-01 5009-087'] ?? null, 'Formatted ID should have result');
-        $this->assertTrue(isset($results['80-01-01 5009-087']) && $results['80-01-01 5009-087'], 'Formatted ID should be valid');
-        $this->assertNotNull($results['8001015009095'] ?? null, 'Unformatted ID should have result');
-        $this->assertTrue(isset($results['8001015009095']) && $results['8001015009095'] === true, 'Unformatted ID should be valid');
+        self::assertArrayHasKey('80-01-01 5009-087', $results, 'Should preserve formatted key');
+        self::assertArrayHasKey('8001015009095', $results, 'Should preserve unformatted key');
+        self::assertNotNull($results['80-01-01 5009-087'] ?? null, 'Formatted ID should have result');
+        self::assertTrue(isset($results['80-01-01 5009-087']) && $results['80-01-01 5009-087'], 'Formatted ID should be valid');
+        self::assertNotNull($results['8001015009095'] ?? null, 'Unformatted ID should have result');
+        self::assertTrue(isset($results['8001015009095']) && $results['8001015009095'] === true, 'Unformatted ID should be valid');
     }
 
     /**
@@ -192,10 +192,11 @@ final class BatchValidateTest extends TestCase
         $results = SouthAfricanIDValidator::batchValidate($idNumbers);
 
         // All should return null
-        $this->assertCount(3, $results, 'Should have 3 results');
-        $this->assertNull($results['8001015009381'], 'ID with invalid citizenship should return null');
-        $this->assertNull($results['8701105800383'], 'ID with invalid citizenship should return null');
-        $this->assertNull($results['9012315000385'], 'ID with invalid citizenship should return null');
+        self::assertCount(3, $results, 'Should have 3 results');
+
+        foreach ($results as $key => $result) {
+            self::assertNull($result, \sprintf('ID %s with invalid citizenship should return null', (string) $key));
+        }
     }
 
     /**
@@ -214,10 +215,10 @@ final class BatchValidateTest extends TestCase
 
         $results = SouthAfricanIDValidator::batchValidate($idNumbers);
 
-        $this->assertCount(4, $results, 'Should have 4 results');
-        $this->assertFalse($results['1234567890123'], 'Invalid ID should return false');
-        $this->assertFalse($results['800101500908'], 'Short ID should return false');
-        $this->assertFalse($results['NOTANID'], 'Non-numeric ID should return false');
-        $this->assertFalse($results['1111111111111'], 'Invalid checksum should return false');
+        self::assertCount(4, $results, 'Should have 4 results');
+
+        foreach ($results as $key => $result) {
+            self::assertFalse($result, \sprintf('ID %s should return false', (string) $key));
+        }
     }
 }

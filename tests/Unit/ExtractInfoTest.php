@@ -21,15 +21,15 @@ final class ExtractInfoTest extends TestCase
 
         $idValidationResult = SouthAfricanIDValidator::extractInfo($idNumber);
 
-        $this->assertTrue($idValidationResult['valid'], 'ID should be valid');
-        $this->assertIsArray($idValidationResult['date_components'], 'Date components should be an array');
-        $this->assertSame('80', $idValidationResult['date_components']['year'], 'Year should be 80');
-        $this->assertSame('01', $idValidationResult['date_components']['month'], 'Month should be 01');
-        $this->assertSame('01', $idValidationResult['date_components']['day'], 'Day should be 01');
-        $this->assertSame('male', $idValidationResult['gender'], 'Gender should be male');
-        $this->assertSame('south_african_citizen', $idValidationResult['citizenship'], 'Should be SA citizen');
-        $this->assertFalse($idValidationResult['is_legacy'], 'Should not be legacy format');
-        $this->assertSame('unspecified', $idValidationResult['race_indicator'], 'Race indicator should be unspecified (modern format)');
+        self::assertTrue($idValidationResult['valid'], 'ID should be valid');
+        self::assertIsArray($idValidationResult['date_components'], 'Date components should be an array');
+        self::assertSame('80', $idValidationResult['date_components']['year'], 'Year should be 80');
+        self::assertSame('01', $idValidationResult['date_components']['month'], 'Month should be 01');
+        self::assertSame('01', $idValidationResult['date_components']['day'], 'Day should be 01');
+        self::assertSame('male', $idValidationResult['gender'], 'Gender should be male');
+        self::assertSame('south_african_citizen', $idValidationResult['citizenship'], 'Should be SA citizen');
+        self::assertFalse($idValidationResult['is_legacy'], 'Should not be legacy format');
+        self::assertSame('unspecified', $idValidationResult['race_indicator'], 'Race indicator should be unspecified (modern format)');
     }
 
     /**
@@ -59,11 +59,11 @@ final class ExtractInfoTest extends TestCase
 
         $idValidationResult = SouthAfricanIDValidator::extractInfo($idNumber);
 
-        $this->assertTrue($idValidationResult['valid'], 'ID should be valid');
-        $this->assertSame('female', $idValidationResult['gender'], 'Gender should be female');
-        $this->assertSame('permanent_resident', $idValidationResult['citizenship'], 'Should be permanent resident');
-        $this->assertTrue($idValidationResult['is_legacy'], 'Should be legacy format');
-        $this->assertSame('white', $idValidationResult['race_indicator'], 'Race indicator should be white (legacy apartheid classification)');
+        self::assertTrue($idValidationResult['valid'], 'ID should be valid');
+        self::assertSame('female', $idValidationResult['gender'], 'Gender should be female');
+        self::assertSame('permanent_resident', $idValidationResult['citizenship'], 'Should be permanent resident');
+        self::assertTrue($idValidationResult['is_legacy'], 'Should be legacy format');
+        self::assertSame('white', $idValidationResult['race_indicator'], 'Race indicator should be white (legacy apartheid classification)');
     }
 
     /**
@@ -75,12 +75,12 @@ final class ExtractInfoTest extends TestCase
 
         $idValidationResult = SouthAfricanIDValidator::extractInfo($idNumber);
 
-        $this->assertFalse($idValidationResult['valid'], 'ID should be invalid');
-        $this->assertNull($idValidationResult['date_components'], 'Date components should be null');
-        $this->assertNull($idValidationResult['gender'], 'Gender should be null');
-        $this->assertNull($idValidationResult['citizenship'], 'Citizenship should be null');
-        $this->assertFalse($idValidationResult['is_legacy'], 'Should not be legacy format');
-        $this->assertNull($idValidationResult['race_indicator'], 'Race indicator should be null');
+        self::assertFalse($idValidationResult['valid'], 'ID should be invalid');
+        self::assertNull($idValidationResult['date_components'], 'Date components should be null');
+        self::assertNull($idValidationResult['gender'], 'Gender should be null');
+        self::assertNull($idValidationResult['citizenship'], 'Citizenship should be null');
+        self::assertFalse($idValidationResult['is_legacy'], 'Should not be legacy format');
+        self::assertNull($idValidationResult['race_indicator'], 'Race indicator should be null');
     }
 
     /**
@@ -92,9 +92,9 @@ final class ExtractInfoTest extends TestCase
 
         $idValidationResult = SouthAfricanIDValidator::extractInfo($idNumber);
 
-        $this->assertTrue($idValidationResult['valid'], 'ID should be valid');
-        $this->assertSame('refugee', $idValidationResult['citizenship'], 'Should be refugee');
-        $this->assertSame('male', $idValidationResult['gender'], 'Gender should be male');
+        self::assertTrue($idValidationResult['valid'], 'ID should be valid');
+        self::assertSame('refugee', $idValidationResult['citizenship'], 'Should be refugee');
+        self::assertSame('male', $idValidationResult['gender'], 'Gender should be male');
     }
 
     /**
@@ -106,16 +106,15 @@ final class ExtractInfoTest extends TestCase
 
         $idValidationResult = SouthAfricanIDValidator::extractInfo($idNumber);
 
-        $this->assertTrue($idValidationResult['valid'], 'ID should be valid after sanitisation');
-        $this->assertIsArray($idValidationResult['date_components'], 'Date components should be an array');
-        $this->assertNotNull($idValidationResult['date_components'], 'Date components should not be null');
+        self::assertTrue($idValidationResult['valid'], 'ID should be valid after sanitisation');
+        self::assertIsArray($idValidationResult['date_components'], 'Date components should be an array');
+        self::assertNotNull($idValidationResult['date_components'], 'Date components should not be null');
 
         $dateComponents = $idValidationResult['date_components'];
-        /** @phpstan-ignore-next-line */
-        $this->assertArrayHasKey('year', $dateComponents, 'Date components should have year');
-        $this->assertSame('80', $dateComponents['year'], 'Year should be extracted correctly');
+        self::assertArrayHasKey('year', $dateComponents, 'Date components should have year');
+        self::assertSame('80', $dateComponents['year'], 'Year should be extracted correctly');
 
-        $this->assertSame('male', $idValidationResult['gender'], 'Gender should be extracted correctly');
+        self::assertSame('male', $idValidationResult['gender'], 'Gender should be extracted correctly');
     }
 
     /**
@@ -127,8 +126,8 @@ final class ExtractInfoTest extends TestCase
 
         $idValidationResult = SouthAfricanIDValidator::extractInfo($idNumber);
 
-        $this->assertFalse($idValidationResult['valid'], 'ID should be invalid');
-        $this->assertNull($idValidationResult['date_components'], 'Date components should be null');
-        $this->assertNull($idValidationResult['gender'], 'Gender should be null');
+        self::assertFalse($idValidationResult['valid'], 'ID should be invalid');
+        self::assertNull($idValidationResult['date_components'], 'Date components should be null');
+        self::assertNull($idValidationResult['gender'], 'Gender should be null');
     }
 }

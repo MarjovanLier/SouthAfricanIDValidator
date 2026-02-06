@@ -21,10 +21,10 @@ final class ExtractDateComponentsTest extends TestCase
 
         $result = SouthAfricanIDValidator::extractDateComponents($idNumber);
 
-        $this->assertIsArray($result, 'Should return an array');
-        $this->assertSame('80', $result['year'], 'Year should be 80');
-        $this->assertSame('01', $result['month'], 'Month should be 01');
-        $this->assertSame('01', $result['day'], 'Day should be 01');
+        self::assertIsArray($result, 'Should return an array');
+        self::assertSame('80', $result['year'], 'Year should be 80');
+        self::assertSame('01', $result['month'], 'Month should be 01');
+        self::assertSame('01', $result['day'], 'Day should be 01');
     }
 
     /**
@@ -41,10 +41,10 @@ final class ExtractDateComponentsTest extends TestCase
         foreach ($testCases as $idNumber => $expected) {
             $result = SouthAfricanIDValidator::extractDateComponents((string) $idNumber);
 
-            $this->assertIsArray($result, sprintf('Should return array for ID %s', $idNumber));
-            $this->assertSame($expected['year'], $result['year'], sprintf('Year mismatch for ID %s', $idNumber));
-            $this->assertSame($expected['month'], $result['month'], sprintf('Month mismatch for ID %s', $idNumber));
-            $this->assertSame($expected['day'], $result['day'], sprintf('Day mismatch for ID %s', $idNumber));
+            self::assertIsArray($result, sprintf('Should return array for ID %s', $idNumber));
+            self::assertSame($expected['year'], $result['year'], sprintf('Year mismatch for ID %s', $idNumber));
+            self::assertSame($expected['month'], $result['month'], sprintf('Month mismatch for ID %s', $idNumber));
+            self::assertSame($expected['day'], $result['day'], sprintf('Day mismatch for ID %s', $idNumber));
         }
     }
 
@@ -57,7 +57,7 @@ final class ExtractDateComponentsTest extends TestCase
 
         $result = SouthAfricanIDValidator::extractDateComponents($idNumber);
 
-        $this->assertNull($result, 'Should return null for invalid date');
+        self::assertNull($result, 'Should return null for invalid date');
     }
 
     /**
@@ -69,7 +69,7 @@ final class ExtractDateComponentsTest extends TestCase
 
         $result = SouthAfricanIDValidator::extractDateComponents($idNumber);
 
-        $this->assertNull($result, 'Should return null for invalid month');
+        self::assertNull($result, 'Should return null for invalid month');
     }
 
     /**
@@ -86,7 +86,7 @@ final class ExtractDateComponentsTest extends TestCase
 
         // This should be null as 01 represents years ending in 01,
         // which are not leap years in any century we check (1801, 1901, 2001)
-        $this->assertNull($result, 'Should return null for Feb 29 in non-leap year');
+        self::assertNull($result, 'Should return null for Feb 29 in non-leap year');
     }
 
     /**
@@ -100,10 +100,10 @@ final class ExtractDateComponentsTest extends TestCase
 
         $result = SouthAfricanIDValidator::extractDateComponents($idNumber);
 
-        $this->assertIsArray($result, 'Should return array for valid leap day');
-        $this->assertSame('00', $result['year'], 'Year should be 00');
-        $this->assertSame('02', $result['month'], 'Month should be 02');
-        $this->assertSame('29', $result['day'], 'Day should be 29');
+        self::assertIsArray($result, 'Should return array for valid leap day');
+        self::assertSame('00', $result['year'], 'Year should be 00');
+        self::assertSame('02', $result['month'], 'Month should be 02');
+        self::assertSame('29', $result['day'], 'Day should be 29');
     }
 
     /**
@@ -115,7 +115,7 @@ final class ExtractDateComponentsTest extends TestCase
 
         $result = SouthAfricanIDValidator::extractDateComponents($idNumber);
 
-        $this->assertNull($result, 'Should return null for invalid length');
+        self::assertNull($result, 'Should return null for invalid length');
     }
 
     /**
@@ -127,10 +127,10 @@ final class ExtractDateComponentsTest extends TestCase
 
         $result = SouthAfricanIDValidator::extractDateComponents($idNumber);
 
-        $this->assertIsArray($result, 'Should handle formatted IDs');
-        $this->assertSame('80', $result['year'], 'Year should be extracted correctly');
-        $this->assertSame('01', $result['month'], 'Month should be extracted correctly');
-        $this->assertSame('01', $result['day'], 'Day should be extracted correctly');
+        self::assertIsArray($result, 'Should handle formatted IDs');
+        self::assertSame('80', $result['year'], 'Year should be extracted correctly');
+        self::assertSame('01', $result['month'], 'Month should be extracted correctly');
+        self::assertSame('01', $result['day'], 'Day should be extracted correctly');
     }
 
     /**
@@ -142,9 +142,9 @@ final class ExtractDateComponentsTest extends TestCase
 
         $result = SouthAfricanIDValidator::extractDateComponents($idNumber);
 
-        $this->assertIsArray($result, 'Should return array');
-        $this->assertSame('05', $result['year'], 'Should preserve leading zero in year');
-        $this->assertSame('01', $result['month'], 'Should preserve leading zero in month');
-        $this->assertSame('05', $result['day'], 'Should preserve leading zero in day');
+        self::assertIsArray($result, 'Should return array');
+        self::assertSame('05', $result['year'], 'Should preserve leading zero in year');
+        self::assertSame('01', $result['month'], 'Should preserve leading zero in month');
+        self::assertSame('05', $result['day'], 'Should preserve leading zero in day');
     }
 }

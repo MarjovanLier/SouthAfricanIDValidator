@@ -28,23 +28,23 @@ final class IntegrationTest extends TestCase
 
         $modernId = SouthAfricanIDValidator::convertLegacyToModern($legacyId);
 
-        $this->assertIsString($modernId, 'Converted ID should be a string');
+        self::assertIsString($modernId, 'Converted ID should be a string');
 
         $idValidationResult = SouthAfricanIDValidator::extractInfo($modernId);
 
         // Verify the converted ID is recognised as valid
-        $this->assertTrue($idValidationResult['valid'], 'Converted ID should be valid');
+        self::assertTrue($idValidationResult['valid'], 'Converted ID should be valid');
 
         // Verify it is now recognised as modern (not legacy)
-        $this->assertFalse($idValidationResult['is_legacy'], 'Converted ID should be modern, not legacy');
+        self::assertFalse($idValidationResult['is_legacy'], 'Converted ID should be modern, not legacy');
 
         // Verify the race indicator was changed to modern (unspecified or unknown)
-        $this->assertContains($idValidationResult['race_indicator'], ['unspecified', 'unknown'], 'Race indicator should be modern (unspecified or unknown)');
+        self::assertContains($idValidationResult['race_indicator'], ['unspecified', 'unknown'], 'Race indicator should be modern (unspecified or unknown)');
 
         // Verify original data is preserved
-        $this->assertSame(['year' => '80', 'month' => '01', 'day' => '01'], $idValidationResult['date_components'], 'Date should be preserved');
-        $this->assertSame('male', $idValidationResult['gender'], 'Gender should be preserved');
-        $this->assertSame('south_african_citizen', $idValidationResult['citizenship'], 'Citizenship should be preserved');
+        self::assertSame(['year' => '80', 'month' => '01', 'day' => '01'], $idValidationResult['date_components'], 'Date should be preserved');
+        self::assertSame('male', $idValidationResult['gender'], 'Gender should be preserved');
+        self::assertSame('south_african_citizen', $idValidationResult['citizenship'], 'Citizenship should be preserved');
     }
 
     /**
@@ -57,7 +57,7 @@ final class IntegrationTest extends TestCase
         $legacyId = '8001015009004'; // Valid legacy ID (used in other tests)
 
         // Verify legacy ID is valid
-        $this->assertTrue(
+        self::assertTrue(
             SouthAfricanIDValidator::luhnIDValidate($legacyId),
             'Legacy ID should be valid before conversion',
         );
@@ -65,10 +65,10 @@ final class IntegrationTest extends TestCase
         // Convert to modern
         $modernId = SouthAfricanIDValidator::convertLegacyToModern($legacyId);
 
-        $this->assertIsString($modernId, 'Conversion should return string');
+        self::assertIsString($modernId, 'Conversion should return string');
 
         // Verify modern ID is valid
-        $this->assertTrue(
+        self::assertTrue(
             SouthAfricanIDValidator::luhnIDValidate($modernId),
             'Converted modern ID should pass full validation',
         );
@@ -77,9 +77,9 @@ final class IntegrationTest extends TestCase
         $idValidationResult = SouthAfricanIDValidator::extractInfo($legacyId);
         $modernInfo = SouthAfricanIDValidator::extractInfo($modernId);
 
-        $this->assertSame($idValidationResult['date_components'], $modernInfo['date_components'], 'Date must be preserved');
-        $this->assertSame($idValidationResult['gender'], $modernInfo['gender'], 'Gender must be preserved');
-        $this->assertSame($idValidationResult['citizenship'], $modernInfo['citizenship'], 'Citizenship must be preserved');
+        self::assertSame($idValidationResult['date_components'], $modernInfo['date_components'], 'Date must be preserved');
+        self::assertSame($idValidationResult['gender'], $modernInfo['gender'], 'Gender must be preserved');
+        self::assertSame($idValidationResult['citizenship'], $modernInfo['citizenship'], 'Citizenship must be preserved');
     }
 
     /**
@@ -95,12 +95,12 @@ final class IntegrationTest extends TestCase
 
         $idValidationResult = SouthAfricanIDValidator::extractInfo($invalidId);
 
-        $this->assertFalse($idValidationResult['valid'], 'ID with invalid citizenship should have valid=false');
-        $this->assertNull($idValidationResult['date_components'], 'Date components should be null for invalid ID');
-        $this->assertNull($idValidationResult['gender'], 'Gender should be null for invalid ID');
-        $this->assertNull($idValidationResult['citizenship'], 'Citizenship should be null for invalid ID');
-        $this->assertFalse($idValidationResult['is_legacy'], 'Legacy flag should be false for invalid ID');
-        $this->assertNull($idValidationResult['race_indicator'], 'Race indicator should be null for invalid ID');
+        self::assertFalse($idValidationResult['valid'], 'ID with invalid citizenship should have valid=false');
+        self::assertNull($idValidationResult['date_components'], 'Date components should be null for invalid ID');
+        self::assertNull($idValidationResult['gender'], 'Gender should be null for invalid ID');
+        self::assertNull($idValidationResult['citizenship'], 'Citizenship should be null for invalid ID');
+        self::assertFalse($idValidationResult['is_legacy'], 'Legacy flag should be false for invalid ID');
+        self::assertNull($idValidationResult['race_indicator'], 'Race indicator should be null for invalid ID');
     }
 
     /**
@@ -116,7 +116,7 @@ final class IntegrationTest extends TestCase
 
         $idValidationResult = SouthAfricanIDValidator::extractInfo($idWithInvalidDate);
 
-        $this->assertFalse($idValidationResult['valid'], 'ID with invalid date should have valid=false');
-        $this->assertNull($idValidationResult['date_components'], 'Date components should be null when date is invalid');
+        self::assertFalse($idValidationResult['valid'], 'ID with invalid date should have valid=false');
+        self::assertNull($idValidationResult['date_components'], 'Date components should be null when date is invalid');
     }
 }
