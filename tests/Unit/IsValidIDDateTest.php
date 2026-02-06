@@ -18,9 +18,6 @@ final class IsValidIDDateTest extends TestCase
      * Provides valid ID date portions for testing.
      *
      * @return array<array<string>>
-     *
-     * @psalm-return list{list{'880101'}, list{'990101'}, list{'000229'}, list{'010101'}, list{'181229'},
-     *     list{'200229'}}
      */
     public static function provideValidIDDates(): array
     {
@@ -39,9 +36,6 @@ final class IsValidIDDateTest extends TestCase
      * Provides invalid ID date portions for testing.
      *
      * @return array<array<string>>
-     *
-     * @psalm-return list{list{'870230'}, list{'990230'}, list{'000230'}, list{'010299'}, list{'01013'},
-     *     list{'0110111'}, list{'170229'}, list{'180229'}, list{'190229'}, list{'87023a'}, list{'a80101'}}
      */
     public static function provideInvalidIDDates(): array
     {

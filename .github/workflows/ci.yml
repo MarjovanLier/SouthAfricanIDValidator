@@ -96,8 +96,5 @@ jobs:
       - name: Run Phan
         run: composer test:phan
 
-      - name: Run Psalm
-        run: composer test:psalm
-
       - name: Run Rector (dry-run)
         run: composer test:rector

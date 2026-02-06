@@ -61,8 +61,7 @@ final class IsValidCitizenshipDigitTest extends TestCase
         $reflectionMethod = (new ReflectionClass($object::class))->getMethod($methodName);
 
         /**
-         * @noinspection   PhpExpressionResultUnusedInspection
-         * @psalm-suppress UnusedMethodCall
+         * @noinspection PhpExpressionResultUnusedInspection
          */
 
         return $reflectionMethod->invokeArgs($object, $parameters);

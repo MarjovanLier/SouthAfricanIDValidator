@@ -21,9 +21,6 @@ final class LuhnIDValidateTest extends TestCase
      * Provides a set of valid ID numbers.
      *
      * @return array<array<string>>
-     *
-     * @psalm-return list{list{'8701105800085'}, list{'3202295029085'}, list{'4806010046080'}, list{'3206015052087'},
-     *     list{'0809015019080'}}
      */
     public static function provideValidIDNumbers(): array
     {
@@ -41,8 +38,6 @@ final class LuhnIDValidateTest extends TestCase
      * Provides a set of invalid ID numbers.
      *
      * @return array<string[]>
-     *
-     * @psalm-return list{list{'1234567890129'}, list{'9876543210186'}}
      */
     public static function provideInvalidIDNumbers(): array
     {
@@ -57,11 +52,6 @@ final class LuhnIDValidateTest extends TestCase
      * Provides a set of invalid ID numbers.
      *
      * @return array<array<string>>
-     *
-     * @psalm-return list{list{'0000000000380'}, list{'0000000000480'}, list{'0000000000580'}, list{'0000000000680'},
-     *     list{'0000000000780'}, list{'0000000000880'}, list{'0000000000980'}, list{'0000000000380'},
-     *     list{'0000000000480'}, list{'0000000000580'}, list{'0000000000680'}, list{'0000000000780'},
-     *     list{'0000000000880'}, list{'0000000000980'}}
      */
     public static function provideInvalidFormatIDNumbers(): array
     {

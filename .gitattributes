@@ -19,7 +19,6 @@
 /phpstan.neon       export-ignore
 /phpunit.xml        export-ignore
 /pint.json          export-ignore
-/psalm.xml          export-ignore
 /qodana.*           export-ignore
 /rector.php         export-ignore
 /sweep.yaml         export-ignore

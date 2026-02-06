@@ -42,7 +42,7 @@ final class ExtractGenderTest extends TestCase
 
         $result = SouthAfricanIDValidator::extractGender($idNumber);
 
-        $this->assertSame('female', $result, sprintf('Sequence %s should indicate female', $sequenceNumber));
+        self::assertSame('female', $result, sprintf('Sequence %s should indicate female', $sequenceNumber));
     }
 
     /**
@@ -74,15 +74,13 @@ final class ExtractGenderTest extends TestCase
 
         $result = SouthAfricanIDValidator::extractGender($idNumber);
 
-        $this->assertSame('male', $result, sprintf('Sequence %s should indicate male', $sequenceNumber));
+        self::assertSame('male', $result, sprintf('Sequence %s should indicate male', $sequenceNumber));
     }
 
     /**
      * Provides female sequence numbers for testing.
      *
      * @return string[][]
-     *
-     * @psalm-return list{list{'0000'}, list{'0001'}, list{'1234'}, list{'2500'}, list{'4998'}, list{'4999'}}
      */
     public static function femaleSequenceProvider(): array
     {
@@ -100,8 +98,6 @@ final class ExtractGenderTest extends TestCase
      * Provides male sequence numbers for testing.
      *
      * @return string[][]
-     *
-     * @psalm-return list{list{'5000'}, list{'5001'}, list{'6789'}, list{'7500'}, list{'9998'}, list{'9999'}}
      */
     public static function maleSequenceProvider(): array
     {
@@ -124,7 +120,7 @@ final class ExtractGenderTest extends TestCase
 
         $result = SouthAfricanIDValidator::extractGender($idNumber);
 
-        $this->assertNull($result, 'Should return null for invalid length');
+        self::assertNull($result, 'Should return null for invalid length');
     }
 
     /**
@@ -136,7 +132,7 @@ final class ExtractGenderTest extends TestCase
 
         $result = SouthAfricanIDValidator::extractGender($idNumber);
 
-        $this->assertSame('male', $result, 'Should extract gender after sanitisation');
+        self::assertSame('male', $result, 'Should extract gender after sanitisation');
     }
 
     /**
@@ -147,11 +143,11 @@ final class ExtractGenderTest extends TestCase
         // Test 4999 (female)
         $femaleId = '8001014999087';
         $result = SouthAfricanIDValidator::extractGender($femaleId);
-        $this->assertSame('female', $result, '4999 should be female');
+        self::assertSame('female', $result, '4999 should be female');
 
         // Test 5000 (male)
         $maleId = '8001015000087';
         $result = SouthAfricanIDValidator::extractGender($maleId);
-        $this->assertSame('male', $result, '5000 should be male');
+        self::assertSame('male', $result, '5000 should be male');
     }
 }

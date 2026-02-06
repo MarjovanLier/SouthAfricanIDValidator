@@ -117,16 +117,10 @@ jobs:
         if: steps.phpstan.outcome == 'success'
         run: composer test:phan
 
-      # This step runs static analysis with Psalm.
-      - name: Run static analysis with psalm
-        id: psalm
-        if: steps.phan.outcome == 'success'
-        run: composer test:psalm
-
       # This step runs Rector for code quality.
       - name: Run rector for code quality
         id: rector
-        if: steps.psalm.outcome == 'success'
+        if: steps.phan.outcome == 'success'
         run: composer test:rector
 
   release:

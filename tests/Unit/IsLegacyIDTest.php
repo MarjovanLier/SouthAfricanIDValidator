@@ -42,7 +42,7 @@ final class IsLegacyIDTest extends TestCase
 
         $result = SouthAfricanIDValidator::isLegacyID($idNumber);
 
-        $this->assertTrue($result, sprintf('Race indicator %s should indicate legacy ID', $raceIndicator));
+        self::assertTrue($result, sprintf('Race indicator %s should indicate legacy ID', $raceIndicator));
     }
 
     /**
@@ -74,15 +74,13 @@ final class IsLegacyIDTest extends TestCase
 
         $result = SouthAfricanIDValidator::isLegacyID($idNumber);
 
-        $this->assertFalse($result, sprintf('Race indicator %s should indicate modern ID', $raceIndicator));
+        self::assertFalse($result, sprintf('Race indicator %s should indicate modern ID', $raceIndicator));
     }
 
     /**
      * Provides legacy race indicator values (0-7).
      *
      * @return string[][]
-     *
-     * @psalm-return list{list{'0'}, list{'1'}, list{'2'}, list{'3'}, list{'4'}, list{'5'}, list{'6'}, list{'7'}}
      */
     public static function legacyIndicatorProvider(): array
     {
@@ -102,8 +100,6 @@ final class IsLegacyIDTest extends TestCase
      * Provides modern race indicator values (8-9).
      *
      * @return string[][]
-     *
-     * @psalm-return list{list{'8'}, list{'9'}}
      */
     public static function modernIndicatorProvider(): array
     {
@@ -122,7 +118,7 @@ final class IsLegacyIDTest extends TestCase
 
         $result = SouthAfricanIDValidator::isLegacyID($idNumber);
 
-        $this->assertFalse($result, 'Should return false for invalid length');
+        self::assertFalse($result, 'Should return false for invalid length');
     }
 
     /**
@@ -134,7 +130,7 @@ final class IsLegacyIDTest extends TestCase
 
         $result = SouthAfricanIDValidator::isLegacyID($idNumber);
 
-        $this->assertTrue($result, 'Should identify legacy ID after sanitisation');
+        self::assertTrue($result, 'Should identify legacy ID after sanitisation');
     }
 
     /**
@@ -146,7 +142,7 @@ final class IsLegacyIDTest extends TestCase
 
         $result = SouthAfricanIDValidator::isLegacyID($idNumber);
 
-        $this->assertFalse($result, 'Should identify modern ID after sanitisation');
+        self::assertFalse($result, 'Should identify modern ID after sanitisation');
     }
 
     /**
@@ -156,6 +152,6 @@ final class IsLegacyIDTest extends TestCase
     {
         $result = SouthAfricanIDValidator::isLegacyID('');
 
-        $this->assertFalse($result, 'Should return false for empty string');
+        self::assertFalse($result, 'Should return false for empty string');
     }
 }
