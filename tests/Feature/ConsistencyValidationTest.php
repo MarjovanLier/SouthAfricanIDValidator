@@ -294,16 +294,16 @@ final class ConsistencyValidationTest extends TestCase
 
         $idValidationResult = SouthAfricanIDValidator::extractInfo($femaleId);
         self::assertTrue($idValidationResult->valid, 'Female ID must be valid');
-        self::assertSame(Gender::Female, $idValidationResult->gender);
         self::assertNotNull($idValidationResult->gender, 'Valid ID must have gender');
+        self::assertSame(Gender::Female, $idValidationResult->gender);
         self::assertSame('female', $idValidationResult->gender->value);
         self::assertSame('female', SouthAfricanIDValidator::extractGender($femaleId));
 
         // Male: 8701105800085
         $maleId = '8701105800085';
         $infoMale = SouthAfricanIDValidator::extractInfo($maleId);
-        self::assertSame(Gender::Male, $infoMale->gender);
         self::assertNotNull($infoMale->gender, 'Valid ID must have gender');
+        self::assertSame(Gender::Male, $infoMale->gender);
         self::assertSame('male', $infoMale->gender->value);
         self::assertSame('male', SouthAfricanIDValidator::extractGender($maleId));
     }

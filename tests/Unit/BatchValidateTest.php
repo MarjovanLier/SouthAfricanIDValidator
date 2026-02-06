@@ -30,9 +30,9 @@ final class BatchValidateTest extends TestCase
         self::assertArrayHasKey('8001015009087', $results, 'First ID should be in results');
         self::assertArrayHasKey('8001015009095', $results, 'Second ID should be in results');
         self::assertArrayHasKey('8001015009004', $results, 'Third ID should be in results');
-        self::assertTrue(isset($results['8001015009087']) && $results['8001015009087'] === true, 'First ID should be valid');
-        self::assertTrue(isset($results['8001015009095']) && $results['8001015009095'] === true, 'Second ID should be valid');
-        self::assertTrue(isset($results['8001015009004']) && $results['8001015009004'] === true, 'Third ID should be valid');
+        self::assertSame(true, $results['8001015009087'] ?? null, 'First ID should be valid');
+        self::assertSame(true, $results['8001015009095'] ?? null, 'Second ID should be valid');
+        self::assertSame(true, $results['8001015009004'] ?? null, 'Third ID should be valid');
     }
 
     /**
@@ -51,13 +51,13 @@ final class BatchValidateTest extends TestCase
 
         self::assertCount(4, $results, 'Should return 4 results');
         self::assertArrayHasKey('8001015009087', $results, 'First ID should be in results');
-        self::assertTrue(isset($results['8001015009087']) && $results['8001015009087'] === true, 'First ID should be valid');
+        self::assertSame(true, $results['8001015009087'] ?? null, 'First ID should be valid');
         self::assertArrayHasKey('1234567890123', $results, 'Second ID should be in results');
-        self::assertFalse(isset($results['1234567890123']) && $results['1234567890123'] === true, 'Second ID should be invalid');
+        self::assertSame(false, $results['1234567890123'] ?? null, 'Second ID should be invalid');
         self::assertArrayHasKey('800101500908', $results, 'Third ID should be in results');
-        self::assertFalse($results['800101500908'] === true, 'Third ID should be invalid');
+        self::assertSame(false, $results['800101500908'] ?? null, 'Third ID should be invalid');
         self::assertArrayHasKey('8001015009095', $results, 'Fourth ID should be in results');
-        self::assertTrue($results['8001015009095'] === true, 'Fourth ID should be valid');
+        self::assertSame(true, $results['8001015009095'] ?? null, 'Fourth ID should be valid');
     }
 
     /**
@@ -73,7 +73,7 @@ final class BatchValidateTest extends TestCase
         $results = SouthAfricanIDValidator::batchValidate($idNumbers);
 
         self::assertArrayHasKey('8001015009087', $results, 'Valid citizenship ID should be in results');
-        self::assertTrue(isset($results['8001015009087']) && $results['8001015009087'] === true, 'Valid citizenship ID should pass');
+        self::assertSame(true, $results['8001015009087'] ?? null, 'Valid citizenship ID should pass');
         self::assertArrayHasKey('8001015009387', $results, 'Invalid citizenship ID should be in results');
         self::assertNull($results['8001015009387'], 'Invalid citizenship should return null');
     }
@@ -103,9 +103,9 @@ final class BatchValidateTest extends TestCase
 
         self::assertCount(2, $results, 'Should have 2 unique results');
         self::assertArrayHasKey('8001015009087', $results, 'Duplicate ID should be in results');
-        self::assertTrue(isset($results['8001015009087']) && $results['8001015009087'] === true, 'Duplicate ID should be validated once');
+        self::assertSame(true, $results['8001015009087'] ?? null, 'Duplicate ID should be validated once');
         self::assertArrayHasKey('8001015009095', $results, 'Other ID should be in results');
-        self::assertTrue(isset($results['8001015009095']) && $results['8001015009095'] === true, 'Other ID should be validated');
+        self::assertSame(true, $results['8001015009095'] ?? null, 'Other ID should be validated');
     }
 
     /**
@@ -168,10 +168,8 @@ final class BatchValidateTest extends TestCase
 
         self::assertArrayHasKey('80-01-01 5009-087', $results, 'Should preserve formatted key');
         self::assertArrayHasKey('8001015009095', $results, 'Should preserve unformatted key');
-        self::assertNotNull($results['80-01-01 5009-087'] ?? null, 'Formatted ID should have result');
-        self::assertTrue(isset($results['80-01-01 5009-087']) && $results['80-01-01 5009-087'], 'Formatted ID should be valid');
-        self::assertNotNull($results['8001015009095'] ?? null, 'Unformatted ID should have result');
-        self::assertTrue(isset($results['8001015009095']) && $results['8001015009095'] === true, 'Unformatted ID should be valid');
+        self::assertSame(true, $results['80-01-01 5009-087'] ?? null, 'Formatted ID should be valid');
+        self::assertSame(true, $results['8001015009095'] ?? null, 'Unformatted ID should be valid');
     }
 
     /**
