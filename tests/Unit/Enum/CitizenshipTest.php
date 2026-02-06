@@ -17,9 +17,9 @@ final class CitizenshipTest extends TestCase
      */
     public function testEnumValues(): void
     {
-        $this->assertSame('south_african_citizen', Citizenship::SouthAfricanCitizen->value);
-        $this->assertSame('permanent_resident', Citizenship::PermanentResident->value);
-        $this->assertSame('refugee', Citizenship::Refugee->value);
+        self::assertSame('south_african_citizen', Citizenship::SouthAfricanCitizen->value);
+        self::assertSame('permanent_resident', Citizenship::PermanentResident->value);
+        self::assertSame('refugee', Citizenship::Refugee->value);
     }
 
     /**
@@ -27,9 +27,9 @@ final class CitizenshipTest extends TestCase
      */
     public function testFromDigitValid(): void
     {
-        $this->assertSame(Citizenship::SouthAfricanCitizen, Citizenship::fromDigit('0'));
-        $this->assertSame(Citizenship::PermanentResident, Citizenship::fromDigit('1'));
-        $this->assertSame(Citizenship::Refugee, Citizenship::fromDigit('2'));
+        self::assertSame(Citizenship::SouthAfricanCitizen, Citizenship::fromDigit('0'));
+        self::assertSame(Citizenship::PermanentResident, Citizenship::fromDigit('1'));
+        self::assertSame(Citizenship::Refugee, Citizenship::fromDigit('2'));
     }
 
     /**
@@ -37,13 +37,13 @@ final class CitizenshipTest extends TestCase
      */
     public function testFromDigitInvalid(): void
     {
-        $this->assertNull(Citizenship::fromDigit('3'));
-        $this->assertNull(Citizenship::fromDigit('4'));
-        $this->assertNull(Citizenship::fromDigit('5'));
-        $this->assertNull(Citizenship::fromDigit('6'));
-        $this->assertNull(Citizenship::fromDigit('7'));
-        $this->assertNull(Citizenship::fromDigit('8'));
-        $this->assertNull(Citizenship::fromDigit('9'));
+        self::assertNull(Citizenship::fromDigit('3'));
+        self::assertNull(Citizenship::fromDigit('4'));
+        self::assertNull(Citizenship::fromDigit('5'));
+        self::assertNull(Citizenship::fromDigit('6'));
+        self::assertNull(Citizenship::fromDigit('7'));
+        self::assertNull(Citizenship::fromDigit('8'));
+        self::assertNull(Citizenship::fromDigit('9'));
     }
 
     /**
@@ -51,9 +51,9 @@ final class CitizenshipTest extends TestCase
      */
     public function testFromDigitNonDigit(): void
     {
-        $this->assertNull(Citizenship::fromDigit('a'));
-        $this->assertNull(Citizenship::fromDigit(''));
-        $this->assertNull(Citizenship::fromDigit('00'));
-        $this->assertNull(Citizenship::fromDigit('-1'));
+        self::assertNull(Citizenship::fromDigit('a'));
+        self::assertNull(Citizenship::fromDigit(''));
+        self::assertNull(Citizenship::fromDigit('00'));
+        self::assertNull(Citizenship::fromDigit('-1'));
     }
 }

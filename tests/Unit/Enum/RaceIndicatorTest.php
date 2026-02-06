@@ -17,16 +17,16 @@ final class RaceIndicatorTest extends TestCase
      */
     public function testEnumValues(): void
     {
-        $this->assertSame('white', RaceIndicator::White->value);
-        $this->assertSame('cape_coloured', RaceIndicator::CapeColoured->value);
-        $this->assertSame('malay', RaceIndicator::Malay->value);
-        $this->assertSame('griqua', RaceIndicator::Griqua->value);
-        $this->assertSame('chinese', RaceIndicator::Chinese->value);
-        $this->assertSame('indian', RaceIndicator::Indian->value);
-        $this->assertSame('other_asian', RaceIndicator::OtherAsian->value);
-        $this->assertSame('other_coloured', RaceIndicator::OtherColoured->value);
-        $this->assertSame('unspecified', RaceIndicator::Unspecified->value);
-        $this->assertSame('unknown', RaceIndicator::Unknown->value);
+        self::assertSame('white', RaceIndicator::White->value);
+        self::assertSame('cape_coloured', RaceIndicator::CapeColoured->value);
+        self::assertSame('malay', RaceIndicator::Malay->value);
+        self::assertSame('griqua', RaceIndicator::Griqua->value);
+        self::assertSame('chinese', RaceIndicator::Chinese->value);
+        self::assertSame('indian', RaceIndicator::Indian->value);
+        self::assertSame('other_asian', RaceIndicator::OtherAsian->value);
+        self::assertSame('other_coloured', RaceIndicator::OtherColoured->value);
+        self::assertSame('unspecified', RaceIndicator::Unspecified->value);
+        self::assertSame('unknown', RaceIndicator::Unknown->value);
     }
 
     /**
@@ -34,14 +34,14 @@ final class RaceIndicatorTest extends TestCase
      */
     public function testFromDigitLegacy(): void
     {
-        $this->assertSame(RaceIndicator::White, RaceIndicator::fromDigit('0'));
-        $this->assertSame(RaceIndicator::CapeColoured, RaceIndicator::fromDigit('1'));
-        $this->assertSame(RaceIndicator::Malay, RaceIndicator::fromDigit('2'));
-        $this->assertSame(RaceIndicator::Griqua, RaceIndicator::fromDigit('3'));
-        $this->assertSame(RaceIndicator::Chinese, RaceIndicator::fromDigit('4'));
-        $this->assertSame(RaceIndicator::Indian, RaceIndicator::fromDigit('5'));
-        $this->assertSame(RaceIndicator::OtherAsian, RaceIndicator::fromDigit('6'));
-        $this->assertSame(RaceIndicator::OtherColoured, RaceIndicator::fromDigit('7'));
+        self::assertSame(RaceIndicator::White, RaceIndicator::fromDigit('0'));
+        self::assertSame(RaceIndicator::CapeColoured, RaceIndicator::fromDigit('1'));
+        self::assertSame(RaceIndicator::Malay, RaceIndicator::fromDigit('2'));
+        self::assertSame(RaceIndicator::Griqua, RaceIndicator::fromDigit('3'));
+        self::assertSame(RaceIndicator::Chinese, RaceIndicator::fromDigit('4'));
+        self::assertSame(RaceIndicator::Indian, RaceIndicator::fromDigit('5'));
+        self::assertSame(RaceIndicator::OtherAsian, RaceIndicator::fromDigit('6'));
+        self::assertSame(RaceIndicator::OtherColoured, RaceIndicator::fromDigit('7'));
     }
 
     /**
@@ -49,8 +49,8 @@ final class RaceIndicatorTest extends TestCase
      */
     public function testFromDigitModern(): void
     {
-        $this->assertSame(RaceIndicator::Unspecified, RaceIndicator::fromDigit('8'));
-        $this->assertSame(RaceIndicator::Unknown, RaceIndicator::fromDigit('9'));
+        self::assertSame(RaceIndicator::Unspecified, RaceIndicator::fromDigit('8'));
+        self::assertSame(RaceIndicator::Unknown, RaceIndicator::fromDigit('9'));
     }
 
     /**
@@ -58,10 +58,10 @@ final class RaceIndicatorTest extends TestCase
      */
     public function testFromDigitInvalid(): void
     {
-        $this->assertNull(RaceIndicator::fromDigit('a'));
-        $this->assertNull(RaceIndicator::fromDigit(''));
-        $this->assertNull(RaceIndicator::fromDigit('10'));
-        $this->assertNull(RaceIndicator::fromDigit('-1'));
+        self::assertNull(RaceIndicator::fromDigit('a'));
+        self::assertNull(RaceIndicator::fromDigit(''));
+        self::assertNull(RaceIndicator::fromDigit('10'));
+        self::assertNull(RaceIndicator::fromDigit('-1'));
     }
 
     /**
@@ -69,16 +69,16 @@ final class RaceIndicatorTest extends TestCase
      */
     public function testDescription(): void
     {
-        $this->assertSame('White', RaceIndicator::White->description());
-        $this->assertSame('Cape Coloured', RaceIndicator::CapeColoured->description());
-        $this->assertSame('Malay', RaceIndicator::Malay->description());
-        $this->assertSame('Griqua', RaceIndicator::Griqua->description());
-        $this->assertSame('Chinese', RaceIndicator::Chinese->description());
-        $this->assertSame('Indian', RaceIndicator::Indian->description());
-        $this->assertSame('Other Asian', RaceIndicator::OtherAsian->description());
-        $this->assertSame('Other Coloured', RaceIndicator::OtherColoured->description());
-        $this->assertSame('Unspecified (post-1994)', RaceIndicator::Unspecified->description());
-        $this->assertSame('Unknown/Not documented', RaceIndicator::Unknown->description());
+        self::assertSame('White', RaceIndicator::White->description());
+        self::assertSame('Cape Coloured', RaceIndicator::CapeColoured->description());
+        self::assertSame('Malay', RaceIndicator::Malay->description());
+        self::assertSame('Griqua', RaceIndicator::Griqua->description());
+        self::assertSame('Chinese', RaceIndicator::Chinese->description());
+        self::assertSame('Indian', RaceIndicator::Indian->description());
+        self::assertSame('Other Asian', RaceIndicator::OtherAsian->description());
+        self::assertSame('Other Coloured', RaceIndicator::OtherColoured->description());
+        self::assertSame('Unspecified (post-1994)', RaceIndicator::Unspecified->description());
+        self::assertSame('Unknown/Not documented', RaceIndicator::Unknown->description());
     }
 
     /**
@@ -86,14 +86,14 @@ final class RaceIndicatorTest extends TestCase
      */
     public function testIsLegacyTrue(): void
     {
-        $this->assertTrue(RaceIndicator::White->isLegacy());
-        $this->assertTrue(RaceIndicator::CapeColoured->isLegacy());
-        $this->assertTrue(RaceIndicator::Malay->isLegacy());
-        $this->assertTrue(RaceIndicator::Griqua->isLegacy());
-        $this->assertTrue(RaceIndicator::Chinese->isLegacy());
-        $this->assertTrue(RaceIndicator::Indian->isLegacy());
-        $this->assertTrue(RaceIndicator::OtherAsian->isLegacy());
-        $this->assertTrue(RaceIndicator::OtherColoured->isLegacy());
+        self::assertTrue(RaceIndicator::White->isLegacy());
+        self::assertTrue(RaceIndicator::CapeColoured->isLegacy());
+        self::assertTrue(RaceIndicator::Malay->isLegacy());
+        self::assertTrue(RaceIndicator::Griqua->isLegacy());
+        self::assertTrue(RaceIndicator::Chinese->isLegacy());
+        self::assertTrue(RaceIndicator::Indian->isLegacy());
+        self::assertTrue(RaceIndicator::OtherAsian->isLegacy());
+        self::assertTrue(RaceIndicator::OtherColoured->isLegacy());
     }
 
     /**
@@ -101,7 +101,7 @@ final class RaceIndicatorTest extends TestCase
      */
     public function testIsLegacyFalse(): void
     {
-        $this->assertFalse(RaceIndicator::Unspecified->isLegacy());
-        $this->assertFalse(RaceIndicator::Unknown->isLegacy());
+        self::assertFalse(RaceIndicator::Unspecified->isLegacy());
+        self::assertFalse(RaceIndicator::Unknown->isLegacy());
     }
 }

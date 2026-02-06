@@ -34,12 +34,12 @@ final class IDValidationResultTest extends TestCase
             raceIndicator: RaceIndicator::Unspecified,
         );
 
-        $this->assertTrue($idValidationResult->valid);
-        $this->assertSame($dateComponents, $idValidationResult->dateComponents);
-        $this->assertSame(Gender::Male, $idValidationResult->gender);
-        $this->assertSame(Citizenship::SouthAfricanCitizen, $idValidationResult->citizenship);
-        $this->assertFalse($idValidationResult->isLegacy);
-        $this->assertSame(RaceIndicator::Unspecified, $idValidationResult->raceIndicator);
+        self::assertTrue($idValidationResult->valid);
+        self::assertSame($dateComponents, $idValidationResult->dateComponents);
+        self::assertSame(Gender::Male, $idValidationResult->gender);
+        self::assertSame(Citizenship::SouthAfricanCitizen, $idValidationResult->citizenship);
+        self::assertFalse($idValidationResult->isLegacy);
+        self::assertSame(RaceIndicator::Unspecified, $idValidationResult->raceIndicator);
     }
 
     /**
@@ -49,12 +49,12 @@ final class IDValidationResultTest extends TestCase
     {
         $idValidationResult = IDValidationResult::invalid();
 
-        $this->assertFalse($idValidationResult->valid);
-        $this->assertNull($idValidationResult->dateComponents);
-        $this->assertNull($idValidationResult->gender);
-        $this->assertNull($idValidationResult->citizenship);
-        $this->assertFalse($idValidationResult->isLegacy);
-        $this->assertNull($idValidationResult->raceIndicator);
+        self::assertFalse($idValidationResult->valid);
+        self::assertNull($idValidationResult->dateComponents);
+        self::assertNull($idValidationResult->gender);
+        self::assertNull($idValidationResult->citizenship);
+        self::assertFalse($idValidationResult->isLegacy);
+        self::assertNull($idValidationResult->raceIndicator);
     }
 
     /**
@@ -81,7 +81,7 @@ final class IDValidationResultTest extends TestCase
             'race_indicator' => 'white',
         ];
 
-        $this->assertSame($expected, $idValidationResult->toArray());
+        self::assertSame($expected, $idValidationResult->toArray());
     }
 
     /**
@@ -100,7 +100,7 @@ final class IDValidationResultTest extends TestCase
             'race_indicator' => null,
         ];
 
-        $this->assertSame($expected, $idValidationResult->toArray());
+        self::assertSame($expected, $idValidationResult->toArray());
     }
 
     /**
@@ -119,7 +119,7 @@ final class IDValidationResultTest extends TestCase
             isLegacy: false,
             raceIndicator: RaceIndicator::Unspecified,
         );
-        $this->assertTrue($citizenResult->isSouthAfricanCitizen());
+        self::assertTrue($citizenResult->isSouthAfricanCitizen());
 
         // Valid but not SA citizen (permanent resident)
         $residentResult = new IDValidationResult(
@@ -130,11 +130,11 @@ final class IDValidationResultTest extends TestCase
             isLegacy: false,
             raceIndicator: RaceIndicator::Unspecified,
         );
-        $this->assertFalse($residentResult->isSouthAfricanCitizen());
+        self::assertFalse($residentResult->isSouthAfricanCitizen());
 
         // Invalid result
         $invalidResult = IDValidationResult::invalid();
-        $this->assertFalse($invalidResult->isSouthAfricanCitizen());
+        self::assertFalse($invalidResult->isSouthAfricanCitizen());
     }
 
     /**
@@ -153,7 +153,7 @@ final class IDValidationResultTest extends TestCase
             isLegacy: false,
             raceIndicator: RaceIndicator::Unspecified,
         );
-        $this->assertTrue($maleResult->isMale());
+        self::assertTrue($maleResult->isMale());
 
         // Valid female
         $femaleResult = new IDValidationResult(
@@ -164,11 +164,11 @@ final class IDValidationResultTest extends TestCase
             isLegacy: false,
             raceIndicator: RaceIndicator::Unspecified,
         );
-        $this->assertFalse($femaleResult->isMale());
+        self::assertFalse($femaleResult->isMale());
 
         // Invalid result
         $invalidResult = IDValidationResult::invalid();
-        $this->assertFalse($invalidResult->isMale());
+        self::assertFalse($invalidResult->isMale());
     }
 
     /**
@@ -187,7 +187,7 @@ final class IDValidationResultTest extends TestCase
             isLegacy: false,
             raceIndicator: RaceIndicator::Unspecified,
         );
-        $this->assertTrue($femaleResult->isFemale());
+        self::assertTrue($femaleResult->isFemale());
 
         // Valid male
         $maleResult = new IDValidationResult(
@@ -198,11 +198,11 @@ final class IDValidationResultTest extends TestCase
             isLegacy: false,
             raceIndicator: RaceIndicator::Unspecified,
         );
-        $this->assertFalse($maleResult->isFemale());
+        self::assertFalse($maleResult->isFemale());
 
         // Invalid result
         $invalidResult = IDValidationResult::invalid();
-        $this->assertFalse($invalidResult->isFemale());
+        self::assertFalse($invalidResult->isFemale());
     }
 
     /**
@@ -212,13 +212,13 @@ final class IDValidationResultTest extends TestCase
     {
         $idValidationResult = IDValidationResult::invalid();
 
-        $this->assertTrue(isset($idValidationResult['valid']));
-        $this->assertTrue(isset($idValidationResult['date_components']));
-        $this->assertTrue(isset($idValidationResult['gender']));
-        $this->assertTrue(isset($idValidationResult['citizenship']));
-        $this->assertTrue(isset($idValidationResult['is_legacy']));
-        $this->assertTrue(isset($idValidationResult['race_indicator']));
-        $this->assertFalse(isset($idValidationResult['invalid_key']));
+        self::assertTrue(isset($idValidationResult['valid']));
+        self::assertTrue(isset($idValidationResult['date_components']));
+        self::assertTrue(isset($idValidationResult['gender']));
+        self::assertTrue(isset($idValidationResult['citizenship']));
+        self::assertTrue(isset($idValidationResult['is_legacy']));
+        self::assertTrue(isset($idValidationResult['race_indicator']));
+        self::assertFalse(isset($idValidationResult['invalid_key']));
     }
 
     /**
@@ -237,12 +237,12 @@ final class IDValidationResultTest extends TestCase
         );
 
         // ArrayAccess returns legacy-compatible values (strings, not enums)
-        $this->assertTrue($idValidationResult['valid']);
-        $this->assertSame(['year' => '80', 'month' => '01', 'day' => '15'], $idValidationResult['date_components']);
-        $this->assertSame('male', $idValidationResult['gender']);
-        $this->assertSame('refugee', $idValidationResult['citizenship']);
-        $this->assertTrue($idValidationResult['is_legacy']);
-        $this->assertSame('indian', $idValidationResult['race_indicator']);
+        self::assertTrue($idValidationResult['valid']);
+        self::assertSame(['year' => '80', 'month' => '01', 'day' => '15'], $idValidationResult['date_components']);
+        self::assertSame('male', $idValidationResult['gender']);
+        self::assertSame('refugee', $idValidationResult['citizenship']);
+        self::assertTrue($idValidationResult['is_legacy']);
+        self::assertSame('indian', $idValidationResult['race_indicator']);
     }
 
     /**
@@ -252,8 +252,8 @@ final class IDValidationResultTest extends TestCase
     {
         $idValidationResult = IDValidationResult::invalid();
 
-        $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage('Invalid offset "invalid_key".');
+        self::expectException(InvalidArgumentException::class);
+        self::expectExceptionMessage('Invalid offset "invalid_key".');
 
         /** @phpstan-ignore-next-line */
         $idValidationResult['invalid_key'];
@@ -266,8 +266,8 @@ final class IDValidationResultTest extends TestCase
     {
         $idValidationResult = IDValidationResult::invalid();
 
-        $this->expectException(BadMethodCallException::class);
-        $this->expectExceptionMessage('Cannot set "valid" to "1": IDValidationResult is immutable.');
+        self::expectException(BadMethodCallException::class);
+        self::expectExceptionMessage('Cannot set "valid" to "1": IDValidationResult is immutable.');
 
         $idValidationResult['valid'] = true;
     }
@@ -279,8 +279,8 @@ final class IDValidationResultTest extends TestCase
     {
         $idValidationResult = IDValidationResult::invalid();
 
-        $this->expectException(BadMethodCallException::class);
-        $this->expectExceptionMessage('Cannot unset "valid": IDValidationResult is immutable.');
+        self::expectException(BadMethodCallException::class);
+        self::expectExceptionMessage('Cannot unset "valid": IDValidationResult is immutable.');
 
         unset($idValidationResult['valid']);
     }
@@ -301,12 +301,12 @@ final class IDValidationResultTest extends TestCase
         );
 
         // These patterns should work exactly as before
-        $this->assertTrue($idValidationResult['valid'], 'ID should be valid');
-        $this->assertIsArray($idValidationResult['date_components'], 'Date components should be an array');
-        $this->assertSame('80', $idValidationResult['date_components']['year'], 'Year should be 80');
-        $this->assertSame('male', $idValidationResult['gender'], 'Gender should be male');
-        $this->assertSame('south_african_citizen', $idValidationResult['citizenship'], 'Should be SA citizen');
-        $this->assertFalse($idValidationResult['is_legacy'], 'Should not be legacy format');
+        self::assertTrue($idValidationResult['valid'], 'ID should be valid');
+        self::assertIsArray($idValidationResult['date_components'], 'Date components should be an array');
+        self::assertSame('80', $idValidationResult['date_components']['year'], 'Year should be 80');
+        self::assertSame('male', $idValidationResult['gender'], 'Gender should be male');
+        self::assertSame('south_african_citizen', $idValidationResult['citizenship'], 'Should be SA citizen');
+        self::assertFalse($idValidationResult['is_legacy'], 'Should not be legacy format');
     }
 
 
@@ -317,8 +317,8 @@ final class IDValidationResultTest extends TestCase
     {
         $idValidationResult = IDValidationResult::invalid();
 
-        $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage('Invalid offset "123".');
+        self::expectException(InvalidArgumentException::class);
+        self::expectExceptionMessage('Invalid offset "123".');
 
         /** @phpstan-ignore-next-line */
         $idValidationResult[123];
@@ -332,9 +332,9 @@ final class IDValidationResultTest extends TestCase
     {
         $idValidationResult = IDValidationResult::invalid();
 
-        $this->expectException(InvalidArgumentException::class);
+        self::expectException(InvalidArgumentException::class);
         // Boolean true becomes "1" when cast to string
-        $this->expectExceptionMessage('Invalid offset "1".');
+        self::expectExceptionMessage('Invalid offset "1".');
 
         /** @phpstan-ignore-next-line */
         $idValidationResult[true];
@@ -348,9 +348,9 @@ final class IDValidationResultTest extends TestCase
     {
         $idValidationResult = IDValidationResult::invalid();
 
-        $this->expectException(InvalidArgumentException::class);
+        self::expectException(InvalidArgumentException::class);
         // Non-scalar uses gettype()
-        $this->expectExceptionMessage('Invalid offset "array".');
+        self::expectExceptionMessage('Invalid offset "array".');
 
         /** @phpstan-ignore-next-line */
         $idValidationResult[['test']];
@@ -364,10 +364,9 @@ final class IDValidationResultTest extends TestCase
     {
         $idValidationResult = IDValidationResult::invalid();
 
-        $this->expectException(BadMethodCallException::class);
-        $this->expectExceptionMessage('Cannot set "0" to "99": IDValidationResult is immutable.');
+        self::expectException(BadMethodCallException::class);
+        self::expectExceptionMessage('Cannot set "0" to "99": IDValidationResult is immutable.');
 
-        /** @phpstan-ignore-next-line */
         $idValidationResult[0] = 99;
     }
 
@@ -379,10 +378,9 @@ final class IDValidationResultTest extends TestCase
     {
         $idValidationResult = IDValidationResult::invalid();
 
-        $this->expectException(BadMethodCallException::class);
-        $this->expectExceptionMessage('Cannot set "valid" to "array": IDValidationResult is immutable.');
+        self::expectException(BadMethodCallException::class);
+        self::expectExceptionMessage('Cannot set "valid" to "array": IDValidationResult is immutable.');
 
-        /** @phpstan-ignore-next-line */
         $idValidationResult['valid'] = ['invalid'];
     }
 
@@ -394,10 +392,9 @@ final class IDValidationResultTest extends TestCase
     {
         $idValidationResult = IDValidationResult::invalid();
 
-        $this->expectException(BadMethodCallException::class);
-        $this->expectExceptionMessage('Cannot unset "0": IDValidationResult is immutable.');
+        self::expectException(BadMethodCallException::class);
+        self::expectExceptionMessage('Cannot unset "0": IDValidationResult is immutable.');
 
-        /** @phpstan-ignore-next-line */
         unset($idValidationResult[0]);
     }
 
@@ -409,10 +406,9 @@ final class IDValidationResultTest extends TestCase
     {
         $idValidationResult = IDValidationResult::invalid();
 
-        $this->expectException(BadMethodCallException::class);
-        $this->expectExceptionMessage('Cannot unset "object": IDValidationResult is immutable.');
+        self::expectException(BadMethodCallException::class);
+        self::expectExceptionMessage('Cannot unset "object": IDValidationResult is immutable.');
 
-        /** @phpstan-ignore-next-line */
         unset($idValidationResult[new stdClass()]);
     }
 
@@ -432,7 +428,7 @@ final class IDValidationResultTest extends TestCase
             raceIndicator: RaceIndicator::Unspecified,
         );
 
-        $this->assertFalse($idValidationResult->isSouthAfricanCitizen());
+        self::assertFalse($idValidationResult->isSouthAfricanCitizen());
     }
 
 
@@ -452,8 +448,8 @@ final class IDValidationResultTest extends TestCase
             isLegacy: false,
             raceIndicator: RaceIndicator::Unspecified,
         );
-        $this->assertFalse($invalidMale->isMale());
-        $this->assertFalse($invalidMale->isFemale());
+        self::assertFalse($invalidMale->isMale());
+        self::assertFalse($invalidMale->isFemale());
 
         // Invalid result with Female gender should still return false for isFemale
         $invalidFemale = new IDValidationResult(
@@ -464,8 +460,8 @@ final class IDValidationResultTest extends TestCase
             isLegacy: false,
             raceIndicator: RaceIndicator::Unspecified,
         );
-        $this->assertFalse($invalidFemale->isFemale());
-        $this->assertFalse($invalidFemale->isMale());
+        self::assertFalse($invalidFemale->isFemale());
+        self::assertFalse($invalidFemale->isMale());
     }
 
 
@@ -485,6 +481,6 @@ final class IDValidationResultTest extends TestCase
             raceIndicator: RaceIndicator::Unspecified,
         );
 
-        $this->assertFalse($idValidationResult->isSouthAfricanCitizen());
+        self::assertFalse($idValidationResult->isSouthAfricanCitizen());
     }
 }

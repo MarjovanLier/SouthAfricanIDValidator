@@ -17,8 +17,8 @@ final class GenderTest extends TestCase
      */
     public function testEnumValues(): void
     {
-        $this->assertSame('female', Gender::Female->value);
-        $this->assertSame('male', Gender::Male->value);
+        self::assertSame('female', Gender::Female->value);
+        self::assertSame('male', Gender::Male->value);
     }
 
     /**
@@ -27,13 +27,13 @@ final class GenderTest extends TestCase
     public function testFromSequenceNumberFemale(): void
     {
         // Boundary: minimum female value
-        $this->assertSame(Gender::Female, Gender::fromSequenceNumber(0));
+        self::assertSame(Gender::Female, Gender::fromSequenceNumber(0));
 
         // Middle of female range
-        $this->assertSame(Gender::Female, Gender::fromSequenceNumber(2500));
+        self::assertSame(Gender::Female, Gender::fromSequenceNumber(2500));
 
         // Boundary: maximum female value
-        $this->assertSame(Gender::Female, Gender::fromSequenceNumber(4999));
+        self::assertSame(Gender::Female, Gender::fromSequenceNumber(4999));
     }
 
     /**
@@ -42,13 +42,13 @@ final class GenderTest extends TestCase
     public function testFromSequenceNumberMale(): void
     {
         // Boundary: minimum male value
-        $this->assertSame(Gender::Male, Gender::fromSequenceNumber(5000));
+        self::assertSame(Gender::Male, Gender::fromSequenceNumber(5000));
 
         // Middle of male range
-        $this->assertSame(Gender::Male, Gender::fromSequenceNumber(7500));
+        self::assertSame(Gender::Male, Gender::fromSequenceNumber(7500));
 
         // Boundary: maximum male value
-        $this->assertSame(Gender::Male, Gender::fromSequenceNumber(9999));
+        self::assertSame(Gender::Male, Gender::fromSequenceNumber(9999));
     }
 
     /**
@@ -57,9 +57,9 @@ final class GenderTest extends TestCase
     public function testFromSequenceNumberBoundary(): void
     {
         // Just below the boundary (female)
-        $this->assertSame(Gender::Female, Gender::fromSequenceNumber(4999));
+        self::assertSame(Gender::Female, Gender::fromSequenceNumber(4999));
 
         // At the boundary (male)
-        $this->assertSame(Gender::Male, Gender::fromSequenceNumber(5000));
+        self::assertSame(Gender::Male, Gender::fromSequenceNumber(5000));
     }
 }

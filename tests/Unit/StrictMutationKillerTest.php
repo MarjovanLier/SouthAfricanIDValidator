@@ -33,7 +33,7 @@ final class StrictMutationKillerTest extends TestCase
 
         // Test a date valid in all three centuries
         $result = $reflectionMethod->invoke(null, '850101');
-        $this->assertTrue($result, 'Date should be valid in at least one century');
+        self::assertTrue($result, 'Date should be valid in at least one century');
 
         // The mutation would remove '18', so if we have coverage showing
         // the method works, it proves '18' is needed
@@ -51,8 +51,8 @@ final class StrictMutationKillerTest extends TestCase
         $result = SouthAfricanIDValidator::convertLegacyToModern($legacyId);
 
         // The conversion should produce a valid modern ID
-        $this->assertIsString($result, 'Conversion should return a string');
-        $this->assertTrue(
+        self::assertIsString($result, 'Conversion should return a string');
+        self::assertTrue(
             SouthAfricanIDValidator::luhnIDValidate($result),
             'Converted ID should be valid, requiring integer arithmetic',
         );
@@ -73,8 +73,8 @@ final class StrictMutationKillerTest extends TestCase
         $legacyId = '8001015009004'; // Contains digits that when doubled exceed 9
         $result = SouthAfricanIDValidator::convertLegacyToModern($legacyId);
 
-        $this->assertIsString($result, 'Should convert legacy ID');
-        $this->assertTrue(
+        self::assertIsString($result, 'Should convert legacy ID');
+        self::assertTrue(
             SouthAfricanIDValidator::luhnIDValidate($result),
             'Converted ID should have valid checksum using correct reduction logic',
         );
@@ -92,13 +92,13 @@ final class StrictMutationKillerTest extends TestCase
 
         // Test with indicator 8
         $result8 = SouthAfricanIDValidator::convertLegacyToModern($legacyId, 8);
-        $this->assertIsString($result8, 'Result should be string');
-        $this->assertMatchesRegularExpression('/^\d{13}$/', $result8, 'Should be 13 digits');
+        self::assertIsString($result8, 'Result should be string');
+        self::assertMatchesRegularExpression('/^\d{13}$/', $result8, 'Should be 13 digits');
 
         // Test with indicator 9
         $result9 = SouthAfricanIDValidator::convertLegacyToModern($legacyId, 9);
-        $this->assertIsString($result9, 'Result should be string');
-        $this->assertMatchesRegularExpression('/^\d{13}$/', $result9, 'Should be 13 digits');
+        self::assertIsString($result9, 'Result should be string');
+        self::assertMatchesRegularExpression('/^\d{13}$/', $result9, 'Should be 13 digits');
     }
 
 
@@ -114,22 +114,22 @@ final class StrictMutationKillerTest extends TestCase
         // But 999 as int is also less than 5000, so female
         $femaleId1 = '8001010999084'; // Sequence 0999
         $gender1 = SouthAfricanIDValidator::extractGender($femaleId1);
-        $this->assertSame('female', $gender1, 'Sequence 0999 should be female');
+        self::assertSame('female', $gender1, 'Sequence 0999 should be female');
 
         // "4999" vs 4999 - both comparisons give same result
         $femaleId2 = '8001014999089'; // Sequence 4999
         $gender2 = SouthAfricanIDValidator::extractGender($femaleId2);
-        $this->assertSame('female', $gender2, 'Sequence 4999 should be female');
+        self::assertSame('female', $gender2, 'Sequence 4999 should be female');
 
         // "5000" vs 5000 - both comparisons give same result
         $maleId1 = '8001015000083'; // Sequence 5000
         $gender3 = SouthAfricanIDValidator::extractGender($maleId1);
-        $this->assertSame('male', $gender3, 'Sequence 5000 should be male');
+        self::assertSame('male', $gender3, 'Sequence 5000 should be male');
 
         // "9999" vs 9999 - both comparisons give same result
         $maleId2 = '8001019999089'; // Sequence 9999
         $gender4 = SouthAfricanIDValidator::extractGender($maleId2);
-        $this->assertSame('male', $gender4, 'Sequence 9999 should be male');
+        self::assertSame('male', $gender4, 'Sequence 9999 should be male');
     }
 
 
@@ -143,14 +143,14 @@ final class StrictMutationKillerTest extends TestCase
         $id1 = '8001015009087';
         $id2 = '8001015009095'; // Same first 11 digits
 
-        $this->assertTrue(
+        self::assertTrue(
             SouthAfricanIDValidator::wouldBeDuplicates($id1, $id2),
             'IDs with same first 11 digits should be duplicates',
         );
 
         // Test with different first 11 digits
         $id3 = '8001025009084'; // Different day
-        $this->assertFalse(
+        self::assertFalse(
             SouthAfricanIDValidator::wouldBeDuplicates($id1, $id3),
             'IDs with different first 11 digits should not be duplicates',
         );
@@ -166,14 +166,14 @@ final class StrictMutationKillerTest extends TestCase
         // Test with valid ID (luhnIDValidate returns true)
         $validId = '8001015009087';
         $idValidationResult = SouthAfricanIDValidator::extractInfo($validId);
-        $this->assertTrue($idValidationResult['valid'], 'Valid ID should have valid=true');
-        $this->assertIsArray($idValidationResult['date_components'], 'Should have date components');
+        self::assertTrue($idValidationResult['valid'], 'Valid ID should have valid=true');
+        self::assertIsArray($idValidationResult['date_components'], 'Should have date components');
 
         // Test with invalid checksum (luhnIDValidate returns false)
         $invalidChecksum = '8001015009088'; // Wrong checksum
         $info2 = SouthAfricanIDValidator::extractInfo($invalidChecksum);
-        $this->assertFalse($info2['valid'], 'Invalid checksum should have valid=false');
-        $this->assertNull($info2['date_components'], 'Should have null date components');
+        self::assertFalse($info2['valid'], 'Invalid checksum should have valid=false');
+        self::assertNull($info2['date_components'], 'Should have null date components');
 
         // Test with invalid citizenship (luhnIDValidate returns null)
         $invalidCitizen = '8001015009287'; // Citizenship 2 (refugee)
@@ -181,12 +181,12 @@ final class StrictMutationKillerTest extends TestCase
         // Citizenship 2 is actually valid, let us use 3 instead
         $invalidCitizen = '8001015009387'; // Citizenship 3 (invalid)
         $info3 = SouthAfricanIDValidator::extractInfo($invalidCitizen);
-        $this->assertFalse($info3['valid'], 'Invalid citizenship should have valid=false');
+        self::assertFalse($info3['valid'], 'Invalid citizenship should have valid=false');
 
         // Test with wrong length
         $tooShort = '800101500908'; // 12 chars
         $info4 = SouthAfricanIDValidator::extractInfo($tooShort);
-        $this->assertFalse($info4['valid'], 'Too short should have valid=false');
+        self::assertFalse($info4['valid'], 'Too short should have valid=false');
     }
 
 
@@ -198,21 +198,21 @@ final class StrictMutationKillerTest extends TestCase
     {
         // Test luhnIDValidate with exactly 13 chars
         $valid13 = '8001015009087';
-        $this->assertTrue(
+        self::assertTrue(
             SouthAfricanIDValidator::luhnIDValidate($valid13),
             'Exactly 13 chars should pass',
         );
 
         // Test with 12 chars
         $invalid12 = '800101500908';
-        $this->assertFalse(
+        self::assertFalse(
             SouthAfricanIDValidator::luhnIDValidate($invalid12),
             '12 chars should fail',
         );
 
         // Test with 14 chars
         $invalid14 = '80010150090877';
-        $this->assertFalse(
+        self::assertFalse(
             SouthAfricanIDValidator::luhnIDValidate($invalid14),
             '14 chars should fail',
         );
@@ -221,19 +221,19 @@ final class StrictMutationKillerTest extends TestCase
         $reflectionMethod = new ReflectionMethod(SouthAfricanIDValidator::class, 'isValidIDDate');
 
         $valid6 = '800101';
-        $this->assertTrue(
+        self::assertTrue(
             $reflectionMethod->invoke(null, $valid6),
             'Exactly 6 chars should pass date validation',
         );
 
         $invalid5 = '80010';
-        $this->assertFalse(
+        self::assertFalse(
             $reflectionMethod->invoke(null, $invalid5),
             '5 chars should fail date validation',
         );
 
         $invalid7 = '8001011';
-        $this->assertFalse(
+        self::assertFalse(
             $reflectionMethod->invoke(null, $invalid7),
             '7 chars should fail date validation',
         );

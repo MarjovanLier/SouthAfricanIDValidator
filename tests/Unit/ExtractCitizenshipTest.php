@@ -21,7 +21,7 @@ final class ExtractCitizenshipTest extends TestCase
 
         $result = SouthAfricanIDValidator::extractCitizenship($idNumber);
 
-        $this->assertSame('south_african_citizen', $result, 'Should identify SA citizen');
+        self::assertSame('south_african_citizen', $result, 'Should identify SA citizen');
     }
 
     /**
@@ -33,7 +33,7 @@ final class ExtractCitizenshipTest extends TestCase
 
         $result = SouthAfricanIDValidator::extractCitizenship($idNumber);
 
-        $this->assertSame('permanent_resident', $result, 'Should identify permanent resident');
+        self::assertSame('permanent_resident', $result, 'Should identify permanent resident');
     }
 
     /**
@@ -45,7 +45,7 @@ final class ExtractCitizenshipTest extends TestCase
 
         $result = SouthAfricanIDValidator::extractCitizenship($idNumber);
 
-        $this->assertSame('refugee', $result, 'Should identify refugee');
+        self::assertSame('refugee', $result, 'Should identify refugee');
     }
 
     /**
@@ -58,7 +58,7 @@ final class ExtractCitizenshipTest extends TestCase
 
         $result = SouthAfricanIDValidator::extractCitizenship($idNumber);
 
-        $this->assertNull($result, 'Should return null for invalid citizenship digit');
+        self::assertNull($result, 'Should return null for invalid citizenship digit');
     }
 
     /**
@@ -70,7 +70,7 @@ final class ExtractCitizenshipTest extends TestCase
 
         $result = SouthAfricanIDValidator::extractCitizenship($idNumber);
 
-        $this->assertNull($result, 'Should return null for invalid length');
+        self::assertNull($result, 'Should return null for invalid length');
     }
 
     /**
@@ -82,7 +82,7 @@ final class ExtractCitizenshipTest extends TestCase
 
         $result = SouthAfricanIDValidator::extractCitizenship($idNumber);
 
-        $this->assertSame('south_african_citizen', $result, 'Should extract citizenship after sanitisation');
+        self::assertSame('south_african_citizen', $result, 'Should extract citizenship after sanitisation');
     }
 
     /**
@@ -99,7 +99,7 @@ final class ExtractCitizenshipTest extends TestCase
 
         foreach ($testCases as $testCase) {
             $result = SouthAfricanIDValidator::extractCitizenship($testCase['id']);
-            $this->assertSame(
+            self::assertSame(
                 $testCase['expected'],
                 $result,
                 sprintf('Citizenship digit %s should map to %s', $testCase['digit'], $testCase['expected']),

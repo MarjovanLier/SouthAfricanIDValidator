@@ -22,9 +22,9 @@ final class DateComponentsTest extends TestCase
     {
         $dateComponents = new DateComponents('80', '01', '15');
 
-        $this->assertSame('80', $dateComponents->year);
-        $this->assertSame('01', $dateComponents->month);
-        $this->assertSame('15', $dateComponents->day);
+        self::assertSame('80', $dateComponents->year);
+        self::assertSame('01', $dateComponents->month);
+        self::assertSame('15', $dateComponents->day);
     }
 
     /**
@@ -35,9 +35,9 @@ final class DateComponentsTest extends TestCase
         $data = ['year' => '95', 'month' => '12', 'day' => '25'];
         $dateComponents = DateComponents::fromArray($data);
 
-        $this->assertSame('95', $dateComponents->year);
-        $this->assertSame('12', $dateComponents->month);
-        $this->assertSame('25', $dateComponents->day);
+        self::assertSame('95', $dateComponents->year);
+        self::assertSame('12', $dateComponents->month);
+        self::assertSame('25', $dateComponents->day);
     }
 
     /**
@@ -48,7 +48,7 @@ final class DateComponentsTest extends TestCase
         $dateComponents = new DateComponents('80', '01', '15');
 
         $expected = ['year' => '80', 'month' => '01', 'day' => '15'];
-        $this->assertSame($expected, $dateComponents->toArray());
+        self::assertSame($expected, $dateComponents->toArray());
     }
 
     /**
@@ -58,10 +58,10 @@ final class DateComponentsTest extends TestCase
     {
         $dateComponents = new DateComponents('80', '01', '15');
 
-        $this->assertTrue(isset($dateComponents['year']));
-        $this->assertTrue(isset($dateComponents['month']));
-        $this->assertTrue(isset($dateComponents['day']));
-        $this->assertFalse(isset($dateComponents['invalid']));
+        self::assertTrue(isset($dateComponents['year']));
+        self::assertTrue(isset($dateComponents['month']));
+        self::assertTrue(isset($dateComponents['day']));
+        self::assertFalse(isset($dateComponents['invalid']));
     }
 
     /**
@@ -71,9 +71,9 @@ final class DateComponentsTest extends TestCase
     {
         $dateComponents = new DateComponents('80', '01', '15');
 
-        $this->assertSame('80', $dateComponents['year']);
-        $this->assertSame('01', $dateComponents['month']);
-        $this->assertSame('15', $dateComponents['day']);
+        self::assertSame('80', $dateComponents['year']);
+        self::assertSame('01', $dateComponents['month']);
+        self::assertSame('15', $dateComponents['day']);
     }
 
     /**
@@ -83,8 +83,8 @@ final class DateComponentsTest extends TestCase
     {
         $dateComponents = new DateComponents('80', '01', '15');
 
-        $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage('Invalid offset "invalid". Valid offsets are: year, month, day.');
+        self::expectException(InvalidArgumentException::class);
+        self::expectExceptionMessage('Invalid offset "invalid". Valid offsets are: year, month, day.');
 
         /** @phpstan-ignore-next-line */
         $dateComponents['invalid'];
@@ -97,8 +97,8 @@ final class DateComponentsTest extends TestCase
     {
         $dateComponents = new DateComponents('80', '01', '15');
 
-        $this->expectException(BadMethodCallException::class);
-        $this->expectExceptionMessage('Cannot set "year" to "90": DateComponents is immutable.');
+        self::expectException(BadMethodCallException::class);
+        self::expectExceptionMessage('Cannot set "year" to "90": DateComponents is immutable.');
 
         $dateComponents['year'] = '90';
     }
@@ -110,8 +110,8 @@ final class DateComponentsTest extends TestCase
     {
         $dateComponents = new DateComponents('80', '01', '15');
 
-        $this->expectException(BadMethodCallException::class);
-        $this->expectExceptionMessage('Cannot unset "year": DateComponents is immutable.');
+        self::expectException(BadMethodCallException::class);
+        self::expectExceptionMessage('Cannot unset "year": DateComponents is immutable.');
 
         unset($dateComponents['year']);
     }
@@ -124,8 +124,8 @@ final class DateComponentsTest extends TestCase
     {
         $dateComponents = new DateComponents('80', '01', '15');
 
-        $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage('Invalid offset "123".');
+        self::expectException(InvalidArgumentException::class);
+        self::expectExceptionMessage('Invalid offset "123".');
 
         /** @phpstan-ignore-next-line */
         $dateComponents[123];
@@ -139,9 +139,9 @@ final class DateComponentsTest extends TestCase
     {
         $dateComponents = new DateComponents('80', '01', '15');
 
-        $this->expectException(InvalidArgumentException::class);
+        self::expectException(InvalidArgumentException::class);
         // Boolean true becomes "1" when cast to string
-        $this->expectExceptionMessage('Invalid offset "1".');
+        self::expectExceptionMessage('Invalid offset "1".');
 
         /** @phpstan-ignore-next-line */
         $dateComponents[true];
@@ -155,9 +155,9 @@ final class DateComponentsTest extends TestCase
     {
         $dateComponents = new DateComponents('80', '01', '15');
 
-        $this->expectException(InvalidArgumentException::class);
+        self::expectException(InvalidArgumentException::class);
         // Non-scalar uses gettype()
-        $this->expectExceptionMessage('Invalid offset "array".');
+        self::expectExceptionMessage('Invalid offset "array".');
 
         /** @phpstan-ignore-next-line */
         $dateComponents[['invalid']];
@@ -171,10 +171,9 @@ final class DateComponentsTest extends TestCase
     {
         $dateComponents = new DateComponents('80', '01', '15');
 
-        $this->expectException(BadMethodCallException::class);
-        $this->expectExceptionMessage('Cannot set "0" to "99": DateComponents is immutable.');
+        self::expectException(BadMethodCallException::class);
+        self::expectExceptionMessage('Cannot set "0" to "99": DateComponents is immutable.');
 
-        /** @phpstan-ignore-next-line */
         $dateComponents[0] = 99;
     }
 
@@ -186,10 +185,9 @@ final class DateComponentsTest extends TestCase
     {
         $dateComponents = new DateComponents('80', '01', '15');
 
-        $this->expectException(BadMethodCallException::class);
-        $this->expectExceptionMessage('Cannot set "year" to "array": DateComponents is immutable.');
+        self::expectException(BadMethodCallException::class);
+        self::expectExceptionMessage('Cannot set "year" to "array": DateComponents is immutable.');
 
-        /** @phpstan-ignore-next-line */
         $dateComponents['year'] = ['invalid'];
     }
 
@@ -201,10 +199,9 @@ final class DateComponentsTest extends TestCase
     {
         $dateComponents = new DateComponents('80', '01', '15');
 
-        $this->expectException(BadMethodCallException::class);
-        $this->expectExceptionMessage('Cannot unset "0": DateComponents is immutable.');
+        self::expectException(BadMethodCallException::class);
+        self::expectExceptionMessage('Cannot unset "0": DateComponents is immutable.');
 
-        /** @phpstan-ignore-next-line */
         unset($dateComponents[0]);
     }
 
@@ -216,10 +213,9 @@ final class DateComponentsTest extends TestCase
     {
         $dateComponents = new DateComponents('80', '01', '15');
 
-        $this->expectException(BadMethodCallException::class);
-        $this->expectExceptionMessage('Cannot unset "object": DateComponents is immutable.');
+        self::expectException(BadMethodCallException::class);
+        self::expectExceptionMessage('Cannot unset "object": DateComponents is immutable.');
 
-        /** @phpstan-ignore-next-line */
         unset($dateComponents[new stdClass()]);
     }
 }

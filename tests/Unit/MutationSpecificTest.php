@@ -24,12 +24,12 @@ final class MutationSpecificTest extends TestCase
         // If += is changed to -=, the checksum calculation will be wrong
         $idNumber = '8001015009087';
         $result = SouthAfricanIDValidator::luhnIDValidate($idNumber);
-        $this->assertTrue($result, 'Luhn should work with addition');
+        self::assertTrue($result, 'Luhn should work with addition');
 
         // Test another ID to ensure consistency
         $id2 = '9912310001083';
         $result2 = SouthAfricanIDValidator::luhnIDValidate($id2);
-        $this->assertTrue($result2, 'Luhn should work with addition for 1899 ID');
+        self::assertTrue($result2, 'Luhn should work with addition for 1899 ID');
     }
 
     /**
@@ -46,14 +46,14 @@ final class MutationSpecificTest extends TestCase
         // First, let us use a known valid legacy ID
         $legacyId = '8001015009004'; // Valid legacy ID with race indicator 0
         $result = SouthAfricanIDValidator::convertLegacyToModern($legacyId);
-        $this->assertIsString($result, 'Should convert valid legacy ID');
+        self::assertIsString($result, 'Should convert valid legacy ID');
         // The converted ID should have indicator 8 and recalculated checksum
-        $this->assertStringStartsWith('80010150090', $result);
+        self::assertStringStartsWith('80010150090', $result);
 
         // Test another valid legacy ID with different race indicator
         $legacyId2 = '8001015009012'; // Valid legacy ID with race indicator 1
         $result2 = SouthAfricanIDValidator::convertLegacyToModern($legacyId2);
-        $this->assertIsString($result2, 'Should convert valid legacy ID with indicator 1');
+        self::assertIsString($result2, 'Should convert valid legacy ID with indicator 1');
     }
 
     /**
@@ -65,12 +65,12 @@ final class MutationSpecificTest extends TestCase
         // Test with ID containing '0' which when not cast could cause issues
         $idNumber = '0001010000089'; // Many zeros, with valid checksum
         $result = SouthAfricanIDValidator::luhnIDValidate($idNumber);
-        $this->assertTrue($result, 'Should handle zeros with proper int casting');
+        self::assertTrue($result, 'Should handle zeros with proper int casting');
 
         // Test with mixed digits
         $id2 = '1234567890123'; // All different digits - invalid
         $result2 = SouthAfricanIDValidator::luhnIDValidate($id2);
-        $this->assertFalse($result2, 'Invalid ID should fail even with all digits');
+        self::assertFalse($result2, 'Invalid ID should fail even with all digits');
     }
 
     /**
@@ -82,12 +82,12 @@ final class MutationSpecificTest extends TestCase
         // Test boundary case where string comparison would differ from int
         $femaleId = '8001010499088'; // Sequence "0499" vs 499 (female, < 5000)
         $gender = SouthAfricanIDValidator::extractGender($femaleId);
-        $this->assertSame('female', $gender, 'Sequence 0499 as int is < 5000');
+        self::assertSame('female', $gender, 'Sequence 0499 as int is < 5000');
 
         // Test with leading zeros in male range
         $maleId = '8001015001082'; // Sequence "5001" vs 5001 (male, >= 5000)
         $gender2 = SouthAfricanIDValidator::extractGender($maleId);
-        $this->assertSame('male', $gender2, 'Sequence 5001 as int is >= 5000');
+        self::assertSame('male', $gender2, 'Sequence 5001 as int is >= 5000');
     }
 
     /**
@@ -98,13 +98,13 @@ final class MutationSpecificTest extends TestCase
     {
         // Test date that is valid in 1800s
         $result = SouthAfricanIDValidator::isValidIDDate('850101');
-        $this->assertTrue($result, 'Date should be valid in at least one century');
+        self::assertTrue($result, 'Date should be valid in at least one century');
 
         // More specific: test a date only valid in 1800s due to leap year rules
         // 1804 was a leap year, but 1904 and 2004 were also leap years
         // So we need a different approach - test that the function works
         $result2 = SouthAfricanIDValidator::isValidIDDate('991231');
-        $this->assertTrue($result2, 'Date 991231 should be valid (could be 1899)');
+        self::assertTrue($result2, 'Date 991231 should be valid (could be 1899)');
     }
 
     /**
@@ -115,28 +115,28 @@ final class MutationSpecificTest extends TestCase
     {
         // Test luhnIDValidate with exactly 13 chars
         $id13 = '8001015009087';
-        $this->assertTrue(
+        self::assertTrue(
             SouthAfricanIDValidator::luhnIDValidate($id13),
             'Exactly 13 chars should pass',
         );
 
         // Test with not 13 chars
         $id12 = '800101500908';
-        $this->assertFalse(
+        self::assertFalse(
             SouthAfricanIDValidator::luhnIDValidate($id12),
             '12 chars should fail',
         );
 
         // Test isValidIDDate with exactly 6 chars
         $date6 = '800101';
-        $this->assertTrue(
+        self::assertTrue(
             SouthAfricanIDValidator::isValidIDDate($date6),
             'Exactly 6 chars should pass date validation',
         );
 
         // Test with not 6 chars
         $date5 = '80010';
-        $this->assertFalse(
+        self::assertFalse(
             SouthAfricanIDValidator::isValidIDDate($date5),
             '5 chars should fail date validation',
         );
@@ -150,7 +150,7 @@ final class MutationSpecificTest extends TestCase
     {
         // Test ID where checksum calculation results in exactly 0
         $validId = '8001015009087';
-        $this->assertTrue(
+        self::assertTrue(
             SouthAfricanIDValidator::luhnIDValidate($validId),
             'Valid checksum (mod 10 === 0) should pass',
         );
@@ -162,7 +162,7 @@ final class MutationSpecificTest extends TestCase
                 continue; // Skip the valid one
             }
 
-            $this->assertFalse(
+            self::assertFalse(
                 SouthAfricanIDValidator::luhnIDValidate($invalidId),
                 sprintf('Checksum ending in %d (mod 10 !== 0) should fail', $i),
             );
@@ -178,13 +178,13 @@ final class MutationSpecificTest extends TestCase
         // Test with integer 8
         $legacyId = '8001015009004'; // Valid legacy ID with race indicator 0
         $result = SouthAfricanIDValidator::convertLegacyToModern($legacyId, 8);
-        $this->assertIsString($result, 'Should return string');
-        $this->assertSame('8001015009087', $result, 'Should cast 8 to string');
+        self::assertIsString($result, 'Should return string');
+        self::assertSame('8001015009087', $result, 'Should cast 8 to string');
 
         // Test with integer 9
         $result2 = SouthAfricanIDValidator::convertLegacyToModern($legacyId, 9);
-        $this->assertIsString($result2, 'Should return string');
-        $this->assertSame('8001015009095', $result2, 'Should cast 9 to string');
+        self::assertIsString($result2, 'Should return string');
+        self::assertSame('8001015009095', $result2, 'Should cast 9 to string');
     }
 
     /**
@@ -196,12 +196,12 @@ final class MutationSpecificTest extends TestCase
         // Invalid ID should return null (validation !== true)
         $invalidId = '8001015009086'; // Wrong checksum
         $result = SouthAfricanIDValidator::convertLegacyToModern($invalidId);
-        $this->assertNull($result, 'Invalid ID should return null');
+        self::assertNull($result, 'Invalid ID should return null');
 
         // Valid legacy ID should convert
         $validLegacy = '8001015009004'; // Valid legacy ID with race indicator 0
         $result2 = SouthAfricanIDValidator::convertLegacyToModern($validLegacy);
-        $this->assertIsString($result2, 'Valid legacy should convert');
+        self::assertIsString($result2, 'Valid legacy should convert');
     }
 
     /**
@@ -213,17 +213,17 @@ final class MutationSpecificTest extends TestCase
         // Test with fully valid ID
         $validId = '8001015009087';
         $idValidationResult = SouthAfricanIDValidator::extractInfo($validId);
-        $this->assertTrue($idValidationResult['valid'], 'Valid ID should have valid=true');
+        self::assertTrue($idValidationResult['valid'], 'Valid ID should have valid=true');
 
         // Test with invalid checksum (luhnIDValidate returns false)
         $invalidChecksum = '8001015009086';
         $info2 = SouthAfricanIDValidator::extractInfo($invalidChecksum);
-        $this->assertFalse($info2['valid'], 'Invalid checksum should have valid=false');
+        self::assertFalse($info2['valid'], 'Invalid checksum should have valid=false');
 
         // Test with invalid citizenship (luhnIDValidate returns null)
         $invalidCitizen = '8001015009387'; // Citizenship 3
         $info3 = SouthAfricanIDValidator::extractInfo($invalidCitizen);
-        $this->assertFalse($info3['valid'], 'Invalid citizenship should have valid=false');
+        self::assertFalse($info3['valid'], 'Invalid citizenship should have valid=false');
     }
 
     /**
@@ -234,25 +234,25 @@ final class MutationSpecificTest extends TestCase
     {
         // Test extractDateComponents
         $short = '123456789012'; // 12 chars
-        $this->assertNull(
+        self::assertNull(
             SouthAfricanIDValidator::extractDateComponents($short),
             'extractDateComponents should return null for non-13 char input',
         );
 
         // Test extractGender
-        $this->assertNull(
+        self::assertNull(
             SouthAfricanIDValidator::extractGender($short),
             'extractGender should return null for non-13 char input',
         );
 
         // Test extractCitizenship
-        $this->assertNull(
+        self::assertNull(
             SouthAfricanIDValidator::extractCitizenship($short),
             'extractCitizenship should return null for non-13 char input',
         );
 
         // Test isLegacyID
-        $this->assertFalse(
+        self::assertFalse(
             SouthAfricanIDValidator::isLegacyID($short),
             'isLegacyID should return false for non-13 char input',
         );
@@ -267,25 +267,25 @@ final class MutationSpecificTest extends TestCase
         $id1 = '8001015009087';
         $shortId = '800101500908'; // 12 chars
 
-        $this->assertFalse(
+        self::assertFalse(
             SouthAfricanIDValidator::wouldBeDuplicates($shortId, $id1),
             'Should return false when first ID is not 13 chars',
         );
 
-        $this->assertFalse(
+        self::assertFalse(
             SouthAfricanIDValidator::wouldBeDuplicates($id1, $shortId),
             'Should return false when second ID is not 13 chars',
         );
 
         // Test string comparison (=== vs ==)
         $id2 = '8001015009095'; // Same first 11 digits
-        $this->assertTrue(
+        self::assertTrue(
             SouthAfricanIDValidator::wouldBeDuplicates($id1, $id2),
             'Should return true for same first 11 digits',
         );
 
         $id3 = '8001025009084'; // Different first 11 digits
-        $this->assertFalse(
+        self::assertFalse(
             SouthAfricanIDValidator::wouldBeDuplicates($id1, $id3),
             'Should return false for different first 11 digits',
         );
