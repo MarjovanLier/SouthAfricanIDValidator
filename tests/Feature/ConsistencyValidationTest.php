@@ -31,18 +31,18 @@ final class ConsistencyValidationTest extends TestCase
     {
         // Modern male SA citizen: 8701105800085
         // DOB: 87-01-10, sequence 5800 (male), citizenship 0 (SA citizen), race 8 (modern)
-        $id = '8701105800085';
+        $idNumber = '8701105800085';
 
-        $idValidationResult = SouthAfricanIDValidator::extractInfo($id);
-        $dateComponents = SouthAfricanIDValidator::extractDateComponents($id);
-        $gender = SouthAfricanIDValidator::extractGender($id);
-        $citizenship = SouthAfricanIDValidator::extractCitizenship($id);
-        $isLegacy = SouthAfricanIDValidator::isLegacyID($id);
+        $idValidationResult = SouthAfricanIDValidator::extractInfo($idNumber);
+        $dateComponents = SouthAfricanIDValidator::extractDateComponents($idNumber);
+        $gender = SouthAfricanIDValidator::extractGender($idNumber);
+        $citizenship = SouthAfricanIDValidator::extractCitizenship($idNumber);
+        $isLegacy = SouthAfricanIDValidator::isLegacyID($idNumber);
 
         // extractInfo agrees with luhnIDValidate
         self::assertTrue($idValidationResult->valid, 'extractInfo should mark this ID as valid');
         self::assertTrue(
-            SouthAfricanIDValidator::luhnIDValidate($id),
+            SouthAfricanIDValidator::luhnIDValidate($idNumber),
             'luhnIDValidate should agree with extractInfo',
         );
 
@@ -97,12 +97,12 @@ final class ConsistencyValidationTest extends TestCase
     {
         // Legacy female permanent resident: 5001010001108
         // DOB: 50-01-01, seq 0001 (female), cit 1 (perm res), race 0 (legacy White)
-        $id = '5001010001108';
+        $idNumber = '5001010001108';
 
-        $idValidationResult = SouthAfricanIDValidator::extractInfo($id);
-        $gender = SouthAfricanIDValidator::extractGender($id);
-        $citizenship = SouthAfricanIDValidator::extractCitizenship($id);
-        $isLegacy = SouthAfricanIDValidator::isLegacyID($id);
+        $idValidationResult = SouthAfricanIDValidator::extractInfo($idNumber);
+        $gender = SouthAfricanIDValidator::extractGender($idNumber);
+        $citizenship = SouthAfricanIDValidator::extractCitizenship($idNumber);
+        $isLegacy = SouthAfricanIDValidator::isLegacyID($idNumber);
 
         self::assertTrue($idValidationResult->valid, 'ID must be valid');
         self::assertNotNull($idValidationResult->gender, 'Valid ID must have gender');
@@ -127,10 +127,10 @@ final class ConsistencyValidationTest extends TestCase
     {
         // Refugee male: 8001015002280
         // DOB: 80-01-01, seq 5002 (male), cit 2 (refugee), race 8 (modern)
-        $id = '8001015002280';
+        $idNumber = '8001015002280';
 
-        $idValidationResult = SouthAfricanIDValidator::extractInfo($id);
-        $citizenship = SouthAfricanIDValidator::extractCitizenship($id);
+        $idValidationResult = SouthAfricanIDValidator::extractInfo($idNumber);
+        $citizenship = SouthAfricanIDValidator::extractCitizenship($idNumber);
 
         self::assertTrue($idValidationResult->valid, 'ID must be valid');
         self::assertNotNull($idValidationResult->citizenship, 'Valid ID must have citizenship');
@@ -163,8 +163,8 @@ final class ConsistencyValidationTest extends TestCase
 
         // Verify each result matches individual validation
         // PHP converts numeric string keys to integers, so cast back to string
-        foreach ($batchResults as $id => $batchResult) {
-            $idStr = (string) $id;
+        foreach ($batchResults as $idNumber => $batchResult) {
+            $idStr = (string) $idNumber;
             $individual = SouthAfricanIDValidator::luhnIDValidate($idStr);
             self::assertSame(
                 $individual,
@@ -210,8 +210,8 @@ final class ConsistencyValidationTest extends TestCase
      */
     public function testExtractInfoToArrayConsistency(): void
     {
-        $id = '8701105800085';
-        $idValidationResult = SouthAfricanIDValidator::extractInfo($id);
+        $idNumber = '8701105800085';
+        $idValidationResult = SouthAfricanIDValidator::extractInfo($idNumber);
 
         self::assertTrue($idValidationResult->valid, 'ID must be valid for this test');
         self::assertNotNull($idValidationResult->gender, 'Valid ID must have gender');
@@ -241,8 +241,8 @@ final class ConsistencyValidationTest extends TestCase
      */
     public function testArrayAccessConsistencyWithProperties(): void
     {
-        $id = '8701105800085';
-        $idValidationResult = SouthAfricanIDValidator::extractInfo($id);
+        $idNumber = '8701105800085';
+        $idValidationResult = SouthAfricanIDValidator::extractInfo($idNumber);
 
         self::assertNotNull($idValidationResult->gender, 'Valid ID must have gender');
         self::assertNotNull($idValidationResult->citizenship, 'Valid ID must have citizenship');
