@@ -75,7 +75,7 @@ final class SanitiseNumberTest extends TestCase
 
         foreach ($testCases as $input => $expected) {
             $result = $this->invokeMethod(new SouthAfricanIDValidator(), 'sanitiseNumber', [$input]);
-            self::assertSame($expected, $result, sprintf('Failed to sanitise: %s', json_encode($input)));
+            self::assertSame($expected, $result, sprintf('Failed to sanitise: %s', json_encode($input, JSON_THROW_ON_ERROR)));
         }
     }
 
@@ -117,8 +117,7 @@ final class SanitiseNumberTest extends TestCase
         $reflectionMethod = (new ReflectionClass($object::class))->getMethod($methodName);
 
         /**
-         * @noinspection   PhpExpressionResultUnusedInspection
-         * @psalm-suppress UnusedMethodCall
+         * @noinspection PhpExpressionResultUnusedInspection
          */
 
         return $reflectionMethod->invokeArgs($object, $parameters);

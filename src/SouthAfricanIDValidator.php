@@ -478,8 +478,6 @@ final class SouthAfricanIDValidator
      * @param string $idNumber The South African ID number (must be 13 digits).
      *
      * @return null|string 'female', 'male', or null if invalid.
-     *
-     * @psalm-return 'female'|'male'|null
      */
     public static function extractGender(string $idNumber): ?string
     {
@@ -506,8 +504,6 @@ final class SouthAfricanIDValidator
      * @param string $idNumber The South African ID number (must be 13 digits).
      *
      * @return null|string Citizenship status or null if invalid.
-     *
-     * @psalm-return 'permanent_resident'|'refugee'|'south_african_citizen'|null
      */
     public static function extractCitizenship(string $idNumber): ?string
     {

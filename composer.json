@@ -45,7 +45,8 @@
     "sort-packages": true,
     "allow-plugins": {
       "infection/extension-installer": true,
-      "phpstan/extension-installer": true
+      "phpstan/extension-installer": true,
+      "cweagans/composer-patches": true
     }
   },
   "minimum-stability": "stable",
@@ -57,7 +58,6 @@
     "enlightn/security-checker": ">=2.0.0",
     "infection/infection": ">=0.29.14",
     "laravel/pint": ">=1.22.1",
-    "mattsparks/blns-php": ">=1.0.1",
     "phan/phan": ">=5.4.5",
     "php-parallel-lint/php-parallel-lint": ">=1.4.0",
     "phpmd/phpmd": ">=2.15",
@@ -65,11 +65,9 @@
     "phpstan/phpstan": ">=2.1.17",
     "phpstan/phpstan-strict-rules": ">=2.0.4",
     "phpunit/phpunit": ">=12.0.0",
-    "psalm/plugin-phpunit": ">=0.19.3",
     "rector/rector": ">=2.0.16",
     "roave/security-advisories": "dev-latest",
-    "robiningelbrecht/phpunit-coverage-tools": ">=1.9",
-    "vimeo/psalm": ">=6.7.0"
+    "robiningelbrecht/phpunit-coverage-tools": ">=1.9"
   },
   "scripts-descriptions": {
     "tests": "Run complete test suite (all quality checks)",
@@ -81,7 +79,6 @@
     "test:phpmd": "Detect code smells and complexity issues",
     "test:phpstan": "Static analysis at maximum level",
     "test:phpunit": "Run unit tests with code coverage and enforce 100% line coverage",
-    "test:psalm": "Type-focused static analysis",
     "test:rector": "Check for automated refactoring opportunities (dry-run)",
     "test:vulnerabilities": "Scan dependencies for security vulnerabilities"
   },
@@ -101,7 +98,6 @@
       "@test:infection",
       "@test:phpstan",
       "@test:phan",
-      "@test:psalm",
       "@test:rector"
     ],
     "test:code-style": "pint --test",
@@ -112,21 +108,7 @@
     "test:phpmd": "php -d error_reporting='E_ALL & ~E_DEPRECATED' vendor/bin/phpmd src,tests text phpmd.xml",
     "test:phpstan": "phpstan analyse --memory-limit=512M --no-progress --no-interaction",
     "test:phpunit": "php -d xdebug.mode=coverage ./vendor/bin/phpunit --coverage-text --coverage-filter src --coverage-clover reports/code-coverage/clover.xml -d --min-coverage=100",
-    "test:psalm": "psalm --no-cache --no-progress --show-info=false",
     "test:rector": "rector --dry-run",
     "test:vulnerabilities": "security-checker security:check"
-  },
-  "repositories": [
-    {
-      "type": "package",
-      "package": {
-        "name": "blns/blns",
-        "version": "1.0.0",
-        "dist": {
-          "url": "https://github.com/minimaxir/big-list-of-naughty-strings/archive/master.zip",
-          "type": "zip"
-        }
-      }
-    }
-  ]
+  }
 }

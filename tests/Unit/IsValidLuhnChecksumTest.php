@@ -24,10 +24,6 @@ final class IsValidLuhnChecksumTest extends TestCase
      * Provides valid Luhn numbers for testing.
      *
      * @return array<array<string>>
-     *
-     * @psalm-return list{list{'1234567812345670'}, list{'26'}, list{'34'}, list{'42'}, list{'59'}, list{'67'},
-     *     list{'75'}, list{'83'}, list{'91'}, list{'109'}, list{'117'}, list{'125'}, list{'133'}, list{'141'},
-     *     list{'158'}, list{'166'}, list{'174'}, list{'182'}, list{'190'}}
      */
     public static function provideValidLuhnNumbers(): array
     {
@@ -59,13 +55,6 @@ final class IsValidLuhnChecksumTest extends TestCase
      * Provides invalid Luhn numbers for testing.
      *
      * @return array<array<string>>
-     *
-     * @psalm-return list{list{'1234567812345678'}, list{'0a027398714'}, list{'79927a398714'},
-     *     list{'a123456781234567'}, list{'123456781234567a'}, list{'25'}, list{'1'}, list{'2'}, list{'3'}, list{'4'},
-     *     list{'5'}, list{'6'}, list{'7'}, list{'8'}, list{'9'}, list{'10'}, list{'11'}, list{'12'}, list{'13'},
-     *     list{'14'}, list{'15'}, list{'16'}, list{'17'}, list{'19'}, list{'20'}, list{'21'}, list{'191'},
-     *     list{'192'}, list{'193'}, list{'194'}, list{'195'}, list{'196'}, list{'197'}, list{'198'}, list{'199'},
-     *     list{'241'}, list{'242'}}
      */
     public static function provideInvalidLuhnNumbers(): array
     {
@@ -116,8 +105,6 @@ final class IsValidLuhnChecksumTest extends TestCase
      * testing.
      *
      * @return (bool|string)[][]
-     *
-     * @psalm-return list{list{'1234567812345670', true, 'Valid Luhn number with even digits'}, list{'79927398714', false, 'Classic invalid Luhn number'}, list{'1234567812345678', false, 'Invalid Luhn number with even digits'}, list{'0', true, 'Minimum valid Luhn number'}, list{'18', true, 'Valid Luhn number, testing edge case'}, list{'79927398713', true, 'Testing PlusEqual mutation'}, list{'091', true, 'Testing ExactDoublingToNine mutation'}, list{'123abc', false, 'Non-numeric string expected to fail'}, list{'4561231231234', false, 'Invalid number expected to fail'}}
      */
     public static function provideNumbersWithExpectedOutcome(): array
     {
@@ -202,8 +189,6 @@ final class IsValidLuhnChecksumTest extends TestCase
     {
         /**
          * @noinspection PhpExpressionResultUnusedInspection
-         *
-         * @psalm-suppress UnusedMethodCall
          */
 
         return (new ReflectionClass(SouthAfricanIDValidator::class))->getMethod('isValidLuhnChecksum');

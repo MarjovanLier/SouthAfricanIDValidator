@@ -24,12 +24,12 @@ final class ConvertLegacyToModernTest extends TestCase
         $legacyId = '8001015009004'; // Valid ID with race indicator 0
         $result = SouthAfricanIDValidator::convertLegacyToModern($legacyId);
 
-        $this->assertIsString($result, 'convertLegacyToModern should return a string for valid legacy ID with race indicator 0');
-        $this->assertStringStartsWith('80010150090', $result, 'The first 11 digits should remain unchanged');
-        $this->assertSame('8', $result[11], 'Race indicator should be changed to 8 by default');
-        $this->assertSame(13, \strlen($result), 'Result should be exactly 13 digits');
-        $this->assertSame('8001015009087', $result, 'The complete converted ID should match expected');
-        $this->assertTrue(
+        self::assertIsString($result, 'convertLegacyToModern should return a string for valid legacy ID with race indicator 0');
+        self::assertStringStartsWith('80010150090', $result, 'The first 11 digits should remain unchanged');
+        self::assertSame('8', $result[11], 'Race indicator should be changed to 8 by default');
+        self::assertSame(13, \strlen($result), 'Result should be exactly 13 digits');
+        self::assertSame('8001015009087', $result, 'The complete converted ID should match expected');
+        self::assertTrue(
             SouthAfricanIDValidator::luhnIDValidate($result),
             'The converted ID should pass Luhn validation',
         );
@@ -43,11 +43,11 @@ final class ConvertLegacyToModernTest extends TestCase
         $legacyId = '8001015009012'; // Valid ID with race indicator 1
         $result = SouthAfricanIDValidator::convertLegacyToModern($legacyId);
 
-        $this->assertIsString($result, 'convertLegacyToModern should return a string for valid legacy ID with race indicator 1');
-        $this->assertStringStartsWith('80010150090', $result, 'The first 11 digits should remain unchanged');
-        $this->assertSame('8', $result[11], 'Race indicator should be changed to 8 by default');
-        $this->assertSame('8001015009087', $result, 'The complete converted ID should match expected');
-        $this->assertTrue(
+        self::assertIsString($result, 'convertLegacyToModern should return a string for valid legacy ID with race indicator 1');
+        self::assertStringStartsWith('80010150090', $result, 'The first 11 digits should remain unchanged');
+        self::assertSame('8', $result[11], 'Race indicator should be changed to 8 by default');
+        self::assertSame('8001015009087', $result, 'The complete converted ID should match expected');
+        self::assertTrue(
             SouthAfricanIDValidator::luhnIDValidate($result),
             'The converted ID should pass Luhn validation',
         );
@@ -61,11 +61,11 @@ final class ConvertLegacyToModernTest extends TestCase
         $legacyId = '8001015009004'; // Valid ID with race indicator 0
         $result = SouthAfricanIDValidator::convertLegacyToModern($legacyId, 9);
 
-        $this->assertIsString($result, 'convertLegacyToModern should return a string when using indicator 9');
-        $this->assertStringStartsWith('80010150090', $result, 'The first 11 digits should remain unchanged');
-        $this->assertSame('9', $result[11], 'Race indicator should be changed to 9 when specified');
-        $this->assertSame('8001015009095', $result, 'The complete converted ID with indicator 9 should match expected');
-        $this->assertTrue(
+        self::assertIsString($result, 'convertLegacyToModern should return a string when using indicator 9');
+        self::assertStringStartsWith('80010150090', $result, 'The first 11 digits should remain unchanged');
+        self::assertSame('9', $result[11], 'Race indicator should be changed to 9 when specified');
+        self::assertSame('8001015009095', $result, 'The complete converted ID with indicator 9 should match expected');
+        self::assertTrue(
             SouthAfricanIDValidator::luhnIDValidate($result),
             'The converted ID with indicator 9 should pass Luhn validation',
         );
@@ -79,10 +79,10 @@ final class ConvertLegacyToModernTest extends TestCase
         $legacyId = '8001015009004'; // Valid ID with race indicator 0
 
         $result = SouthAfricanIDValidator::convertLegacyToModern($legacyId, 7);
-        $this->assertNull($result, 'Invalid modern indicator 7 should return null');
+        self::assertNull($result, 'Invalid modern indicator 7 should return null');
 
         $result = SouthAfricanIDValidator::convertLegacyToModern($legacyId, 10);
-        $this->assertNull($result, 'Invalid modern indicator 10 should return null');
+        self::assertNull($result, 'Invalid modern indicator 10 should return null');
     }
 
     /**
@@ -101,15 +101,15 @@ final class ConvertLegacyToModernTest extends TestCase
 
         $result = SouthAfricanIDValidator::convertLegacyToModern($legacyId);
 
-        $this->assertIsString(
+        self::assertIsString(
             $result,
             sprintf('convertLegacyToModern should return a string for valid legacy ID with race indicator %s', $raceIndicator),
         );
         /** @var string $result */
         /** @var non-empty-string $baseId */
-        $this->assertStringStartsWith($baseId, $result, 'The first 11 digits should remain unchanged');
-        $this->assertSame('8', $result[11], sprintf('Race indicator %s should be changed to 8', $raceIndicator));
-        $this->assertTrue(
+        self::assertStringStartsWith($baseId, $result, 'The first 11 digits should remain unchanged');
+        self::assertSame('8', $result[11], sprintf('Race indicator %s should be changed to 8', $raceIndicator));
+        self::assertTrue(
             SouthAfricanIDValidator::luhnIDValidate($result),
             sprintf('The converted ID with original race indicator %s should pass Luhn validation', $raceIndicator),
         );
@@ -119,8 +119,6 @@ final class ConvertLegacyToModernTest extends TestCase
      * Provides test data for all legacy race indicators (0-7).
      *
      * @return string[][]
-     *
-     * @psalm-return list{list{'80010150090', '0'}, list{'80010150090', '1'}, list{'80010150090', '2'}, list{'80010150090', '3'}, list{'80010150090', '4'}, list{'80010150090', '5'}, list{'80010150090', '6'}, list{'80010150090', '7'}}
      */
     public static function legacyRaceIndicatorProvider(): array
     {
@@ -144,7 +142,7 @@ final class ConvertLegacyToModernTest extends TestCase
         $modernId = '8001015009087'; // Valid ID already has race indicator 8
         $result = SouthAfricanIDValidator::convertLegacyToModern($modernId);
 
-        $this->assertSame($modernId, $result, 'Modern ID with race indicator 8 should remain unchanged');
+        self::assertSame($modernId, $result, 'Modern ID with race indicator 8 should remain unchanged');
     }
 
     /**
@@ -155,7 +153,7 @@ final class ConvertLegacyToModernTest extends TestCase
         $modernId = '8001015009095'; // Valid ID has race indicator 9
         $result = SouthAfricanIDValidator::convertLegacyToModern($modernId);
 
-        $this->assertSame($modernId, $result, 'Modern ID with race indicator 9 should remain unchanged');
+        self::assertSame($modernId, $result, 'Modern ID with race indicator 9 should remain unchanged');
     }
 
     /**
@@ -166,7 +164,7 @@ final class ConvertLegacyToModernTest extends TestCase
         $invalidId = '1234567890123'; // Invalid ID
         $result = SouthAfricanIDValidator::convertLegacyToModern($invalidId);
 
-        $this->assertNull($result, 'Invalid ID should return null');
+        self::assertNull($result, 'Invalid ID should return null');
     }
 
     /**
@@ -177,7 +175,7 @@ final class ConvertLegacyToModernTest extends TestCase
         $shortId = '800101500908'; // Too short
         $result = SouthAfricanIDValidator::convertLegacyToModern($shortId);
 
-        $this->assertNull($result, 'ID with invalid length should return null');
+        self::assertNull($result, 'ID with invalid length should return null');
     }
 
     /**
@@ -188,7 +186,7 @@ final class ConvertLegacyToModernTest extends TestCase
         $invalidCitizenshipId = '8001015009307'; // Citizenship digit 3 is invalid
         $result = SouthAfricanIDValidator::convertLegacyToModern($invalidCitizenshipId);
 
-        $this->assertNull($result, 'ID with invalid citizenship digit should return null');
+        self::assertNull($result, 'ID with invalid citizenship digit should return null');
     }
 
     /**
@@ -202,10 +200,10 @@ final class ConvertLegacyToModernTest extends TestCase
         $femaleId = $baseId . $checksum;
         $result = SouthAfricanIDValidator::convertLegacyToModern($femaleId);
 
-        $this->assertIsString($result, 'convertLegacyToModern should return a string for valid female ID');
-        $this->assertStringStartsWith('80010149990', $result, 'The first 11 digits should remain unchanged');
-        $this->assertSame('8', $result[11], 'Race indicator should be changed to 8');
-        $this->assertTrue(
+        self::assertIsString($result, 'convertLegacyToModern should return a string for valid female ID');
+        self::assertStringStartsWith('80010149990', $result, 'The first 11 digits should remain unchanged');
+        self::assertSame('8', $result[11], 'Race indicator should be changed to 8');
+        self::assertTrue(
             SouthAfricanIDValidator::luhnIDValidate($result),
             'The converted female ID should pass Luhn validation',
         );
@@ -222,10 +220,10 @@ final class ConvertLegacyToModernTest extends TestCase
         $maleId = $baseId . $checksum;
         $result = SouthAfricanIDValidator::convertLegacyToModern($maleId);
 
-        $this->assertIsString($result, 'convertLegacyToModern should return a string for valid male ID');
-        $this->assertStringStartsWith('80010150000', $result, 'The first 11 digits should remain unchanged');
-        $this->assertSame('8', $result[11], 'Race indicator should be changed to 8');
-        $this->assertTrue(
+        self::assertIsString($result, 'convertLegacyToModern should return a string for valid male ID');
+        self::assertStringStartsWith('80010150000', $result, 'The first 11 digits should remain unchanged');
+        self::assertSame('8', $result[11], 'Race indicator should be changed to 8');
+        self::assertTrue(
             SouthAfricanIDValidator::luhnIDValidate($result),
             'The converted male ID should pass Luhn validation',
         );
@@ -245,18 +243,18 @@ final class ConvertLegacyToModernTest extends TestCase
 
         $result = SouthAfricanIDValidator::convertLegacyToModern($legacyId);
 
-        $this->assertIsString(
+        self::assertIsString(
             $result,
             sprintf('convertLegacyToModern should return a string for ID with citizenship %s', $citizenship),
         );
         /** @phpstan-ignore-next-line */
         if (!is_string($result)) {
-            $this->fail('Result should be a string');
+            self::fail('Result should be a string');
         }
 
-        $this->assertSame($citizenship, $result[10], 'Citizenship digit should remain unchanged');
-        $this->assertSame('8', $result[11], 'Race indicator should be changed to 8');
-        $this->assertTrue(
+        self::assertSame($citizenship, $result[10], 'Citizenship digit should remain unchanged');
+        self::assertSame('8', $result[11], 'Race indicator should be changed to 8');
+        self::assertTrue(
             SouthAfricanIDValidator::luhnIDValidate($result),
             sprintf('The converted ID with citizenship %s should pass Luhn validation', $citizenship),
         );
@@ -266,8 +264,6 @@ final class ConvertLegacyToModernTest extends TestCase
      * Provides test data for different citizenship statuses.
      *
      * @return string[][]
-     *
-     * @psalm-return list{list{'0'}, list{'1'}, list{'2'}}
      */
     public static function citizenshipProvider(): array
     {
@@ -287,19 +283,19 @@ final class ConvertLegacyToModernTest extends TestCase
         $legacyId = '8001015009004'; // Valid legacy ID with race indicator 0
         $result = SouthAfricanIDValidator::convertLegacyToModern($legacyId);
 
-        $this->assertIsString($result, 'Result should be a string');
+        self::assertIsString($result, 'Result should be a string');
 
         // Manually verify the checksum calculation
         $expectedBase = '800101500908';
-        $this->assertStringStartsWith($expectedBase, $result, 'Base ID should match expected');
+        self::assertStringStartsWith($expectedBase, $result, 'Base ID should match expected');
 
         // The checksum should be recalculated correctly
         // Note: The recalculated checksum might differ from original due to different race indicator
-        $this->assertTrue(
+        self::assertTrue(
             SouthAfricanIDValidator::luhnIDValidate($result),
             'The recalculated ID should pass Luhn validation',
         );
-        $this->assertSame('8001015009087', $result, 'The complete ID should match expected result');
+        self::assertSame('8001015009087', $result, 'The complete ID should match expected result');
     }
 
     /**

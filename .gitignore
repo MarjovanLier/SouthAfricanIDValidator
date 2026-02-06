@@ -42,7 +42,6 @@
 !phpunit.xml
 !phpcs.xml
 !phpstan.neon
-!psalm.xml
 !phpmd.xml
 !pint.json
 !rector.php
