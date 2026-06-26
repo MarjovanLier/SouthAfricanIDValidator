@@ -272,7 +272,7 @@ final class SouthAfricanIDValidator
         $double = false;
 
         // Iterate over the number from rightmost to leftmost
-        for ($i = (\strlen($number) - 1); $i >= 0; --$i) {
+        for ($i = (\strlen($number) - 1); $i >= 0; $i--) {
             $digit = (int) $number[$i];
 
             if ($double) {
@@ -351,7 +351,7 @@ final class SouthAfricanIDValidator
         $double = true; // Start with doubling for the 12th digit (position 11) from right
 
         // Process digits in reverse, doubling every second digit
-        for ($i = 11; $i >= 0; --$i) {
+        for ($i = 11; $i >= 0; $i--) {
             $digit = (int) $modernId[$i];
 
             if ($double) {
@@ -489,7 +489,11 @@ final class SouthAfricanIDValidator
 
         $sequenceNumber = (int) \substr($sanitised, 6, 4);
 
-        return $sequenceNumber < 5000 ? 'female' : 'male';
+        if ($sequenceNumber < 5000) {
+            return 'female';
+        }
+
+        return 'male';
     }
 
 
@@ -553,9 +557,9 @@ final class SouthAfricanIDValidator
      *
      * Processes an array of ID numbers and returns their validation status.
      *
-     * @param array<int|string, mixed> $idNumbers Array of ID numbers to validate.
+     * @param array<int|string, scalar> $idNumbers Array of ID numbers to validate.
      *
-     * @return array{}|non-empty-array<string,?bool> Array keyed by ID number with validation results.
+     * @return array<string,?bool> Array keyed by ID number with validation results.
      */
     public static function batchValidate(array $idNumbers): array
     {
@@ -596,6 +600,6 @@ final class SouthAfricanIDValidator
         }
 
         // Compare first 11 digits
-        return \substr($sanitised1, 0, 11) === \substr($sanitised2, 0, 11);
+        return \str_starts_with($sanitised1, \substr($sanitised2, 0, 11));
     }
 }
