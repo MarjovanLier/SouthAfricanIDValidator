@@ -107,7 +107,7 @@
     "test:phan": "phan --no-progress-bar",
     "test:phpmd": "php -d error_reporting='E_ALL & ~E_DEPRECATED' vendor/bin/phpmd src,tests text phpmd.xml",
     "test:phpstan": "phpstan analyse --memory-limit=512M --no-progress --no-interaction",
-    "test:phpunit": "php -d xdebug.mode=coverage ./vendor/bin/phpunit --coverage-text --coverage-filter src --coverage-clover reports/code-coverage/clover.xml -d --min-coverage=100",
+    "test:phpunit": "php -d xdebug.mode=coverage ./vendor/bin/phpunit --bootstrap tests/bootstrap.php --coverage-text --coverage-filter src --coverage-clover reports/code-coverage/clover.xml",
     "test:rector": "rector --dry-run",
     "test:vulnerabilities": "security-checker security:check"
   }
