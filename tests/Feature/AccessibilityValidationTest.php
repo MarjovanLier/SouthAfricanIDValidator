@@ -269,7 +269,7 @@ final class AccessibilityValidationTest extends TestCase
 
         foreach ($alternativeInputs as $alternativeInput) {
             $result = SouthAfricanIDValidator::luhnIDValidate($alternativeInput);
-            self::assertTrue($result, sprintf("Should handle alternative input: '%s'", $alternativeInput));
+            self::assertTrue($result, \sprintf("Should handle alternative input: '%s'", $alternativeInput));
         }
     }
 
@@ -292,7 +292,7 @@ final class AccessibilityValidationTest extends TestCase
 
         foreach ($accessibilityErrors as $accessibilityError) {
             $result = SouthAfricanIDValidator::luhnIDValidate($accessibilityError);
-            self::assertFalse($result, sprintf("Must clearly reject: '%s'", $accessibilityError));
+            self::assertFalse($result, \sprintf("Must clearly reject: '%s'", $accessibilityError));
         }
     }
 }

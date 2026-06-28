@@ -35,7 +35,7 @@ final class EdgeCaseInputTest extends TestCase
             'two digits' => ['12', false],
             'twelve digits' => ['123456789012', false],
             'fourteen digits' => ['12345678901234', false],
-            'very long number' => [str_repeat('1', 100), false],
+            'very long number' => [\str_repeat('1', 100), false],
             'zero string' => ['0', false],
             'thirteen zeros' => ['0000000000000', false],
             'thirteen spaces' => ['             ', false],
@@ -43,7 +43,7 @@ final class EdgeCaseInputTest extends TestCase
             'unicode digits' => ['႑႒႓႔႕႖႗႘႙႐႑႒႓', false], // Myanmar digits
             'mixed unicode' => ['1234567890ñ23', false],
             'null character' => ["\0", false],
-            'all null chars' => [str_repeat("\0", 13), false],
+            'all null chars' => [\str_repeat("\0", 13), false],
         ];
     }
 
@@ -57,8 +57,8 @@ final class EdgeCaseInputTest extends TestCase
     public function testEdgeCaseInputs(string $input, bool $expected): void
     {
         $result = SouthAfricanIDValidator::luhnIDValidate($input);
-        $encoded = json_encode($input);
-        self::assertSame($expected, $result, sprintf('Edge case input should be handled: %s', $encoded !== false ? $encoded : 'encoding error'));
+        $encoded = \json_encode($input);
+        self::assertSame($expected, $result, \sprintf('Edge case input should be handled: %s', $encoded !== false ? $encoded : 'encoding error'));
     }
 
     /**
@@ -98,8 +98,8 @@ final class EdgeCaseInputTest extends TestCase
     {
         // Very long string that contains a valid ID
         $validId = '8701105800085';
-        $longPrefix = str_repeat('9', 1000);
-        $longSuffix = str_repeat('0', 1000);
+        $longPrefix = \str_repeat('9', 1000);
+        $longSuffix = \str_repeat('0', 1000);
 
         $result = SouthAfricanIDValidator::luhnIDValidate($longPrefix . $validId . $longSuffix);
         self::assertFalse($result, 'Extremely long input should be invalid');
@@ -147,9 +147,9 @@ final class EdgeCaseInputTest extends TestCase
                 continue; // Skip valid length
             }
 
-            $number = str_repeat('1', $i);
+            $number = \str_repeat('1', $i);
             $result = SouthAfricanIDValidator::luhnIDValidate($number);
-            self::assertFalse($result, sprintf('Length %d should be invalid', $i));
+            self::assertFalse($result, \sprintf('Length %d should be invalid', $i));
         }
     }
 
@@ -168,7 +168,7 @@ final class EdgeCaseInputTest extends TestCase
             $mixed = $validId;
             $mixed[$i] = 'X';
             $result = SouthAfricanIDValidator::luhnIDValidate($mixed);
-            self::assertFalse($result, sprintf('ID with letter at position %d should be invalid', $i));
+            self::assertFalse($result, \sprintf('ID with letter at position %d should be invalid', $i));
         }
     }
 }

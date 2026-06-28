@@ -40,8 +40,8 @@ final class IsValidCitizenshipDigitTest extends TestCase
             $number = '1234567890' . $char;
 
             $result = $this->invokeMethod(new SouthAfricanIDValidator(), 'isValidCitizenshipDigit', [$number]);
-            assert(is_bool($result));
-            self::assertTrue($result, sprintf('Expected %s to be a valid eleventh character', $char));
+            \assert(\is_bool($result));
+            self::assertTrue($result, \sprintf('Expected %s to be a valid eleventh character', $char));
         }
     }
 
@@ -79,8 +79,8 @@ final class IsValidCitizenshipDigitTest extends TestCase
             // Build a 13-digit number with the test character at position 11
             $testNumber = '1234567890' . $char . '23';
             $result = $this->invokeMethod(new SouthAfricanIDValidator(), 'isValidCitizenshipDigit', [$testNumber]);
-            assert(is_bool($result));
-            self::assertFalse($result, sprintf('Expected %s to be an invalid eleventh character', $char));
+            \assert(\is_bool($result));
+            self::assertFalse($result, \sprintf('Expected %s to be an invalid eleventh character', $char));
         }
     }
 
@@ -97,7 +97,7 @@ final class IsValidCitizenshipDigitTest extends TestCase
     {
         // Test with a 13-digit number with invalid citizenship digit
         $result = $this->invokeMethod(new SouthAfricanIDValidator(), 'isValidCitizenshipDigit', ['1234567890923']);
-        assert(is_bool($result));
+        \assert(\is_bool($result));
         self::assertFalse($result, 'Expected ID with invalid citizenship digit (9) to be invalid');
 
         // Test with a 13-digit number with valid citizenship digit
@@ -115,7 +115,7 @@ final class IsValidCitizenshipDigitTest extends TestCase
     public function testDifferentiateBetweenTenthAndEleventhCharacter(): void
     {
         $result = $this->invokeMethod(new SouthAfricanIDValidator(), 'isValidCitizenshipDigit', ['123456789X0']);
-        assert(is_bool($result));
+        \assert(\is_bool($result));
         self::assertTrue(
             $result,
             "Valid citizenship digit '0' at position 11 must pass: 123456789X0",

@@ -42,7 +42,7 @@ final class ExtractGenderTest extends TestCase
 
         $result = SouthAfricanIDValidator::extractGender($idNumber);
 
-        self::assertSame('female', $result, sprintf('Sequence %s should indicate female', $sequenceNumber));
+        self::assertSame('female', $result, \sprintf('Sequence %s should indicate female', $sequenceNumber));
     }
 
     /**
@@ -74,7 +74,7 @@ final class ExtractGenderTest extends TestCase
 
         $result = SouthAfricanIDValidator::extractGender($idNumber);
 
-        self::assertSame('male', $result, sprintf('Sequence %s should indicate male', $sequenceNumber));
+        self::assertSame('male', $result, \sprintf('Sequence %s should indicate male', $sequenceNumber));
     }
 
     /**

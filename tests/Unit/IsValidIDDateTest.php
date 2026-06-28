@@ -62,13 +62,13 @@ final class IsValidIDDateTest extends TestCase
     #[DataProvider('provideValidIDDates')]
     public function testValidIdDates(string $date): void
     {
-        $year = substr($date, 0, 2);
-        $month = substr($date, 2, 2);
-        $day = substr($date, 4, 2);
+        $year = \substr($date, 0, 2);
+        $month = \substr($date, 2, 2);
+        $day = \substr($date, 4, 2);
 
         self::assertTrue(
             SouthAfricanIDValidator::isValidIDDate($date),
-            sprintf('Valid date must pass validation: %s (YY=%s, MM=%s, DD=%s)', $date, $year, $month, $day),
+            \sprintf('Valid date must pass validation: %s (YY=%s, MM=%s, DD=%s)', $date, $year, $month, $day),
         );
     }
 
@@ -80,13 +80,13 @@ final class IsValidIDDateTest extends TestCase
     #[DataProvider('provideInvalidIDDates')]
     public function testInvalidIdDates(string $date): void
     {
-        $year = substr($date, 0, 2);
-        $month = substr($date, 2, 2);
-        $day = substr($date, 4, 2);
+        $year = \substr($date, 0, 2);
+        $month = \substr($date, 2, 2);
+        $day = \substr($date, 4, 2);
 
         self::assertFalse(
             SouthAfricanIDValidator::isValidIDDate($date),
-            sprintf('Invalid date must fail validation: %s (YY=%s, MM=%s, DD=%s)', $date, $year, $month, $day),
+            \sprintf('Invalid date must fail validation: %s (YY=%s, MM=%s, DD=%s)', $date, $year, $month, $day),
         );
     }
 }

@@ -75,7 +75,7 @@ final class SanitiseNumberTest extends TestCase
 
         foreach ($testCases as $input => $expected) {
             $result = $this->invokeMethod(new SouthAfricanIDValidator(), 'sanitiseNumber', [$input]);
-            self::assertSame($expected, $result, sprintf('Failed to sanitise: %s', json_encode($input, JSON_THROW_ON_ERROR)));
+            self::assertSame($expected, $result, \sprintf('Failed to sanitise: %s', \json_encode($input, JSON_THROW_ON_ERROR)));
         }
     }
 
@@ -96,7 +96,7 @@ final class SanitiseNumberTest extends TestCase
 
         foreach ($allNoiseInputs as $allNoiseInput) {
             $result = $this->invokeMethod(new SouthAfricanIDValidator(), 'sanitiseNumber', [$allNoiseInput]);
-            self::assertSame('', $result, sprintf('All-noise input "%s" should return empty string', $allNoiseInput));
+            self::assertSame('', $result, \sprintf('All-noise input "%s" should return empty string', $allNoiseInput));
         }
     }
 

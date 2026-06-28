@@ -53,12 +53,12 @@ final class Y2KBoundaryTest extends TestCase
         ];
 
         foreach ($validIds as $validId) {
-            $year = substr($validId, 0, 2);
+            $year = \substr($validId, 0, 2);
             $result = SouthAfricanIDValidator::luhnIDValidate($validId);
 
             self::assertTrue(
                 $result,
-                sprintf('Valid ID should be accepted regardless of century interpretation: %s (year %s)', $validId, $year),
+                \sprintf('Valid ID should be accepted regardless of century interpretation: %s (year %s)', $validId, $year),
             );
         }
     }
@@ -81,7 +81,7 @@ final class Y2KBoundaryTest extends TestCase
 
         foreach ($testCases as $id => $description) {
             $result = SouthAfricanIDValidator::luhnIDValidate((string) $id);
-            self::assertTrue($result, sprintf('%s should be valid: %s', $description, $id));
+            self::assertTrue($result, \sprintf('%s should be valid: %s', $description, $id));
         }
     }
 
@@ -136,12 +136,12 @@ final class Y2KBoundaryTest extends TestCase
         $baseId = '8701105800085';
 
         // Year 99 - could be 1899, 1999, or 2099
-        $year99 = '99' . substr($baseId, 2);
+        $year99 = '99' . \substr($baseId, 2);
         $result = SouthAfricanIDValidator::luhnIDValidate($year99);
         self::assertNotNull($result, 'Year 99 should be handled');
 
         // Year 00 - could be 1900, 2000, or 2100
-        $year00 = '00' . substr($baseId, 2);
+        $year00 = '00' . \substr($baseId, 2);
         $result = SouthAfricanIDValidator::luhnIDValidate($year00);
         self::assertNotNull($result, 'Year 00 should be handled');
     }

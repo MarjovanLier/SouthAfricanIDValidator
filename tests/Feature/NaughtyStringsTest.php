@@ -28,7 +28,7 @@ final class NaughtyStringsTest extends TestCase
     {
         foreach ((new BLNS())->getList() as $naughtyString) {
             // Skip non-string values
-            if (!is_string($naughtyString)) {
+            if (!\is_string($naughtyString)) {
                 continue;
             }
 
@@ -38,7 +38,7 @@ final class NaughtyStringsTest extends TestCase
             // Result should be false or null, never true for naughty strings
             self::assertNotTrue(
                 $result,
-                sprintf(
+                \sprintf(
                     'Naughty string must not validate as true: %s',
                     $this->safeJsonEncode($naughtyString, JSON_UNESCAPED_UNICODE),
                 ),
@@ -48,7 +48,7 @@ final class NaughtyStringsTest extends TestCase
             self::assertContains(
                 $result,
                 [false, null],
-                sprintf(
+                \sprintf(
                     'Naughty string must return false or null: %s',
                     $this->safeJsonEncode($naughtyString, JSON_UNESCAPED_UNICODE),
                 ),
@@ -63,7 +63,7 @@ final class NaughtyStringsTest extends TestCase
      */
     private function safeJsonEncode(string $value, int $flags = 0): string
     {
-        $encoded = json_encode($value, JSON_THROW_ON_ERROR | $flags);
+        $encoded = \json_encode($value, JSON_THROW_ON_ERROR | $flags);
 
         return $encoded !== false ? $encoded : 'encoding failed';
     }
@@ -91,7 +91,7 @@ final class NaughtyStringsTest extends TestCase
             $result = SouthAfricanIDValidator::luhnIDValidate($sqlInjectionString);
             self::assertFalse(
                 $result,
-                sprintf('SQL injection string must return false: %s', $sqlInjectionString),
+                \sprintf('SQL injection string must return false: %s', $sqlInjectionString),
             );
         }
 
@@ -111,7 +111,7 @@ final class NaughtyStringsTest extends TestCase
             $result = SouthAfricanIDValidator::luhnIDValidate($numericEdgeCase);
             self::assertNotTrue(
                 $result,
-                sprintf('Numeric edge case must not validate as true: %s', $numericEdgeCase),
+                \sprintf('Numeric edge case must not validate as true: %s', $numericEdgeCase),
             );
         }
 
@@ -128,13 +128,13 @@ final class NaughtyStringsTest extends TestCase
             $result = SouthAfricanIDValidator::luhnIDValidate($unicodeString);
             self::assertFalse(
                 $result,
-                sprintf('Unicode string must return false: %s', $this->safeJsonEncode($unicodeString)),
+                \sprintf('Unicode string must return false: %s', $this->safeJsonEncode($unicodeString)),
             );
         }
 
         // Test strings that might cause parsing issues
         $parsingEdgeCases = [
-            str_repeat('1', 1000000), // Very long string
+            \str_repeat('1', 1000000), // Very long string
             '', // Empty string
             ' ', // Single space
             "\n\r\t", // Whitespace characters
@@ -146,9 +146,9 @@ final class NaughtyStringsTest extends TestCase
             $result = SouthAfricanIDValidator::luhnIDValidate($parsingEdgeCase);
             self::assertNotTrue(
                 $result,
-                sprintf(
+                \sprintf(
                     'Parsing edge case must not validate as true: %s',
-                    strlen($parsingEdgeCase) > 50 ? 'string of length ' . (string) strlen($parsingEdgeCase) : $this->safeJsonEncode($parsingEdgeCase),
+                    \strlen($parsingEdgeCase) > 50 ? 'string of length ' . (string) \strlen($parsingEdgeCase) : $this->safeJsonEncode($parsingEdgeCase),
                 ),
             );
         }
@@ -176,7 +176,7 @@ final class NaughtyStringsTest extends TestCase
             $result = SouthAfricanIDValidator::luhnIDValidate($nonNumericPrefix);
             self::assertTrue(
                 $result,
-                sprintf('Valid ID with non-numeric prefix should sanitise and validate as true: %s', $this->safeJsonEncode($nonNumericPrefix)),
+                \sprintf('Valid ID with non-numeric prefix should sanitise and validate as true: %s', $this->safeJsonEncode($nonNumericPrefix)),
             );
         }
 
@@ -191,7 +191,7 @@ final class NaughtyStringsTest extends TestCase
             $result = SouthAfricanIDValidator::luhnIDValidate($numericPrefixTest);
             self::assertFalse(
                 $result,
-                sprintf('Valid ID with numeric prefix must return false due to length: %s', substr($numericPrefixTest, 0, 50)),
+                \sprintf('Valid ID with numeric prefix must return false due to length: %s', \substr($numericPrefixTest, 0, 50)),
             );
         }
 
@@ -207,7 +207,7 @@ final class NaughtyStringsTest extends TestCase
             $result = SouthAfricanIDValidator::luhnIDValidate($nonNumericSuffix);
             self::assertTrue(
                 $result,
-                sprintf('Valid ID with non-numeric suffix should sanitise and validate as true: %s', $this->safeJsonEncode($nonNumericSuffix)),
+                \sprintf('Valid ID with non-numeric suffix should sanitise and validate as true: %s', $this->safeJsonEncode($nonNumericSuffix)),
             );
         }
 
@@ -222,7 +222,7 @@ final class NaughtyStringsTest extends TestCase
             $result = SouthAfricanIDValidator::luhnIDValidate($numericSuffixTest);
             self::assertFalse(
                 $result,
-                sprintf('Valid ID with numeric suffix must return false due to length: %s', substr($numericSuffixTest, 0, 50)),
+                \sprintf('Valid ID with numeric suffix must return false due to length: %s', \substr($numericSuffixTest, 0, 50)),
             );
         }
 
@@ -239,7 +239,7 @@ final class NaughtyStringsTest extends TestCase
             $result = SouthAfricanIDValidator::luhnIDValidate($interspersedId);
             self::assertTrue(
                 $result,
-                sprintf('Valid ID with non-numeric characters interspersed should sanitise and validate: %s', $this->safeJsonEncode($interspersedId)),
+                \sprintf('Valid ID with non-numeric characters interspersed should sanitise and validate: %s', $this->safeJsonEncode($interspersedId)),
             );
         }
 
@@ -254,7 +254,7 @@ final class NaughtyStringsTest extends TestCase
             $result = SouthAfricanIDValidator::luhnIDValidate($interspersedId);
             self::assertFalse(
                 $result,
-                sprintf('Valid ID with numeric characters interspersed must return false: %s', $interspersedId),
+                \sprintf('Valid ID with numeric characters interspersed must return false: %s', $interspersedId),
             );
         }
     }

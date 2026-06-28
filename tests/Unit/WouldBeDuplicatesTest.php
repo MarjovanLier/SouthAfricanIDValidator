@@ -137,8 +137,8 @@ final class WouldBeDuplicatesTest extends TestCase
 
         // Verify they have same first 11 digits
         self::assertSame(
-            substr($person1, 0, 11),
-            substr($person2, 0, 11),
+            \substr($person1, 0, 11),
+            \substr($person2, 0, 11),
             'First 11 digits should match',
         );
     }

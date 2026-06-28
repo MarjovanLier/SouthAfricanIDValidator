@@ -216,16 +216,16 @@ final class RealWorldValidationTest extends TestCase
 
         /** @var array<string, bool|null> $results */
         $results = [];
-        foreach (array_keys($batch) as $id) {
+        foreach (\array_keys($batch) as $id) {
             $idString = (string) $id;
             $results[$idString] = SouthAfricanIDValidator::luhnIDValidate($idString);
         }
 
         foreach ($batch as $id => $expected) {
             $idString = (string) $id;
-            self::assertArrayHasKey($idString, $results, sprintf('Result must exist for ID: %s', $idString));
+            self::assertArrayHasKey($idString, $results, \sprintf('Result must exist for ID: %s', $idString));
 
-            if (!array_key_exists($idString, $results)) {
+            if (!\array_key_exists($idString, $results)) {
                 continue;
             }
 
@@ -233,7 +233,7 @@ final class RealWorldValidationTest extends TestCase
             self::assertSame(
                 $expected,
                 $actualResult,
-                sprintf(
+                \sprintf(
                     'Batch validation failed for ID: %s - Expected %s but received %s',
                     $idString,
                     $expected ? 'valid' : 'invalid',
@@ -263,7 +263,7 @@ final class RealWorldValidationTest extends TestCase
 
         foreach ($citizenIds as $citizenId) {
             $result = SouthAfricanIDValidator::luhnIDValidate($citizenId);
-            self::assertTrue($result, sprintf('South African citizen ID must validate correctly: %s to verify citizenship digit handling', $citizenId));
+            self::assertTrue($result, \sprintf('South African citizen ID must validate correctly: %s to verify citizenship digit handling', $citizenId));
         }
 
         // Test with invalid citizenship (would return null if checksum was valid)
@@ -284,13 +284,13 @@ final class RealWorldValidationTest extends TestCase
         $iterations = 1000;
 
         // Validate same ID multiple times
-        $startTime = microtime(true);
+        $startTime = \microtime(true);
         for ($i = 0; $i < $iterations; $i++) {
             $result = SouthAfricanIDValidator::luhnIDValidate($idNumber);
             self::assertTrue($result, 'ID must validate consistently across multiple iterations to demonstrate performance');
         }
 
-        $endTime = microtime(true);
+        $endTime = \microtime(true);
 
         $totalTime = $endTime - $startTime;
         $avgTime = $totalTime / (float) $iterations;
@@ -299,7 +299,7 @@ final class RealWorldValidationTest extends TestCase
         self::assertLessThan(
             0.001,
             $avgTime,
-            sprintf('Average validation time exceeds performance threshold: %.6f seconds (must be under 1ms per validation)', $avgTime),
+            \sprintf('Average validation time exceeds performance threshold: %.6f seconds (must be under 1ms per validation)', $avgTime),
         );
     }
 

@@ -164,7 +164,7 @@ final class MutationSpecificTest extends TestCase
 
             self::assertFalse(
                 SouthAfricanIDValidator::luhnIDValidate($invalidId),
-                sprintf('Checksum ending in %d (mod 10 !== 0) should fail', $i),
+                \sprintf('Checksum ending in %d (mod 10 !== 0) should fail', $i),
             );
         }
     }

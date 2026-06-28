@@ -87,7 +87,7 @@ final class LuhnIDValidateTest extends TestCase
     {
         self::assertTrue(
             SouthAfricanIDValidator::luhnIDValidate($idNumber),
-            sprintf('ID number %s should be valid as it conforms to all South African ID requirements', $idNumber),
+            \sprintf('ID number %s should be valid as it conforms to all South African ID requirements', $idNumber),
         );
     }
 
@@ -103,7 +103,7 @@ final class LuhnIDValidateTest extends TestCase
     {
         self::assertFalse(
             SouthAfricanIDValidator::luhnIDValidate($idNumber),
-            sprintf('ID number %s should be invalid due to incorrect format or failed validation rules', $idNumber),
+            \sprintf('ID number %s should be invalid due to incorrect format or failed validation rules', $idNumber),
         );
     }
 
@@ -119,7 +119,7 @@ final class LuhnIDValidateTest extends TestCase
     {
         self::assertNull(
             SouthAfricanIDValidator::luhnIDValidate($idNumber),
-            sprintf('ID number %s should return null due to invalid date format (all zeros)', $idNumber),
+            \sprintf('ID number %s should return null due to invalid date format (all zeros)', $idNumber),
         );
     }
 
@@ -137,7 +137,7 @@ final class LuhnIDValidateTest extends TestCase
         // As per your existing logic, this should return false
         self::assertFalse(
             SouthAfricanIDValidator::luhnIDValidate($idNumber),
-            sprintf("ID number %s should be invalid due to non-numeric character 'X' at position 11", $idNumber),
+            \sprintf("ID number %s should be invalid due to non-numeric character 'X' at position 11", $idNumber),
         );
     }
 
@@ -158,16 +158,16 @@ final class LuhnIDValidateTest extends TestCase
         self::assertEquals(
             $expected,
             SouthAfricanIDValidator::luhnIDValidate($idNumber),
-            sprintf('ID number %s should match the expected Luhn checksum validation result', $idNumber),
+            \sprintf('ID number %s should match the expected Luhn checksum validation result', $idNumber),
         );
     }
 
     private function computeLuhnChecksum(string $number): bool
     {
-        $parity = (strlen($number) % 2);
+        $parity = (\strlen($number) % 2);
         $total = 0;
 
-        foreach (str_split($number) as $key => $digit) {
+        foreach (\str_split($number) as $key => $digit) {
             $digit = (int) $digit;
 
             if (($key % 2) === $parity) {
@@ -270,7 +270,7 @@ final class LuhnIDValidateTest extends TestCase
         // Altering the last digit should make the ID invalid.
         self::assertFalse(
             SouthAfricanIDValidator::luhnIDValidate($idNumberAltered),
-            sprintf('ID with altered checksum digit should fail: %s (last digit changed)', $idNumberAltered),
+            \sprintf('ID with altered checksum digit should fail: %s (last digit changed)', $idNumberAltered),
         );
     }
 
@@ -301,7 +301,7 @@ final class LuhnIDValidateTest extends TestCase
         // The 10th character when doubled becomes 12, which should be treated as 1 + 2
         self::assertFalse(
             SouthAfricanIDValidator::luhnIDValidate($idNumber),
-            sprintf("ID with digit that doubles to >9 should be handled correctly: %s (10th digit '6' doubles to 12 -> 1+2=3)", $idNumber),
+            \sprintf("ID with digit that doubles to >9 should be handled correctly: %s (10th digit '6' doubles to 12 -> 1+2=3)", $idNumber),
         );
     }
 
@@ -514,7 +514,7 @@ final class LuhnIDValidateTest extends TestCase
         foreach ($testCases as $testCase) {
             self::assertFalse(
                 SouthAfricanIDValidator::luhnIDValidate($testCase),
-                sprintf("ID '%s' with invalid date must return false despite valid citizenship", $testCase),
+                \sprintf("ID '%s' with invalid date must return false despite valid citizenship", $testCase),
             );
         }
     }

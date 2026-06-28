@@ -87,7 +87,7 @@ final class DateValidationEdgeCasesTest extends TestCase
         foreach ($valid1800sDates as $valid1800Date) {
             self::assertTrue(
                 SouthAfricanIDValidator::isValidIDDate($valid1800Date),
-                sprintf('Date %s should be valid (1800s interpretation)', $valid1800Date),
+                \sprintf('Date %s should be valid (1800s interpretation)', $valid1800Date),
             );
         }
 
@@ -101,7 +101,7 @@ final class DateValidationEdgeCasesTest extends TestCase
         foreach ($valid2000sOnly as $valid2000Only) {
             self::assertTrue(
                 SouthAfricanIDValidator::isValidIDDate($valid2000Only),
-                sprintf('Date %s should be valid (2000s interpretation)', $valid2000Only),
+                \sprintf('Date %s should be valid (2000s interpretation)', $valid2000Only),
             );
         }
 
@@ -115,7 +115,7 @@ final class DateValidationEdgeCasesTest extends TestCase
         foreach ($invalidBothCenturies as $invalidBothCentury) {
             self::assertFalse(
                 SouthAfricanIDValidator::isValidIDDate($invalidBothCentury),
-                sprintf('Date %s should be invalid in all centuries', $invalidBothCentury),
+                \sprintf('Date %s should be invalid in all centuries', $invalidBothCentury),
             );
         }
     }
@@ -177,7 +177,7 @@ final class DateValidationEdgeCasesTest extends TestCase
         foreach ($invalidLengthDates as $invalidLengthDate) {
             self::assertFalse(
                 SouthAfricanIDValidator::isValidIDDate($invalidLengthDate),
-                sprintf("Date '%s' with invalid length must fail validation (targeting line 249 mutation)", $invalidLengthDate),
+                \sprintf("Date '%s' with invalid length must fail validation (targeting line 249 mutation)", $invalidLengthDate),
             );
         }
 
@@ -234,7 +234,7 @@ final class DateValidationEdgeCasesTest extends TestCase
         foreach ($invalidLengths as $invalidLength) {
             self::assertFalse(
                 SouthAfricanIDValidator::isValidIDDate($invalidLength),
-                sprintf("Date '%s' must fail 2000s validation length check (targeting line 275 mutation)", $invalidLength),
+                \sprintf("Date '%s' must fail 2000s validation length check (targeting line 275 mutation)", $invalidLength),
             );
         }
 
@@ -260,7 +260,7 @@ final class DateValidationEdgeCasesTest extends TestCase
         foreach ($publicLengthFailures as $publicLengthFailure) {
             self::assertFalse(
                 SouthAfricanIDValidator::isValidIDDate($publicLengthFailure),
-                sprintf("Date '%s' should fail public length check before reaching private methods", $publicLengthFailure),
+                \sprintf("Date '%s' should fail public length check before reaching private methods", $publicLengthFailure),
             );
         }
 

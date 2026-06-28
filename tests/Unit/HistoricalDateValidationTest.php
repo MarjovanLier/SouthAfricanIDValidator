@@ -22,9 +22,9 @@ final class HistoricalDateValidationTest extends TestCase
     public static function provideHistoricalDates(): array
     {
         // Calculate year that would be 130 years ago
-        $currentYear = (int) date('Y');
+        $currentYear = (int) \date('Y');
         $year130YearsAgo = $currentYear - 130;
-        $yy130YearsAgo = substr((string) $year130YearsAgo, -2);
+        $yy130YearsAgo = \substr((string) $year130YearsAgo, -2);
 
         return [
             // Historical cases that should be valid
@@ -108,7 +108,7 @@ final class HistoricalDateValidationTest extends TestCase
 
         // Test edge case where YY could be 1800s, 1900s, or 2000s
         // The validator should accept it if any interpretation results in valid age
-        $currentYear = (int) date('Y');
+        $currentYear = (int) \date('Y');
 
         // Test a date that could only be 1900s (too old for 2000s, too young for 1800s)
         if ($currentYear >= 2050) {
@@ -131,7 +131,7 @@ final class HistoricalDateValidationTest extends TestCase
         // 95 could be 1895, 1995, or 2095
         // The validator should pick the one that results in a valid age
 
-        $currentYear = (int) date('Y');
+        $currentYear = (int) \date('Y');
 
         // For recent years, should pick 1995
         if ($currentYear >= 2020 && $currentYear < 2095) {
@@ -142,7 +142,7 @@ final class HistoricalDateValidationTest extends TestCase
         }
 
         // Test ambiguous cases
-        $twoDigitYear = substr((string) ($currentYear - 50), -2);
+        $twoDigitYear = \substr((string) ($currentYear - 50), -2);
         self::assertTrue(
             SouthAfricanIDValidator::isValidIDDate($twoDigitYear . '0101'),
             'Date from 50 years ago should be valid',

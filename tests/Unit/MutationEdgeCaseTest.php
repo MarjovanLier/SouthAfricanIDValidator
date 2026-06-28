@@ -79,7 +79,7 @@ final class MutationEdgeCaseTest extends TestCase
             self::assertSame(
                 $expected,
                 $result,
-                sprintf('ID ending in %d should ', $digit) . ($expected ? 'pass' : 'fail'),
+                \sprintf('ID ending in %d should ', $digit) . ($expected ? 'pass' : 'fail'),
             );
         }
     }
@@ -278,7 +278,7 @@ final class MutationEdgeCaseTest extends TestCase
             if ($converted !== null) {
                 self::assertTrue(
                     SouthAfricanIDValidator::luhnIDValidate($converted),
-                    sprintf('Converted ID from race %s is valid', $race),
+                    \sprintf('Converted ID from race %s is valid', $race),
                 );
             }
         }

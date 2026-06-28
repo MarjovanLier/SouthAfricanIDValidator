@@ -175,7 +175,7 @@ final class IsValidLuhnChecksumTest extends TestCase
 
         self::assertTrue(
             $result,
-            sprintf("Number '%s' must pass Luhn checksum validation as it is a valid Luhn number", $number),
+            \sprintf("Number '%s' must pass Luhn checksum validation as it is a valid Luhn number", $number),
         );
     }
 
@@ -207,7 +207,7 @@ final class IsValidLuhnChecksumTest extends TestCase
         $result = $this->getPrivateMethod()->invokeArgs(new SouthAfricanIDValidator(), [$number]);
         self::assertFalse(
             $result,
-            sprintf("Number '%s' must fail Luhn checksum validation as it is an invalid Luhn number", $number),
+            \sprintf("Number '%s' must fail Luhn checksum validation as it is an invalid Luhn number", $number),
         );
     }
 
@@ -225,7 +225,7 @@ final class IsValidLuhnChecksumTest extends TestCase
         $result = $this->getPrivateMethod()->invokeArgs(new SouthAfricanIDValidator(), [$number]);
         self::assertTrue(
             $result,
-            sprintf("Number '%s' must be valid. Failure may indicate issues with integer casting.", $number),
+            \sprintf("Number '%s' must be valid. Failure may indicate issues with integer casting.", $number),
         );
     }
 
@@ -261,7 +261,7 @@ final class IsValidLuhnChecksumTest extends TestCase
         self::assertSame(
             $expectedOutcome,
             $result,
-            sprintf("Test case '%s' failed. Expected '%s'.", $description, $expectedOutcome ? 'true' : 'false'),
+            \sprintf("Test case '%s' failed. Expected '%s'.", $description, $expectedOutcome ? 'true' : 'false'),
         );
     }
 }

@@ -59,7 +59,7 @@ final class EscapedMutationTargetingTest extends TestCase
         foreach ($invalidDateIds as $invalidDateId) {
             self::assertFalse(
                 SouthAfricanIDValidator::luhnIDValidate($invalidDateId),
-                sprintf('ID %s should return false due to invalid date, even if other validations would pass', $invalidDateId),
+                \sprintf('ID %s should return false due to invalid date, even if other validations would pass', $invalidDateId),
             );
         }
     }
@@ -81,7 +81,7 @@ final class EscapedMutationTargetingTest extends TestCase
         foreach ($valid1800sDates as $valid1800Date) {
             self::assertTrue(
                 SouthAfricanIDValidator::isValidIDDate($valid1800Date),
-                sprintf('Date %s should be valid (1800s interpretation: 18%s)', $valid1800Date, $valid1800Date),
+                \sprintf('Date %s should be valid (1800s interpretation: 18%s)', $valid1800Date, $valid1800Date),
             );
         }
     }
@@ -109,7 +109,7 @@ final class EscapedMutationTargetingTest extends TestCase
             self::assertEquals(
                 $cleanDigitString,
                 $result,
-                sprintf("Clean number '%s' should be returned unchanged via early return", $cleanDigitString),
+                \sprintf("Clean number '%s' should be returned unchanged via early return", $cleanDigitString),
             );
         }
 
@@ -145,7 +145,7 @@ final class EscapedMutationTargetingTest extends TestCase
             $result = $this->invokePrivateMethod('isValidIDDate', [$invalidLengthDate]);
             self::assertFalse(
                 $result,
-                sprintf("Date '%s' (length %d) should return false due to invalid length", $invalidLengthDate, strlen($invalidLengthDate)),
+                \sprintf("Date '%s' (length %d) should return false due to invalid length", $invalidLengthDate, \strlen($invalidLengthDate)),
             );
         }
 
@@ -181,7 +181,7 @@ final class EscapedMutationTargetingTest extends TestCase
             $result = $this->invokePrivateMethod('isValidIDDate', [$invalidLengthDate]);
             self::assertFalse(
                 $result,
-                sprintf("Date '%s' (length %d) should return false due to invalid length", $invalidLengthDate, strlen($invalidLengthDate)),
+                \sprintf("Date '%s' (length %d) should return false due to invalid length", $invalidLengthDate, \strlen($invalidLengthDate)),
             );
         }
 
@@ -225,7 +225,7 @@ final class EscapedMutationTargetingTest extends TestCase
 
             self::assertFalse(
                 SouthAfricanIDValidator::luhnIDValidate($fullId),
-                sprintf('ID %s should return false due to invalid date (%s), ', $fullId, $testCase['description'])
+                \sprintf('ID %s should return false due to invalid date (%s), ', $fullId, $testCase['description'])
                 . "even though Luhn checksum is valid",
             );
         }
@@ -240,7 +240,7 @@ final class EscapedMutationTargetingTest extends TestCase
         $double = true; // Start with doubling since we are calculating the check digit
 
         // Process from right to left (excluding the check digit position)
-        for ($i = strlen($number) - 1; $i >= 0; --$i) {
+        for ($i = \strlen($number) - 1; $i >= 0; --$i) {
             $digit = (int) $number[$i];
 
             if ($double) {
@@ -296,7 +296,7 @@ final class EscapedMutationTargetingTest extends TestCase
         foreach ($lengthTests as $lengthTest) {
             self::assertFalse(
                 SouthAfricanIDValidator::isValidIDDate($lengthTest['input']),
-                sprintf("Input '%s' (length %s) should be rejected by length validation", $lengthTest['input'], $lengthTest['length']),
+                \sprintf("Input '%s' (length %s) should be rejected by length validation", $lengthTest['input'], $lengthTest['length']),
             );
         }
 

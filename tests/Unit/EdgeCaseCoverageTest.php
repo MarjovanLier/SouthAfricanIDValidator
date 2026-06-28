@@ -75,10 +75,10 @@ final class EdgeCaseCoverageTest extends TestCase
         self::assertSame('1236', $result, 'Expected non-digit characters to be removed including null byte effects');
 
         // Test with very long string
-        $longString = str_repeat('a1b2c3', 1000);
+        $longString = \str_repeat('a1b2c3', 1000);
         /** @var string $result */
         $result = $reflectionMethod->invoke(null, $longString);
-        $expected = str_repeat('123', 1000);
+        $expected = \str_repeat('123', 1000);
         self::assertSame($expected, $result, 'Expected long string to be processed correctly');
     }
 
@@ -109,7 +109,7 @@ final class EdgeCaseCoverageTest extends TestCase
             $result = SouthAfricanIDValidator::luhnIDValidate($testCase);
             self::assertFalse(
                 $result,
-                sprintf('Expected validation to fail for input: %s', $testCase),
+                \sprintf('Expected validation to fail for input: %s', $testCase),
             );
         }
     }

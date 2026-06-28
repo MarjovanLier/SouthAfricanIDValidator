@@ -41,10 +41,10 @@ final class ExtractDateComponentsTest extends TestCase
         foreach ($testCases as $idNumber => $expected) {
             $result = SouthAfricanIDValidator::extractDateComponents((string) $idNumber);
 
-            self::assertIsArray($result, sprintf('Should return array for ID %s', $idNumber));
-            self::assertSame($expected['year'], $result['year'], sprintf('Year mismatch for ID %s', $idNumber));
-            self::assertSame($expected['month'], $result['month'], sprintf('Month mismatch for ID %s', $idNumber));
-            self::assertSame($expected['day'], $result['day'], sprintf('Day mismatch for ID %s', $idNumber));
+            self::assertIsArray($result, \sprintf('Should return array for ID %s', $idNumber));
+            self::assertSame($expected['year'], $result['year'], \sprintf('Year mismatch for ID %s', $idNumber));
+            self::assertSame($expected['month'], $result['month'], \sprintf('Month mismatch for ID %s', $idNumber));
+            self::assertSame($expected['day'], $result['day'], \sprintf('Day mismatch for ID %s', $idNumber));
         }
     }
 

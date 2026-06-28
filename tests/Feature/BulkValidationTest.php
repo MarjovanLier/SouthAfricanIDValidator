@@ -44,7 +44,7 @@ final class BulkValidationTest extends TestCase
         foreach ($testIds as $index => $idNumber) {
             if ($idNumber === '') {
                 $invalidCount++;
-                $errors[] = sprintf('Index %d: Empty ID number', $index);
+                $errors[] = \sprintf('Index %d: Empty ID number', $index);
                 continue;
             }
 
@@ -56,7 +56,7 @@ final class BulkValidationTest extends TestCase
             }
 
             $invalidCount++;
-            $errors[] = sprintf(
+            $errors[] = \sprintf(
                 'Index %d: Invalid ID number "%s"',
                 $index,
                 $idNumber,
@@ -92,36 +92,36 @@ final class BulkValidationTest extends TestCase
         for ($i = 0; $i < 10000; $i++) {
             if ($i % 3 === 0) {
                 // Utilise a valid ID
-                $dataset[] = $validIds[$i % count($validIds)];
+                $dataset[] = $validIds[$i % \count($validIds)];
                 continue;
             }
 
             if ($i % 3 === 1) {
                 // Generate invalid ID with wrong checksum
-                $dataset[] = substr($validIds[$i % count($validIds)], 0, -1) . '9';
+                $dataset[] = \substr($validIds[$i % \count($validIds)], 0, -1) . '9';
                 continue;
             }
 
             // Generate completely invalid ID
-            $dataset[] = str_pad((string) $i, 13, '0', STR_PAD_LEFT);
+            $dataset[] = \str_pad((string) $i, 13, '0', STR_PAD_LEFT);
         }
 
-        $startTime = microtime(true);
-        $results = array_map(
+        $startTime = \microtime(true);
+        $results = \array_map(
             SouthAfricanIDValidator::luhnIDValidate(...),
             $dataset,
         );
-        $endTime = microtime(true);
+        $endTime = \microtime(true);
 
-        $validCount = count(array_filter($results, fn($result): bool => $result === true));
-        $invalidCount = count($results) - $validCount;
+        $validCount = \count(\array_filter($results, fn($result): bool => $result === true));
+        $invalidCount = \count($results) - $validCount;
         $totalTime = $endTime - $startTime;
 
         // Performance assertions
         self::assertLessThan(
             1.0,
             $totalTime,
-            sprintf('Validation of 10,000 IDs took too long: %.3f seconds', $totalTime),
+            \sprintf('Validation of 10,000 IDs took too long: %.3f seconds', $totalTime),
         );
 
         // Accuracy assertions
@@ -139,17 +139,17 @@ final class BulkValidationTest extends TestCase
      */
     public function testMemoryUsageDuringBulkValidation(): void
     {
-        $initialMemory = memory_get_usage();
+        $initialMemory = \memory_get_usage();
         $peakMemory = $initialMemory;
 
         // Validate 1000 IDs and track memory
         for ($i = 0; $i < 1000; $i++) {
-            $idNumber = str_pad((string) mt_rand(1000000000000, 9999999999999), 13, '0', STR_PAD_LEFT);
+            $idNumber = \str_pad((string) \mt_rand(1000000000000, 9999999999999), 13, '0', STR_PAD_LEFT);
             SouthAfricanIDValidator::luhnIDValidate($idNumber);
 
             if ($i % 100 === 0) {
-                $currentMemory = memory_get_usage();
-                $peakMemory = max($peakMemory, $currentMemory);
+                $currentMemory = \memory_get_usage();
+                $peakMemory = \max($peakMemory, $currentMemory);
             }
         }
 
@@ -159,7 +159,7 @@ final class BulkValidationTest extends TestCase
         self::assertLessThan(
             1024 * 1024,
             $memoryIncrease,
-            sprintf('Memory usage increased by %.2f MB', (float) $memoryIncrease / 1024.0 / 1024.0),
+            \sprintf('Memory usage increased by %.2f MB', (float) $memoryIncrease / 1024.0 / 1024.0),
         );
     }
 
@@ -282,7 +282,7 @@ final class BulkValidationTest extends TestCase
             $idNumber = $this->generateTestId($i, $validIds);
             SouthAfricanIDValidator::luhnIDValidate($idNumber);
 
-            if (in_array($i, $checkpoints, true)) {
+            if (\in_array($i, $checkpoints, true)) {
                 $progress[] = $this->createProgressEntry($i, $totalRecords);
             }
         }
@@ -301,8 +301,8 @@ final class BulkValidationTest extends TestCase
     {
         // Use valid ID every 3rd record
         if ($index % 3 === 0) {
-            $validIndex = $index % count($validIds);
-            assert(isset($validIds[$validIndex]));
+            $validIndex = $index % \count($validIds);
+            \assert(isset($validIds[$validIndex]));
             return $validIds[$validIndex];
         }
 
@@ -344,7 +344,7 @@ final class BulkValidationTest extends TestCase
         $checkpointNames = ['First', 'Second', 'Third', 'Final'];
 
         foreach ($expectedPercentages as $index => $expectedPercentage) {
-            self::assertArrayHasKey($index, $progress, sprintf('Progress entry %s must exist', (string) $index));
+            self::assertArrayHasKey($index, $progress, \sprintf('Progress entry %s must exist', (string) $index));
 
             if (!isset($progress[$index])) {
                 continue; // This should never happen after assertArrayHasKey
@@ -355,7 +355,7 @@ final class BulkValidationTest extends TestCase
             self::assertSame(
                 $expectedPercentage,
                 $progressEntry['percentage'],
-                sprintf('%s checkpoint must be at %s%%', $checkpointNames[$index], (string) $expectedPercentage),
+                \sprintf('%s checkpoint must be at %s%%', $checkpointNames[$index], (string) $expectedPercentage),
             );
         }
     }
@@ -400,10 +400,10 @@ final class BulkValidationTest extends TestCase
 
         foreach ($dataset as $index => $id) {
             try {
-                if (!is_string($id)) {
-                    throw new TypeError(sprintf(
+                if (!\is_string($id)) {
+                    throw new TypeError(\sprintf(
                         'ID must be string, %s given at index %d',
-                        gettype($id),
+                        \gettype($id),
                         $index,
                     ));
                 }
@@ -419,7 +419,7 @@ final class BulkValidationTest extends TestCase
         self::assertCount(3, $errors, 'Should catch 3 type errors');
 
         // Count successful validations
-        $validCount = count(array_filter(
+        $validCount = \count(\array_filter(
             $results,
             fn($result, $index): bool => $result === true && !isset($errors[$index]),
             ARRAY_FILTER_USE_BOTH,

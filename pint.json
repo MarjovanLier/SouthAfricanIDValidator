@@ -1,3 +1,10 @@
 {
-  "preset": "per"
+  "preset": "per",
+  "rules": {
+    "native_function_invocation": {
+      "include": ["@all"],
+      "scope": "namespaced",
+      "strict": true
+    }
+  }
 }

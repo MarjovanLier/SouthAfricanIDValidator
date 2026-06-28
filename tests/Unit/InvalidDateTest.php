@@ -117,7 +117,7 @@ final class InvalidDateTest extends TestCase
 
         // Month 12 would need a different checksum, so we test with modified dates
         // that we know are invalid
-        $invalidMonth13 = str_replace('8701', '8713', $baseId);
+        $invalidMonth13 = \str_replace('8701', '8713', $baseId);
         self::assertFalse(
             SouthAfricanIDValidator::luhnIDValidate($invalidMonth13),
             'Month 13 should be invalid',

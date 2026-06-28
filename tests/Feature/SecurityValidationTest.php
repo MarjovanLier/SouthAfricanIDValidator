@@ -131,11 +131,11 @@ final class SecurityValidationTest extends TestCase
     public function testBufferOverflowProtection(): void
     {
         // Very long strings
-        $longString = str_repeat('8', 10000);
+        $longString = \str_repeat('8', 10000);
         self::assertFalse(SouthAfricanIDValidator::luhnIDValidate($longString));
 
         // String with valid ID embedded in long input - will extract the valid ID
-        $embeddedId = str_repeat('A', 1000) . '8001015009087' . str_repeat('B', 1000);
+        $embeddedId = \str_repeat('A', 1000) . '8001015009087' . \str_repeat('B', 1000);
         self::assertTrue(SouthAfricanIDValidator::luhnIDValidate($embeddedId), "Should extract valid ID from long string");
 
         // Null bytes - will be sanitised
@@ -197,21 +197,21 @@ final class SecurityValidationTest extends TestCase
         ];
 
         // Measure timing for valid ID
-        $validStart = microtime(true);
+        $validStart = \microtime(true);
         for ($i = 0; $i < 1000; $i++) {
             SouthAfricanIDValidator::luhnIDValidate($validId);
         }
 
-        $validTime = microtime(true) - $validStart;
+        $validTime = \microtime(true) - $validStart;
 
         // Measure timing for various invalid IDs
         foreach ($invalidIds as $invalidId) {
-            $invalidStart = microtime(true);
+            $invalidStart = \microtime(true);
             for ($i = 0; $i < 1000; $i++) {
                 SouthAfricanIDValidator::luhnIDValidate($invalidId);
             }
 
-            $invalidTime = microtime(true) - $invalidStart;
+            $invalidTime = \microtime(true) - $invalidStart;
 
             // Skip very fast failures (like too short) as they are expected to be much faster
             if ($invalidTime < 0.0001) {

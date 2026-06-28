@@ -43,10 +43,10 @@ final class MutationKillerTest extends TestCase
         $result = SouthAfricanIDValidator::luhnIDValidate($validCase);
         self::assertTrue(
             $result,
-            sprintf(
+            \sprintf(
                 'Expected validation to pass for valid ID "%s" with length %d',
                 $validCase,
-                strlen($validCase),
+                \strlen($validCase),
             ),
         );
 
@@ -62,10 +62,10 @@ final class MutationKillerTest extends TestCase
             $result = SouthAfricanIDValidator::luhnIDValidate($invalidCase);
             self::assertFalse(
                 $result,
-                sprintf(
+                \sprintf(
                     'Expected validation to fail for input "%s" with length %d',
                     $invalidCase,
-                    strlen($invalidCase),
+                    \strlen($invalidCase),
                 ),
             );
         }
@@ -100,11 +100,11 @@ final class MutationKillerTest extends TestCase
             self::assertSame(
                 $testCase['expected'],
                 $result,
-                sprintf(
+                \sprintf(
                     'Expected isValidIDDate("%s") to return %s for length %d, but got %s',
                     $testCase['input'],
                     $testCase['expected'] ? 'true' : 'false',
-                    strlen($testCase['input']),
+                    \strlen($testCase['input']),
                     (bool) $result ? 'true' : 'false',
                 ),
             );
@@ -244,7 +244,7 @@ final class MutationKillerTest extends TestCase
             $result = $reflectionMethod->invoke(null, $invalidCase);
             self::assertFalse(
                 $result,
-                sprintf(
+                \sprintf(
                     'Expected invalid Luhn checksum "%s" to fail validation',
                     $invalidCase,
                 ),

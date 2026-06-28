@@ -157,7 +157,7 @@ final class DateConcatenationMutationTest extends TestCase
             $result = $reflectionMethod->invoke(null, $leapYearDate);
             self::assertTrue(
                 $result,
-                sprintf('Expected leap year date %s to be valid', $leapYearDate),
+                \sprintf('Expected leap year date %s to be valid', $leapYearDate),
             );
         }
 
@@ -173,7 +173,7 @@ final class DateConcatenationMutationTest extends TestCase
             $result = $reflectionMethod->invoke(null, $nonLeapDate);
             self::assertFalse(
                 $result,
-                sprintf('Expected non-leap year date %s to be invalid', $nonLeapDate),
+                \sprintf('Expected non-leap year date %s to be invalid', $nonLeapDate),
             );
         }
     }

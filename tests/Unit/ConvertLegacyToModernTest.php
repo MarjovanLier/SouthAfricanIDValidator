@@ -103,15 +103,15 @@ final class ConvertLegacyToModernTest extends TestCase
 
         self::assertIsString(
             $result,
-            sprintf('convertLegacyToModern should return a string for valid legacy ID with race indicator %s', $raceIndicator),
+            \sprintf('convertLegacyToModern should return a string for valid legacy ID with race indicator %s', $raceIndicator),
         );
         /** @var string $result */
         /** @var non-empty-string $baseId */
         self::assertStringStartsWith($baseId, $result, 'The first 11 digits should remain unchanged');
-        self::assertSame('8', $result[11], sprintf('Race indicator %s should be changed to 8', $raceIndicator));
+        self::assertSame('8', $result[11], \sprintf('Race indicator %s should be changed to 8', $raceIndicator));
         self::assertTrue(
             SouthAfricanIDValidator::luhnIDValidate($result),
-            sprintf('The converted ID with original race indicator %s should pass Luhn validation', $raceIndicator),
+            \sprintf('The converted ID with original race indicator %s should pass Luhn validation', $raceIndicator),
         );
     }
 
@@ -245,10 +245,10 @@ final class ConvertLegacyToModernTest extends TestCase
 
         self::assertIsString(
             $result,
-            sprintf('convertLegacyToModern should return a string for ID with citizenship %s', $citizenship),
+            \sprintf('convertLegacyToModern should return a string for ID with citizenship %s', $citizenship),
         );
         /** @phpstan-ignore-next-line */
-        if (!is_string($result)) {
+        if (!\is_string($result)) {
             self::fail('Result should be a string');
         }
 
@@ -256,7 +256,7 @@ final class ConvertLegacyToModernTest extends TestCase
         self::assertSame('8', $result[11], 'Race indicator should be changed to 8');
         self::assertTrue(
             SouthAfricanIDValidator::luhnIDValidate($result),
-            sprintf('The converted ID with citizenship %s should pass Luhn validation', $citizenship),
+            \sprintf('The converted ID with citizenship %s should pass Luhn validation', $citizenship),
         );
     }
 

@@ -162,7 +162,7 @@ final class SouthAfricanIDValidator
         }
 
         // Date string must contain only digits
-        if (!ctype_digit($date)) {
+        if (!\ctype_digit($date)) {
             return false;
         }
 

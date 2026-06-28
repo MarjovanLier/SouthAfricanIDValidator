@@ -47,7 +47,7 @@ final class KillMutationsTest extends TestCase
         foreach ($validIds as $validId) {
             self::assertTrue(
                 SouthAfricanIDValidator::luhnIDValidate($validId),
-                sprintf(
+                \sprintf(
                     'Valid SA ID %s should pass Luhn with addition; subtraction mutation would break it.',
                     $validId,
                 ),

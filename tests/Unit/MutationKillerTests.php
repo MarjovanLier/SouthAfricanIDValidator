@@ -42,7 +42,7 @@ final class MutationKillerTests extends TestCase
             $result = SouthAfricanIDValidator::isValidIDDate($invalidLength);
             self::assertFalse(
                 $result,
-                sprintf("Length {strlen(%s)} input '%s' must fail length validation", $invalidLength, $invalidLength),
+                \sprintf("Length {strlen(%s)} input '%s' must fail length validation", $invalidLength, $invalidLength),
             );
         }
 
@@ -85,7 +85,7 @@ final class MutationKillerTests extends TestCase
         foreach ($historical1800sDates as $historical1800Date) {
             self::assertTrue(
                 SouthAfricanIDValidator::isValidIDDate($historical1800Date),
-                sprintf('Date %s must be valid via 1800s early return path', $historical1800Date),
+                \sprintf('Date %s must be valid via 1800s early return path', $historical1800Date),
             );
         }
 
@@ -111,7 +111,7 @@ final class MutationKillerTests extends TestCase
         foreach ($stressTest1800sDates as $stressTest1800Date) {
             self::assertTrue(
                 SouthAfricanIDValidator::isValidIDDate($stressTest1800Date),
-                sprintf('Stress test: Date %s must pass via 1800s early return', $stressTest1800Date),
+                \sprintf('Stress test: Date %s must pass via 1800s early return', $stressTest1800Date),
             );
         }
     }
@@ -132,8 +132,8 @@ final class MutationKillerTests extends TestCase
         $perfCases = [
             '0', // Single digit
             '00000000000000000000', // 20 zeros
-            str_repeat('1234567890', 100), // 1,000 digits
-            str_repeat('9876543210', 500), // 5,000 digits
+            \str_repeat('1234567890', 100), // 1,000 digits
+            \str_repeat('9876543210', 500), // 5,000 digits
         ];
 
         foreach ($perfCases as $perfCase) {
@@ -143,12 +143,12 @@ final class MutationKillerTests extends TestCase
             self::assertSame(
                 $perfCase,
                 $result,
-                sprintf("Large digit string (length %d) must be returned unchanged via optimization", strlen($perfCase)),
+                \sprintf("Large digit string (length %d) must be returned unchanged via optimization", \strlen($perfCase)),
             );
 
             // Verify our assumption: input is actually all digits
             self::assertTrue(
-                ctype_digit($perfCase),
+                \ctype_digit($perfCase),
                 "Test input must be all digits to trigger optimization path",
             );
         }
@@ -166,7 +166,7 @@ final class MutationKillerTests extends TestCase
             self::assertSame(
                 $expected,
                 $result,
-                sprintf("Edge case '%s' must use fast early return path", $input),
+                \sprintf("Edge case '%s' must use fast early return path", $input),
             );
         }
 
@@ -183,7 +183,7 @@ final class MutationKillerTests extends TestCase
             self::assertSame(
                 $expectedClean,
                 $result,
-                sprintf("Non-digit input '%s' should be cleaned via regex path", $nonDigitInput),
+                \sprintf("Non-digit input '%s' should be cleaned via regex path", $nonDigitInput),
             );
 
             // These inputs contain non-digits, so they use the regex path
@@ -201,11 +201,11 @@ final class MutationKillerTests extends TestCase
 
         // Strategy 5: Extreme performance case to expose the optimization
         // If the optimization is removed, this might time out or be noticeably slower
-        $extremeCase = str_repeat('1234567890', 1000); // 10,000 characters
-        $startTime = microtime(true);
+        $extremeCase = \str_repeat('1234567890', 1000); // 10,000 characters
+        $startTime = \microtime(true);
         /** @var string $result */
         $result = $reflectionMethod->invoke(null, $extremeCase);
-        $endTime = microtime(true);
+        $endTime = \microtime(true);
         $duration = $endTime - $startTime;
 
         self::assertSame($extremeCase, $result, 'Extreme case must return unchanged');

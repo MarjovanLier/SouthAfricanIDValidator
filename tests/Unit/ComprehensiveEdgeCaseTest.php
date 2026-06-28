@@ -47,16 +47,16 @@ final class ComprehensiveEdgeCaseTest extends TestCase
         );
 
         // Current year boundary
-        $currentYear = date('y');
+        $currentYear = \date('y');
         $id1 = $this->generateValidId($currentYear . '0101500000');
         $id2 = $this->generateValidId($currentYear . '1231500000');
         self::assertTrue(
             SouthAfricanIDValidator::luhnIDValidate($id1),
-            sprintf('ID with current year %s on 1 January must validate', $currentYear),
+            \sprintf('ID with current year %s on 1 January must validate', $currentYear),
         );
         self::assertTrue(
             SouthAfricanIDValidator::luhnIDValidate($id2),
-            sprintf('ID with current year %s on 31 December must validate', $currentYear),
+            \sprintf('ID with current year %s on 31 December must validate', $currentYear),
         );
     }
 
@@ -68,7 +68,7 @@ final class ComprehensiveEdgeCaseTest extends TestCase
     private function generateValidId(string $prefix): string
     {
         // Ensure prefix is exactly 12 digits
-        if (strlen($prefix) !== 12) {
+        if (\strlen($prefix) !== 12) {
             throw new InvalidArgumentException('Prefix must be exactly 12 digits');
         }
 
@@ -209,7 +209,7 @@ final class ComprehensiveEdgeCaseTest extends TestCase
         // Test all race indicators 0-9
         for ($race = 0; $race <= 9; $race++) {
             $idNumber = $this->generateValidId('90010150000' . (string) $race);
-            self::assertTrue(SouthAfricanIDValidator::luhnIDValidate($idNumber), sprintf('Failed for race indicator: %d, ID: %s', $race, $idNumber));
+            self::assertTrue(SouthAfricanIDValidator::luhnIDValidate($idNumber), \sprintf('Failed for race indicator: %d, ID: %s', $race, $idNumber));
         }
     }
 
@@ -416,17 +416,17 @@ final class ComprehensiveEdgeCaseTest extends TestCase
 
         // Test invalid checksums - intentionally use wrong checksums
         $validId = $this->generateValidId('800101500908');
-        $lastDigit = (int) substr($validId, -1);
+        $lastDigit = (int) \substr($validId, -1);
         $wrongChecksum1 = ($lastDigit + 1) % 10;
         $wrongChecksum2 = ($lastDigit + 2) % 10;
 
         self::assertFalse(
-            SouthAfricanIDValidator::luhnIDValidate(substr($validId, 0, 12) . (string) $wrongChecksum1),
-            sprintf('ID with incorrect checksum digit %d must fail Luhn validation', $wrongChecksum1),
+            SouthAfricanIDValidator::luhnIDValidate(\substr($validId, 0, 12) . (string) $wrongChecksum1),
+            \sprintf('ID with incorrect checksum digit %d must fail Luhn validation', $wrongChecksum1),
         );
         self::assertFalse(
-            SouthAfricanIDValidator::luhnIDValidate(substr($validId, 0, 12) . (string) $wrongChecksum2),
-            sprintf('ID with incorrect checksum digit %d must fail Luhn validation', $wrongChecksum2),
+            SouthAfricanIDValidator::luhnIDValidate(\substr($validId, 0, 12) . (string) $wrongChecksum2),
+            \sprintf('ID with incorrect checksum digit %d must fail Luhn validation', $wrongChecksum2),
         );
     }
 
@@ -452,7 +452,7 @@ final class ComprehensiveEdgeCaseTest extends TestCase
         $result = SouthAfricanIDValidator::luhnIDValidate($futureId);
         self::assertIsBool(
             $result,
-            sprintf('ID with future date %s must return boolean result, not null, as it could be interpreted as a past century date', $year . $month . $day),
+            \sprintf('ID with future date %s must return boolean result, not null, as it could be interpreted as a past century date', $year . $month . $day),
         ); // Should return true or false, not null
     }
 }

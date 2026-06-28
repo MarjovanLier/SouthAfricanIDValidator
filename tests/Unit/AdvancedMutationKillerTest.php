@@ -40,11 +40,11 @@ final class AdvancedMutationKillerTest extends TestCase
         foreach ($problematicLengths as $problematicLength) {
             self::assertFalse(
                 SouthAfricanIDValidator::isValidIDDate($problematicLength),
-                sprintf(
+                \sprintf(
                     "Input '%s' (length %d) MUST fail due to length validation at line 138. "
                     . "If this passes, the early return was bypassed by mutation!",
                     $problematicLength,
-                    strlen($problematicLength),
+                    \strlen($problematicLength),
                 ),
             );
         }
@@ -79,7 +79,7 @@ final class AdvancedMutationKillerTest extends TestCase
         foreach ($historicalLeapDates as $historicalLeapDate) {
             self::assertTrue(
                 SouthAfricanIDValidator::isValidIDDate($historicalLeapDate),
-                sprintf('MUTATION DETECTOR: Date %s should be valid via 1800s early return. ', $historicalLeapDate)
+                \sprintf('MUTATION DETECTOR: Date %s should be valid via 1800s early return. ', $historicalLeapDate)
                 . "If this fails, Line 143 mutation may have caused fall-through to 2000s validation!",
             );
         }
@@ -94,7 +94,7 @@ final class AdvancedMutationKillerTest extends TestCase
             $result = SouthAfricanIDValidator::isValidIDDate($centuryBoundaryDate);
             self::assertTrue(
                 $result,
-                sprintf('MUTATION DETECTOR: Date %s must be valid via 1800s path early return. ', $centuryBoundaryDate)
+                \sprintf('MUTATION DETECTOR: Date %s must be valid via 1800s path early return. ', $centuryBoundaryDate)
                 . "Failure suggests Line 143 mutation escaped and date fell through to 2000s validation.",
             );
         }
@@ -105,7 +105,7 @@ final class AdvancedMutationKillerTest extends TestCase
         foreach ($definite1800sDates as $definite1800Date) {
             self::assertTrue(
                 SouthAfricanIDValidator::isValidIDDate($definite1800Date),
-                sprintf('Date %s must be valid - tests 1800s path functionality', $definite1800Date),
+                \sprintf('Date %s must be valid - tests 1800s path functionality', $definite1800Date),
             );
         }
     }
@@ -121,14 +121,14 @@ final class AdvancedMutationKillerTest extends TestCase
         // Strategy 1: Performance-based detection
         // If optimization is bypassed, regex operations on large strings are slower
         $performanceTestCases = [
-            str_repeat('1234567890', 1000), // 10,000 characters
-            str_repeat('9876543210', 2000), // 20,000 characters
+            \str_repeat('1234567890', 1000), // 10,000 characters
+            \str_repeat('9876543210', 2000), // 20,000 characters
         ];
 
         foreach ($performanceTestCases as $performanceTestCase) {
-            $startTime = microtime(true);
+            $startTime = \microtime(true);
             $result = $reflectionMethod->invoke(null, $performanceTestCase);
-            $endTime = microtime(true);
+            $endTime = \microtime(true);
             $executionTime = $endTime - $startTime;
 
             // The optimised path should be very fast
@@ -136,7 +136,7 @@ final class AdvancedMutationKillerTest extends TestCase
                 0.05, // 50ms threshold
                 $executionTime,
                 "MUTATION DETECTOR: Performance degraded for large digit string! "
-                . sprintf('Execution time: %ss. Line 168 optimization may have been bypassed by mutation.', $executionTime),
+                . \sprintf('Execution time: %ss. Line 168 optimization may have been bypassed by mutation.', $executionTime),
             );
 
             self::assertSame(
@@ -163,13 +163,13 @@ final class AdvancedMutationKillerTest extends TestCase
             self::assertSame(
                 $consistencyTestCase,
                 $result,
-                sprintf("MUTATION DETECTOR: Digit string '%s' should be returned unchanged. ", $consistencyTestCase)
+                \sprintf("MUTATION DETECTOR: Digit string '%s' should be returned unchanged. ", $consistencyTestCase)
                 . "If modified, Line 168 optimization was bypassed!",
             );
 
             // Verify it would trigger the optimization path
             self::assertTrue(
-                ctype_digit($consistencyTestCase),
+                \ctype_digit($consistencyTestCase),
                 "Test case must be all digits to test optimization",
             );
         }
@@ -187,7 +187,7 @@ final class AdvancedMutationKillerTest extends TestCase
             self::assertSame(
                 $edgeCase['input'],
                 $result,
-                sprintf('Edge case: %s - result must be unchanged', $edgeCase['description']),
+                \sprintf('Edge case: %s - result must be unchanged', $edgeCase['description']),
             );
         }
     }

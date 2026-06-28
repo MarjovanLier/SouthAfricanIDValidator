@@ -45,13 +45,13 @@ final class ComplianceValidationTest extends TestCase
         $staticProperties = $reflectionClass->getStaticProperties();
 
         foreach ($staticProperties as $name => $value) {
-            if (!is_string($value)) {
+            if (!\is_string($value)) {
                 continue;
             }
 
-            if (preg_match('/^\/.*\/[a-z]*$/i', $value) === 0) {
+            if (\preg_match('/^\/.*\/[a-z]*$/i', $value) === 0) {
                 // Skip regex patterns
-                self::assertStringNotContainsString($testId, $value, sprintf('Static property %s should not contain ID data', $name));
+                self::assertStringNotContainsString($testId, $value, \sprintf('Static property %s should not contain ID data', $name));
             }
         }
     }
@@ -97,13 +97,13 @@ final class ComplianceValidationTest extends TestCase
      */
     public function testMinorDataProtection(): void
     {
-        $currentYear = (int) date('Y');
+        $currentYear = (int) \date('Y');
         $minorBirthYears = [];
 
         // Generate birth years for minors (under 18)
         for ($age = 0; $age < 18; $age++) {
             $birthYear = $currentYear - $age;
-            $minorBirthYears[] = substr((string) $birthYear, -2);
+            $minorBirthYears[] = \substr((string) $birthYear, -2);
         }
 
         foreach ($minorBirthYears as $minorBirthYear) {
@@ -175,7 +175,7 @@ final class ComplianceValidationTest extends TestCase
             $result = SouthAfricanIDValidator::luhnIDValidate($idNumber);
             // Fix invalid checksums
             if ($result !== true) {
-                $prefix = substr($idNumber, 0, 12);
+                $prefix = \substr($idNumber, 0, 12);
                 $sum = 0;
                 $double = true;
                 for ($i = 11; $i >= 0; $i--) {
@@ -239,7 +239,7 @@ final class ComplianceValidationTest extends TestCase
 
         $loggingMethods = ['log', 'writeLog', 'audit', 'record', 'trace'];
         foreach ($methods as $method) {
-            $methodName = strtolower($method->getName());
+            $methodName = \strtolower($method->getName());
             foreach ($loggingMethods as $loggingMethod) {
                 self::assertStringNotContainsString($loggingMethod, $methodName, 'Validator must not contain logging methods that could inadvertently record sensitive data');
             }
@@ -260,18 +260,18 @@ final class ComplianceValidationTest extends TestCase
         $validId = '8001015009087';
 
         $locales = ['en_US', 'en_GB', 'af_ZA', 'zu_ZA', 'fr_FR', 'de_DE'];
-        $originalLocale = setlocale(LC_ALL, null);
+        $originalLocale = \setlocale(LC_ALL, null);
 
         foreach ($locales as $locale) {
-            if (setlocale(LC_ALL, $locale) !== false) {
+            if (\setlocale(LC_ALL, $locale) !== false) {
                 $result = SouthAfricanIDValidator::luhnIDValidate($validId);
-                self::assertTrue($result, sprintf('Validator must function consistently in locale: %s to ensure cross-border compliance', $locale));
+                self::assertTrue($result, \sprintf('Validator must function consistently in locale: %s to ensure cross-border compliance', $locale));
             }
         }
 
         // Restore original locale
         if ($originalLocale !== false) {
-            setlocale(LC_ALL, $originalLocale);
+            \setlocale(LC_ALL, $originalLocale);
         }
     }
 
@@ -307,7 +307,7 @@ final class ComplianceValidationTest extends TestCase
         foreach ($suspiciousMethods as $suspiciouMethod) {
             self::assertFalse(
                 $reflectionClass->hasMethod($suspiciouMethod),
-                sprintf('Validator must not expose data extraction method: %s to ensure purpose limitation', $suspiciouMethod),
+                \sprintf('Validator must not expose data extraction method: %s to ensure purpose limitation', $suspiciouMethod),
             );
         }
     }
@@ -331,7 +331,7 @@ final class ComplianceValidationTest extends TestCase
 
         foreach ($anonymizedPatterns as $anonymizedPattern) {
             $result = SouthAfricanIDValidator::luhnIDValidate($anonymizedPattern);
-            self::assertFalse($result, sprintf('Validator must reject anonymised ID pattern: %s to maintain data integrity', $anonymizedPattern));
+            self::assertFalse($result, \sprintf('Validator must reject anonymised ID pattern: %s to maintain data integrity', $anonymizedPattern));
         }
     }
 }

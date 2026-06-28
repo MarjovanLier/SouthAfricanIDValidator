@@ -120,7 +120,7 @@ final class EquivalentMutationBreakerTest extends TestCase
         foreach ($validHistoricalDates as $validHistoricalDate) {
             self::assertTrue(
                 SouthAfricanIDValidator::isValidIDDate($validHistoricalDate),
-                sprintf('Date %s MUST be valid via 1800s path. ', $validHistoricalDate)
+                \sprintf('Date %s MUST be valid via 1800s path. ', $validHistoricalDate)
                 . "If fails, Line 143 early return may have been bypassed and date rejected by 2000s validation!",
             );
         }
@@ -154,11 +154,11 @@ final class EquivalentMutationBreakerTest extends TestCase
         $reflectionMethod = new ReflectionMethod(SouthAfricanIDValidator::class, 'sanitiseNumber');
 
         // Test with a very large all-digit string
-        $largeDigitString = str_repeat('1234567890', 10000); // 100,000 characters
+        $largeDigitString = \str_repeat('1234567890', 10000); // 100,000 characters
 
-        $startTime = microtime(true);
+        $startTime = \microtime(true);
         $result = $reflectionMethod->invoke(null, $largeDigitString);
-        $endTime = microtime(true);
+        $endTime = \microtime(true);
         $executionTime = $endTime - $startTime;
 
         self::assertSame($largeDigitString, $result, 'Large string should be unchanged');
@@ -168,7 +168,7 @@ final class EquivalentMutationBreakerTest extends TestCase
         self::assertLessThan(
             1.0, // 1 second threshold
             $executionTime,
-            sprintf('PERFORMANCE INDICATOR: Execution took %ss. ', $executionTime)
+            \sprintf('PERFORMANCE INDICATOR: Execution took %ss. ', $executionTime)
             . "If significantly slow, Line 168 optimization may have been bypassed. "
             . "Note: This may vary by system performance.",
         );
@@ -187,7 +187,7 @@ final class EquivalentMutationBreakerTest extends TestCase
             self::assertSame(
                 $edgeCase,
                 $result,
-                sprintf("Edge case '%s' should be handled identically by both paths", $edgeCase),
+                \sprintf("Edge case '%s' should be handled identically by both paths", $edgeCase),
             );
         }
 
@@ -201,7 +201,7 @@ final class EquivalentMutationBreakerTest extends TestCase
             self::assertSame(
                 $allDigitInput,
                 $result,
-                sprintf("All-digit input '%s' MUST be returned unchanged. ", $allDigitInput)
+                \sprintf("All-digit input '%s' MUST be returned unchanged. ", $allDigitInput)
                 . "Any modification suggests unexpected behaviour from Line 168 mutation.",
             );
         }

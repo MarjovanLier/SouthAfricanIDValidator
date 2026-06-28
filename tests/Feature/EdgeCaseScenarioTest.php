@@ -94,13 +94,13 @@ final class EdgeCaseScenarioTest extends TestCase
         $idNumber = '8701105800085';
 
         // Store original settings
-        $originalLocale = setlocale(LC_ALL, null);
-        $originalTimezone = date_default_timezone_get();
+        $originalLocale = \setlocale(LC_ALL, null);
+        $originalTimezone = \date_default_timezone_get();
 
         // Test with different locales
         $locales = ['en_US.UTF-8', 'af_ZA.UTF-8', 'zu_ZA.UTF-8'];
         foreach ($locales as $locale) {
-            if (setlocale(LC_ALL, $locale) !== false) {
+            if (\setlocale(LC_ALL, $locale) !== false) {
                 $result = SouthAfricanIDValidator::luhnIDValidate($idNumber);
                 self::assertTrue($result, 'Must validate correctly with locale: ' . $locale);
             }
@@ -109,17 +109,17 @@ final class EdgeCaseScenarioTest extends TestCase
         // Test with different timezones
         $timezones = ['UTC', 'Africa/Johannesburg', 'America/New_York'];
         foreach ($timezones as $timezone) {
-            date_default_timezone_set($timezone);
+            \date_default_timezone_set($timezone);
             $result = SouthAfricanIDValidator::luhnIDValidate($idNumber);
             self::assertTrue($result, 'Should validate correctly with timezone: ' . $timezone);
         }
 
         // Restore original settings
         if ($originalLocale !== false) {
-            setlocale(LC_ALL, $originalLocale);
+            \setlocale(LC_ALL, $originalLocale);
         }
 
-        date_default_timezone_set($originalTimezone);
+        \date_default_timezone_set($originalTimezone);
     }
 
     /**
@@ -156,10 +156,10 @@ final class EdgeCaseScenarioTest extends TestCase
     public function testLowMemoryScenario(): void
     {
         // Get current memory limit
-        $originalLimit = ini_get('memory_limit');
+        $originalLimit = \ini_get('memory_limit');
 
         // Set a lower memory limit (if possible)
-        if (ini_set('memory_limit', '2M') === false) {
+        if (\ini_set('memory_limit', '2M') === false) {
             self::markTestSkipped('Cannot modify memory limit');
         }
 
@@ -170,7 +170,7 @@ final class EdgeCaseScenarioTest extends TestCase
         self::assertTrue($result, 'Should validate even with low memory');
 
         // Restore original limit
-        ini_set('memory_limit', $originalLimit);
+        \ini_set('memory_limit', $originalLimit);
     }
 
     /**
@@ -192,7 +192,7 @@ final class EdgeCaseScenarioTest extends TestCase
         // Simulate multiple "threads" accessing validator
         /** @var list<array{id: string, result: bool|null, iteration: int}> $results */
         $results = [];
-        $idCount = count($ids);
+        $idCount = \count($ids);
         for ($i = 0; $i < 100; $i++) {
             // Use modulo to cycle through IDs deterministically
             $index = $i % $idCount;
@@ -208,7 +208,7 @@ final class EdgeCaseScenarioTest extends TestCase
         foreach ($results as $result) {
             self::assertTrue(
                 $result['result'],
-                sprintf(
+                \sprintf(
                     'Concurrent validation %d failed for ID: %s',
                     $result['iteration'],
                     (string) $result['id'],
@@ -291,7 +291,7 @@ final class EdgeCaseScenarioTest extends TestCase
 
         foreach ($encodings as $encoding => $id) {
             if ($encoding !== 'UTF-8') {
-                $converted = iconv('UTF-8', $encoding . '//IGNORE', $id);
+                $converted = \iconv('UTF-8', $encoding . '//IGNORE', $id);
                 if ($converted !== false) {
                     $id = $converted;
                 }
@@ -323,12 +323,12 @@ final class EdgeCaseScenarioTest extends TestCase
         ];
 
         foreach ($legacyData as $record) {
-            $cleaned = trim($record['id']);
+            $cleaned = \trim($record['id']);
             $result = SouthAfricanIDValidator::luhnIDValidate($cleaned);
 
             self::assertTrue(
                 $result,
-                sprintf('Legacy format "%s" should validate after cleaning', $record['format']),
+                \sprintf('Legacy format "%s" should validate after cleaning', $record['format']),
             );
         }
     }

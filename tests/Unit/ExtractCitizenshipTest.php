@@ -102,7 +102,7 @@ final class ExtractCitizenshipTest extends TestCase
             self::assertSame(
                 $testCase['expected'],
                 $result,
-                sprintf('Citizenship digit %s should map to %s', $testCase['digit'], $testCase['expected']),
+                \sprintf('Citizenship digit %s should map to %s', $testCase['digit'], $testCase['expected']),
             );
         }
     }

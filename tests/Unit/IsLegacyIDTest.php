@@ -42,7 +42,7 @@ final class IsLegacyIDTest extends TestCase
 
         $result = SouthAfricanIDValidator::isLegacyID($idNumber);
 
-        self::assertTrue($result, sprintf('Race indicator %s should indicate legacy ID', $raceIndicator));
+        self::assertTrue($result, \sprintf('Race indicator %s should indicate legacy ID', $raceIndicator));
     }
 
     /**
@@ -74,7 +74,7 @@ final class IsLegacyIDTest extends TestCase
 
         $result = SouthAfricanIDValidator::isLegacyID($idNumber);
 
-        self::assertFalse($result, sprintf('Race indicator %s should indicate modern ID', $raceIndicator));
+        self::assertFalse($result, \sprintf('Race indicator %s should indicate modern ID', $raceIndicator));
     }
 
     /**
