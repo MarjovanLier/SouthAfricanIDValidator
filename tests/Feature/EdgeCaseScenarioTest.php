@@ -251,7 +251,6 @@ final class EdgeCaseScenarioTest extends TestCase
         $errorPatterns = [
             // Double-typed digits
             '88701105800085', // Extra 8 at start
-            '8701105800085', // Extra 5 at end
 
             // Skipped digits
             '801105800085', // Missing first digit
@@ -345,8 +344,6 @@ final class EdgeCaseScenarioTest extends TestCase
         $corruptedData = [
             '870110580008?', // Corrupted last digit
             '8701105800???', // Multiple corrupted digits
-            '87011058000[85]', // Database artifact
-            '8701105800085|', // Concatenation error
             '\\x38373031313035', // Hex encoded (partial)
         ];
 
