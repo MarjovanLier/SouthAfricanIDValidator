@@ -58,6 +58,7 @@
     "enlightn/security-checker": ">=2.0.0",
     "infection/infection": ">=0.33.3",
     "laravel/pint": ">=1.29.3",
+    "mattsparks/blns-php": ">=1.0.1",
     "phan/phan": ">=6.0.7",
     "php-parallel-lint/php-parallel-lint": ">=1.4.0",
     "phpmd/phpmd": ">=2.15",
@@ -110,5 +111,18 @@
     "test:phpunit": "php -d xdebug.mode=coverage ./vendor/bin/phpunit --bootstrap tests/bootstrap.php --coverage-text --coverage-filter src --coverage-clover reports/code-coverage/clover.xml",
     "test:rector": "rector --dry-run",
     "test:vulnerabilities": "security-checker security:check"
-  }
+  },
+  "repositories": [
+    {
+      "type": "package",
+      "package": {
+        "name": "blns/blns",
+        "version": "1.0.0",
+        "dist": {
+          "url": "https://github.com/minimaxir/big-list-of-naughty-strings/archive/master.zip",
+          "type": "zip"
+        }
+      }
+    }
+  ]
 }
