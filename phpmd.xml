@@ -12,7 +12,15 @@
         <exclude name="TooManyPublicMethods"/>
     </rule>
     <rule ref="rulesets/design.xml"/>
-    <rule ref="rulesets/naming.xml"/>
+    <rule ref="rulesets/naming.xml">
+        <exclude name="LongMethodName"/>
+    </rule>
+    <!-- PHPMD 3 added LongMethodName (default 40); descriptive test names run to 58 characters. -->
+    <rule ref="rulesets/naming.xml/LongMethodName">
+        <properties>
+            <property name="maximum" value="60"/>
+        </properties>
+    </rule>
     <rule ref="rulesets/cleancode.xml">
         <exclude name="StaticAccess"/>
     </rule>

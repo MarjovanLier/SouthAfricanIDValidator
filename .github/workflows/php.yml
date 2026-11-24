@@ -15,7 +15,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        php-versions: ["8.3", "8.4"]
+        php-versions: ["8.4", "8.5"]
 
     steps:
       # This step checks out a copy of your repository.
@@ -31,7 +31,7 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php-versions }}
-          extensions: mbstring, xml, zip, pdo_mysql
+          extensions: mbstring, xml, zip, pdo_mysql, ast
 
       # This step caches the Composer packages for faster execution.
       - name: Cache Composer packages
