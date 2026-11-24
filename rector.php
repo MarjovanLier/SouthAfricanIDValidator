@@ -42,7 +42,6 @@ return RectorConfig::configure()
         SetList::TYPE_DECLARATION,
         SetList::NAMING,
         SetList::PRIVATIZATION,
-        SetList::STRICT_BOOLEANS,
         SetList::INSTANCEOF,
     ])
 
