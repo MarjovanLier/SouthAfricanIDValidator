@@ -14,7 +14,7 @@ jobs:
       fail-fast: false
       matrix:
         os: [ubuntu-latest]
-        php: ['8.3', '8.4']
+        php: ['8.4', '8.5']
 
     name: PHP ${{ matrix.php }} on ${{ matrix.os }}
 
@@ -26,7 +26,7 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php }}
-          extensions: mbstring, xml, json, tokenizer, filter, dom, curl
+          extensions: mbstring, xml, json, tokenizer, filter, dom, curl, ast
           coverage: xdebug
           tools: composer:v2
 
@@ -74,7 +74,7 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: '8.4'
-          extensions: mbstring, xml, json, tokenizer, filter, dom
+          extensions: mbstring, xml, json, tokenizer, filter, dom, ast
           coverage: none
           tools: composer:v2
 

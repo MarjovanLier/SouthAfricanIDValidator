@@ -51,7 +51,7 @@
   },
   "minimum-stability": "stable",
   "require": {
-    "php": ">=8.3",
+    "php": ">=8.4",
     "marjovanlier/stringmanipulation": "^2.0.15"
   },
   "require-dev": {
@@ -61,7 +61,7 @@
     "mattsparks/blns-php": ">=1.0.1",
     "phan/phan": ">=6.0.7",
     "php-parallel-lint/php-parallel-lint": ">=1.4.0",
-    "phpmd/phpmd": ">=2.15",
+    "phpmd/phpmd": ">=3.0",
     "phpstan/extension-installer": ">=1.4.3",
     "phpstan/phpstan": ">=2.2.2",
     "phpstan/phpstan-strict-rules": ">=2.0.11",

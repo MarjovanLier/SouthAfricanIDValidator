@@ -53,7 +53,7 @@ applying the Luhn algorithm for checksum digit validation.
 
 ## System Requirements
 
-- PHP version 8.3 or higher.
+- PHP version 8.4 or higher.
 
 ## Installation
 
@@ -178,7 +178,7 @@ The `luhnIDValidate` method returns:
 Should you encounter issues, the following solutions address common problems:
 
 - **Problem:** Difficulty in installing the package via Composer.
-    - **Solution:** Ensure your PHP version is at least 8.3 and that Composer is correctly installed on your system. For
+    - **Solution:** Ensure your PHP version is at least 8.4 and that Composer is correctly installed on your system. For
       persistent issues, clear Composer's cache with `composer clear-cache` and attempt the installation again.
 
 - **Problem:** Validation consistently results in `false`.
